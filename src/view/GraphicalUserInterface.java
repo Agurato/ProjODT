@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.JMenuBar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,107 +22,67 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Window;
+import java.awt.BorderLayout;
 
 import model.Result;
+
+/**
+ * 
+ * @author Louis Desportes
+ *
+ */
 
 public class GraphicalUserInterface extends JFrame implements UserInterface{
 	private static final long serialVersionUID = 1L;
 	JScrollPane scrollPanel;
 	JPanel resultsPanel;
-	JButton addButton;
 	JTextField searchField;
+	JLabel enteredText;
+	JMenuBar menuWIMP;
+	JMenu fileMenu;
+	JMenuItem addItem;
+	JMenuItem deleteItem;
+	JMenuItem syncItem;
 
 	public GraphicalUserInterface() {
 		super("ProjODT");
-		getContentPane().setLayout(null);
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+	    System.setProperty("com.apple.mrj.application.apple.menu.about.name", "ProjODT");
+		getContentPane().setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Insets insets = getContentPane().getInsets();
 		
 		//TextField
 		searchField = new JTextField(10);
-		getContentPane().add(searchField);
-
-		//Add Button
-		addButton = new JButton("Add");
-		getContentPane().add(addButton);
+		getContentPane().add(searchField, BorderLayout.NORTH);
 
 		//Results Scroll
 		resultsPanel = new JPanel();
-		resultsPanel.add(new JLabel("Tapez votre recherche et appuyez sur entrée."));
+		enteredText = new JLabel("Tapez votre recherche et appuyez sur entrée.");
+		resultsPanel.add(enteredText);
 		scrollPanel = new JScrollPane(resultsPanel);
-		getContentPane().add(this.scrollPanel);
+		getContentPane().add(this.scrollPanel, BorderLayout.CENTER);
+		
+		//Menu
+		menuWIMP = new JMenuBar();
+		fileMenu = new JMenu("Fichier");
+		addItem = new JMenuItem("Ajouter");
+		deleteItem= new JMenuItem("Supprimer");
+		syncItem= new JMenuItem("Synchroniser");
+		fileMenu.add(addItem);
+		fileMenu.add(deleteItem);
+		fileMenu.add(syncItem);
+		menuWIMP.add(fileMenu);
+		this.setJMenuBar(menuWIMP);
 		
 		//Set size
 		this.setSize(500 + insets.left + insets.right,
 				300 + insets.top + insets.bottom);
-
-		//Set Placement
-		searchField.setBounds(
-				insets.left,
-				insets.top, 
-				(int)(this.getWidth() - addButton.getPreferredSize().getWidth() - insets.left - insets.right),
-				searchField.getPreferredSize().height);
-		addButton.setBounds(
-				insets.left + searchField.getWidth(),
-				insets.top, 
-				(int)(addButton.getPreferredSize().getWidth()),
-				(int)(addButton.getPreferredSize().getHeight()));
-		scrollPanel.setBounds(
-				insets.left,
-				(int)(insets.top + searchField.getPreferredSize().getHeight()),
-				(int)(this.getWidth() - insets.left - insets.right),
-				(int)(this.getHeight() - insets.top - insets.bottom - searchField.getPreferredSize().getHeight()));
 		
 		//Listen to actions
-		this.addComponentListener(new resizeAction());
 		searchField.addActionListener(new searchReact());
 		
 		setVisible(true);
-	}
-
-	//Resize Listening
-	public class resizeAction implements ComponentListener{
-
-		@Override
-		public void componentResized(ComponentEvent e) {
-			Insets insets = getContentPane().getInsets();
-			//Set Placement
-			searchField.setBounds(
-					insets.left,
-					insets.top, 
-					(int)(getFrames()[0].getWidth() - addButton.getPreferredSize().getWidth() - insets.left - insets.right),
-					searchField.getPreferredSize().height);
-			addButton.setBounds(
-					insets.left + searchField.getWidth(),
-					insets.top, 
-					(int)(addButton.getPreferredSize().getWidth()),
-					(int)(addButton.getPreferredSize().getHeight()));
-			scrollPanel.setBounds(
-					insets.left,
-					(int)(insets.top + searchField.getPreferredSize().getHeight()),
-					(int)(getFrames()[0].getWidth() - insets.left - insets.right),
-					(int)(getFrames()[0].getHeight() - insets.top - insets.bottom - searchField.getPreferredSize().getHeight()));
-			
-		}
-
-		@Override
-		public void componentMoved(ComponentEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void componentShown(ComponentEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void componentHidden(ComponentEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 	
 	//text entered listening
@@ -126,8 +90,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Text: " + searchField.getText());
-			
+			enteredText.setText(searchField.getText());
 		}
 		
 	}
