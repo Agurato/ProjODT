@@ -139,8 +139,6 @@ public class ODTFile implements TextFile {
 //									
 //								}
 //								
-//								
-//								
 ////								// Parse "office:text" children
 ////								Element element = (Element) officeTextNodes.item(k);
 ////								// Takes the k-th line
