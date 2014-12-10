@@ -19,13 +19,13 @@ public class CommandLineInterface implements UserInterface{
 	}
 
 	@Override
-	public void confirmDelelte(String fileName) {
+	public void confirmDelete(String fileName) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void confirmSync(String fileName) {
+	public void confirmSync() {
 		// TODO Auto-generated method stub
 		
 	}
