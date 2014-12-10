@@ -8,7 +8,7 @@ import model.*;
 
 public class Test {
 	public static void main(String []args) {
-		ODTFile file = new ODTFile("/home/vincent/Documents/odt/exemple_fichier_ttx_odt.odt");
+		ODTFile file = new ODTFile("/home/vincent/Documents/odt/exemple_traitement_de_texte_libre_office.odt");
 		try {
 			file.parseContentXML(file.unzipODT(), "Contraintes");
 		} catch(FileNotFoundException e) {

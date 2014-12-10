@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class DataBase {
@@ -8,9 +9,9 @@ public class DataBase {
 		// TODO Auto-generated method stub
 		ArrayList<Result> results =  new ArrayList<Result>();
 		if(!search.equals("")){
-			results.add(new Result(156364, "YolODT.odt", "... C'est le Cancer! ..."));
-			results.add(new Result(264962, "bible.odt", "... Et dieu dit: que ..."));
-			results.add(new Result(260864, "RDJ.odt", "... Jeu de rôle ..."));
+			results.add(new Result(156364, "YolODT.odt"));
+			results.add(new Result(264962, "bible.odt"));
+			results.add(new Result(260864, "RDJ.odt"));
 		}
 		return results;
 	}
@@ -33,5 +34,19 @@ public class DataBase {
 	public boolean sync() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public ArrayList<ODTFile> getOdtFiles(String pathname) {
+		ArrayList<ODTFile> files = new ArrayList<ODTFile>();
+		File root = new File(pathname);
+		
+		for(File file : root.listFiles()) {
+			if(true) {
+				
+			}
+				files.add(new ODTFile(file.getAbsolutePath()));
+		}
+		
+		return files;
 	}
 }
