@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class DataBase {
@@ -33,5 +34,19 @@ public class DataBase {
 	public boolean sync() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public ArrayList<ODTFile> getOdtFiles(String pathname) {
+		ArrayList<ODTFile> files = new ArrayList<ODTFile>();
+		File root = new File(pathname);
+		
+		for(File file : root.listFiles()) {
+			if(true) {
+				
+			}
+				files.add(new ODTFile(file.getAbsolutePath()));
+		}
+		
+		return files;
 	}
 }
