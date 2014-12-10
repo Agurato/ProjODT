@@ -21,7 +21,7 @@ public class DataBase {
 		return null;
 	}
 	
-	public boolean ChangeRoot(String pathName) {
+	public boolean changeRoot(String pathName) {
 		// TODO Auto-generated method stub
 		
 		return true;
