@@ -13,13 +13,7 @@ public class CommandLineInterface implements UserInterface{
 	}
 
 	@Override
-	public void confirmAdd(String fileName) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void confirmDelete(String fileName) {
+	public void confirmChoose(String fileName) {
 		// TODO Auto-generated method stub
 		
 	}

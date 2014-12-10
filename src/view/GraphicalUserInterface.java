@@ -40,8 +40,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuWIMP;
 	JMenu fileMenu;
-	JMenuItem addItem;
-	JMenuItem deleteItem;
+	JMenuItem chooseItem;
 	JMenuItem syncItem;
 	
 	JPanel searchPanel;
@@ -87,12 +86,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 		fileMenu = new JMenu("Fichier");
 		menuWIMP.add(fileMenu);
 		//adding elements of fileMenu
-		addItem = new JMenuItem("Ajouter");
-		fileMenu.add(addItem);
-		deleteItem= new JMenuItem("Supprimer");
-		fileMenu.add(deleteItem);
+		chooseItem = new JMenuItem("Changer la racine");
+		fileMenu.add(chooseItem);
+		chooseItem.addActionListener(new ChooseReact());
 		syncItem= new JMenuItem("Synchroniser");
 		fileMenu.add(syncItem);
+		syncItem.addActionListener(new SyncReact());
 		
 		//Set size
 		this.setSize(500 + insets.left + insets.right,
@@ -100,8 +99,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 		this.setLocationRelativeTo(null);
 		
 		//Listen to actions
-		searchField.addActionListener(new searchReact());
-		searchButton.addActionListener(new searchReact());
+		searchField.addActionListener(new SearchReact());
+		searchButton.addActionListener(new SearchReact());
 		
 		setVisible(true);
 		
@@ -110,7 +109,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 	}
 	
 	//search validation listening
-	public class searchReact implements ActionListener{
+	public class SearchReact implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -130,20 +129,34 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 		
 	}
 	
+	//Choose Foldeer Listening
+	public class ChooseReact implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			confirmChoose("/home/user/akkes");
+		}
+		
+	}
+	
+	//Sync file Listening
+	public class SyncReact implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			confirmSync();
+		}
+		
+	}
+	
 	@Override
 	public void displayResults(ArrayList<Result> results) {
 		// TODO Auto-generated method stub
 	}
 	
 	@Override
-	public void confirmAdd(String fileName) {
-		JOptionPane.showMessageDialog(this, fileName + " a bien été ajouté à la base de donnée.", "Fichier ajouté", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	@Override
-	public void confirmDelete(String fileName) {
-		JOptionPane.showMessageDialog(this, fileName + " a bien été supprimé de la base de donnée.", "Fichier supprimé", JOptionPane.INFORMATION_MESSAGE);
-		
+	public void confirmChoose(String fileName) {
+		JOptionPane.showMessageDialog(this, "Racine changée vers: " + fileName, "Racine changée", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	@Override
