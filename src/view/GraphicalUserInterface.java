@@ -129,7 +129,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 		
 	}
 	
-	//Choose Foldeer Listening
+	//Choose Folder Listening
 	public class ChooseReact implements ActionListener{
 		
 		@Override
@@ -139,7 +139,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 		
 	}
 	
-	//Sync file Listening
+	//Sync files Listening
 	public class SyncReact implements ActionListener{
 		
 		@Override
