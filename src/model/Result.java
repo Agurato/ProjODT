@@ -1,26 +1,20 @@
 package model;
 
 public class Result {
-	private int Frequence;
+	private int frequency;
 	private String filename;
-	private String excerpt;
 	
-	public Result(int frequence, String filename, String excerpt) {
+	public Result(int frequency, String filename) {
 		super();
-		Frequence = frequence;
+		this.frequency = frequency;
 		this.filename = filename;
-		this.excerpt = excerpt;
 	}
 	
-	public int getFrequence() {
-		return Frequence;
+	public int getFrequency() {
+		return frequency;
 	}
 	
 	public String getFilename() {
 		return filename;
-	}
-	
-	public String getExcerpt() {
-		return excerpt;
 	}
 }

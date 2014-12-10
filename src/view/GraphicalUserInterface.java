@@ -119,8 +119,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface{
 			if(!results.isEmpty()){
 				for (Result result : results) {
 					resultsPanel.add(new JLabel(result.getFilename()));
-					resultsPanel.add(new JLabel(Integer.toString(result.getFrequence())));
-					resultsPanel.add(new JLabel(result.getExcerpt()));
+					resultsPanel.add(new JLabel(Integer.toString(result.getFrequency())));
 				}
 			}else{
 				resultsPanel.add(helpText);

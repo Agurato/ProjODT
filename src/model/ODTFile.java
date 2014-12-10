@@ -82,7 +82,9 @@ public class ODTFile implements TextFile {
 		return folder;
 	}
 	
-	public void parseContentXML(File folder, CharSequence search) {
+	public Result parseContentXML(File folder, CharSequence search) {
+		
+		int frequency = 0;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		try {
@@ -106,60 +108,31 @@ public class ODTFile implements TextFile {
 						if(officeBodyNodes.item(j).getNodeName().equals("office:text")) {
 						
 							Element officeText = (Element) officeBodyNodes.item(j);
-							NodeList textHList = officeText.getElementsByTagName("text:h");
-							NodeList textPList = officeText.getElementsByTagName("text:p");
 							
+							// Take the text:h and the text:title elements
+							NodeList textHList = officeText.getElementsByTagName("text:h");
+							NodeList textTitleList = officeText.getElementsByTagName("text:title");
+							
+							// Search among them the search value
 							for(int k=0 ; k<textHList.getLength() ; k++) {
 								Element textH = (Element) textHList.item(k);
 								System.out.println(textH.getTextContent());
 								
 								if(textH.getTextContent().contains(search.toString())) {
 									System.out.println("** found **");
+									frequency ++;
 								}
 							}
 							
-							for(int k=0 ; k<textPList.getLength() ; k++) {
-								Element textP = (Element) textPList.item(k);
-								if(!(textP.getAttribute("text:style-name").startsWith("Text") ||
-									 textP.getAttribute("text:style-name").startsWith("Content"))) {
-									System.out.println(textP.getTextContent());
-									
-									if(textP.getTextContent().contains(search.toString())) {
-										System.out.println("** found **");
-									}
+							for(int k=0 ; k<textTitleList.getLength() ; k++) {
+								Element textTitle = (Element) textTitleList.item(k);
+								System.out.println(textTitle.getTextContent());
+								
+								if(textTitle.getTextContent().contains(search.toString())) {
+									System.out.println("** found **");
+									frequency ++;
 								}
 							}
-							
-//							for(int k=0 ; k<officeTextNodes.getLength() ; k++) {
-//								System.out.println(officeTextNodes.item(k).getNodeName());
-//								
-//								if(officeTextNodes.item(k).getNodeName().equals("text:h")) {
-//									System.out.println("\tSearching in \"text:h\" ...");
-//									
-//									
-//								}
-//								
-////								// Parse "office:text" children
-////								Element element = (Element) officeTextNodes.item(k);
-////								// Takes the k-th line
-////								Element attribute = (Element) element.getElementsByTagName("text:syle-name").item(0);
-////								// Takes the attribute of the line
-////								try {
-////									content = attribute.getTextContent();
-////									// Get the content of the attribute
-////								}
-////								catch(NullPointerException npe) {
-////									npe.printStackTrace();
-////								}
-////								
-////								// If (the node is a HEADING type) OR ((it is a PARAGRAPH type) AND (it isn't a TEXT type))
-////								if(element.getNodeName().equals("text:h") ||
-////									(element.getNodeName().equals("text:p") && !content.startsWith("Text"))) {
-////									if(content.contains(search.toString())) {
-////										System.out.println("found");
-////									}
-////								}
-//							}
 						}
 					}
 				}
@@ -173,7 +146,9 @@ public class ODTFile implements TextFile {
 		}
 		catch(IOException ioe) {
 			ioe.printStackTrace();
-		}		
+		}
+		
+		return new Result(frequency, path);
 	}
 	/*
 		for(File file : folder.listFiles()) {
