@@ -21,13 +21,9 @@ public class DataBase {
 		return null;
 	}
 	
-	public boolean add(String fileName) {
+	public boolean ChangeRoot(String pathName) {
 		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	public boolean delete(String fileName) {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 	

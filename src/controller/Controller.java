@@ -21,4 +21,8 @@ public class Controller {
 		return database.search(search);
 		
 	}
+	
+	public boolean ChangeRoot(String pathName) {
+		return database.ChangeRoot(pathName);
+	}
 }

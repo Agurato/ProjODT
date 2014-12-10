@@ -13,5 +13,5 @@ import model.Result;
 public interface UserInterface {
 	public void displayResults(ArrayList<Result> results);
 	public void confirmSync();
-	public void confirmChoose(String fileName);
+	public void confirmChoose(String pathName);
 }
