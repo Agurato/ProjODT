@@ -2,10 +2,14 @@ package model;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -26,6 +30,7 @@ import org.xml.sax.SAXException;
  */
 
 public class ODTFile implements TextFile {
+	
 	private File odt = null;
 	private File repository = null;
 	private String path = null;
@@ -83,8 +88,9 @@ public class ODTFile implements TextFile {
 	}
 	
 	public Result parseContentXML(File folder, CharSequence search) {
-		
 		int frequency = 0;
+		String separator = ";";
+		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		try {
@@ -118,6 +124,26 @@ public class ODTFile implements TextFile {
 								Element textH = (Element) textHList.item(k);
 								System.out.println(textH.getTextContent());
 								
+								try {
+									BufferedWriter bw = new BufferedWriter(new FileWriter(folder.getAbsolutePath()+"/results.txt"));
+									BufferedReader br = new BufferedReader(new FileReader(folder.getAbsolutePath()+"/results.txt"));
+									
+									String temp = "";
+									String line = "";
+									
+									while((line = br.readLine()) != null) {
+										temp += line;
+									}
+									br.close();
+									
+									bw.write(temp+"text:h"+separator+textH.getAttribute("text:outline-level")+separator+textH.getTextContent());
+									bw.newLine();
+									bw.close();
+								}
+								catch(IOException ioe) {
+									ioe.printStackTrace();
+								}
+								
 								if(textH.getTextContent().contains(search.toString())) {
 									System.out.println("** found **");
 									frequency ++;
@@ -127,6 +153,26 @@ public class ODTFile implements TextFile {
 							for(int k=0 ; k<textTitleList.getLength() ; k++) {
 								Element textTitle = (Element) textTitleList.item(k);
 								System.out.println(textTitle.getTextContent());
+								
+								try {
+									BufferedWriter bw = new BufferedWriter(new FileWriter(folder.getAbsolutePath()+"/results.txt"));
+									BufferedReader br = new BufferedReader(new FileReader(folder.getAbsolutePath()+"/results.txt"));
+									
+									String temp = "";
+									String line = "";
+									
+									while((line = br.readLine()) != null) {
+										temp += line;
+									}
+									br.close();
+									
+									bw.write(temp+"text:title"+separator+textTitle.getTextContent());
+									bw.newLine();
+									bw.close();
+								}
+								catch(IOException ioe) {
+									ioe.printStackTrace();
+								}
 								
 								if(textTitle.getTextContent().contains(search.toString())) {
 									System.out.println("** found **");
@@ -150,13 +196,4 @@ public class ODTFile implements TextFile {
 		
 		return new Result(frequency, path);
 	}
-	/*
-		for(File file : folder.listFiles()) {
-			if(!file.getName().equals("content.xml")) {
-				if(!file.isDirectory()) {
-					file.delete();
-				}
-			}
-		}
-	*/
 }

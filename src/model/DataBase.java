@@ -4,6 +4,17 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class DataBase {
+	ArrayList<ODTFile> files;
+	File rootFolder;
+	
+	public DataBase(String rootFolderPath) {
+		files = new ArrayList<ODTFile>();
+		rootFolder = new File(rootFolderPath);
+	}
+	
+	public File getRoot() {
+		return rootFolder;
+	}
 
 	public ArrayList<Result> search(String search) {
 		// TODO Auto-generated method stub
@@ -37,14 +48,15 @@ public class DataBase {
 	}
 	
 	public ArrayList<ODTFile> getOdtFiles(String pathname) {
-		ArrayList<ODTFile> files = new ArrayList<ODTFile>();
-		File root = new File(pathname);
+		File repertory = new File(pathname);
 		
-		for(File file : root.listFiles()) {
-			if(true) {
-				
+		if(repertory.isDirectory()) {
+			for(File file : repertory.listFiles()) {
+				files = getOdtFiles(file.getAbsolutePath());
 			}
-				files.add(new ODTFile(file.getAbsolutePath()));
+		}
+		else if(repertory.getAbsolutePath().endsWith(".odt")){
+			files.add(new ODTFile(repertory.getAbsolutePath()));
 		}
 		
 		return files;
