@@ -144,10 +144,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			chooser.setDialogTitle("Sélectionnez le dossier où rechercher les fichiers");
 			int returnVal = chooser.showOpenDialog(getContentPane());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				if (controller.changeRoot(chooser.getSelectedFile()
-						.getAbsolutePath())) {
-					confirmChoose(chooser.getSelectedFile().getAbsolutePath());
-				}
+				controller.changeRoot(chooser.getSelectedFile().getAbsolutePath());
+				confirmChoose(chooser.getSelectedFile().getAbsolutePath());
 			}
 		}
 	}
@@ -157,9 +155,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(controller.sync()){
-				confirmSync();
-			}
+			controller.sync();
+			confirmSync();
 		}
 
 	}

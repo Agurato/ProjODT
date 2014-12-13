@@ -13,7 +13,7 @@ public class Controller {
 	
 	public static void main(String[] Args){
 		ui = (UserInterface) new GraphicalUserInterface();
-		database = new DataBase();
+		database = new DataBase("/home/vincent/Documents/odt/exemple_traitement_de_texte_libre_office.odt");
 	}
 
 	public ArrayList<Result> search(String search){
@@ -21,11 +21,11 @@ public class Controller {
 		
 	}
 	
-	public boolean changeRoot(String pathName) {
-		return database.changeRoot(pathName);
+	public void changeRoot(String pathName) {
+		database.changeRoot(pathName);
 	}
 	
-	public boolean sync() {
-		return database.sync();
+	public void sync() {
+		database.sync();
 	}
 }

@@ -32,15 +32,13 @@ public class DataBase {
 		return null;
 	}
 	
-	public boolean changeRoot(String pathName) {
+	public void changeRoot(String pathName) {
 		// TODO Auto-generated method stub
 		
-		return true;
 	}
 	
-	public boolean sync() {
+	public void sync() {
 		// TODO Auto-generated method stub
-		return true;
 	}
 	
 	public ArrayList<ODTFile> getOdtFiles(String pathname) {
