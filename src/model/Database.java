@@ -1,13 +1,15 @@
 package model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
-public class DataBase {
+public class Database {
 	ArrayList<ODTFile> files;
 	File rootFolder;
 	
-	public DataBase(String rootFolderPath) {
+	public Database(String rootFolderPath) {
 		files = new ArrayList<ODTFile>();
 		rootFolder = new File(rootFolderPath);
 	}
@@ -16,13 +18,13 @@ public class DataBase {
 		return rootFolder;
 	}
 
-	public ArrayList<Result> search(String search) {
+	public ArrayList<Result> search(String search) throws NoSuchElementException{
 		// TODO Auto-generated method stub
 		ArrayList<Result> results =  new ArrayList<Result>();
 		if(!search.equals("")){
-			results.add(new Result(156364, "YolODT.odt"));
-			results.add(new Result(264962, "bible.odt"));
-			results.add(new Result(260864, "RDJ.odt"));
+			results.add(new Result(1, "YolODT.odt", "You Only Live Once"));
+			results.add(new Result(0, "bible.odt", "Genensis"));
+			results.add(new Result(3, "RDJ.odt", "Rêves De Jeux"));
 		}
 		return results;
 	}
@@ -32,12 +34,7 @@ public class DataBase {
 		return null;
 	}
 	
-	public void changeRoot(String pathName) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void sync() {
+	public void sync() throws FileNotFoundException{
 		// TODO Auto-generated method stub
 	}
 	

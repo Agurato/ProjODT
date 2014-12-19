@@ -194,6 +194,6 @@ public class ODTFile implements TextFile {
 			ioe.printStackTrace();
 		}
 		
-		return new Result(frequency, path);
+		return new Result(frequency, path, "Quote");
 	}
 }

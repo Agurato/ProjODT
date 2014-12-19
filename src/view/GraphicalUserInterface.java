@@ -1,11 +1,15 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,6 +18,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
@@ -22,15 +29,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.Window;
 import java.awt.BorderLayout;
+import java.io.FileNotFoundException;
 
 import model.Result;
+import view.ListResultCellRenderer;
 
 /**
  * 
@@ -49,10 +60,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	JTextField searchField;
 	JButton searchButton;
 
-	JScrollPane scrollPanel;
-	JPanel resultsPanel;
-	JLabel helpText;
-
+	JList<Result> resultsList;
+	DefaultListModel<Result> resultsModel;
 	Controller controller;
 
 	public GraphicalUserInterface() {
@@ -73,12 +82,17 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		searchButton = new JButton("Rechercher");
 		searchPanel.add(searchButton, BorderLayout.EAST);
 
-		// Results Scroll
-		resultsPanel = new JPanel(new FlowLayout());
-		helpText = new JLabel("Tapez votre recherche et appuyez sur entrée.");
-		resultsPanel.add(helpText);
-		scrollPanel = new JScrollPane(resultsPanel);
-		getContentPane().add(this.scrollPanel, BorderLayout.CENTER);
+		// Results List
+		resultsModel = new DefaultListModel<Result>();
+		resultsList = new JList<Result>(resultsModel);
+		resultsList.setCellRenderer(new ListResultCellRenderer());
+		resultsList
+				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		// resultsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		resultsList.setVisibleRowCount(-1);
+		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
+		resultsModel.addElement(new Result(-1,
+				"Entrez une chaine à rechercher", ""));
 
 		// Menu
 		// adding the JmenuBar
@@ -116,68 +130,78 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ArrayList<Result> results = controller
-					.search(searchField.getText());
-			resultsPanel.removeAll();
-			if (!results.isEmpty()) {
-				for (Result result : results) {
-					resultsPanel.add(new JLabel(result.getFilename()));
-					resultsPanel.add(new JLabel(Integer.toString(result
-							.getFrequency())));
-				}
-			} else {
-				resultsPanel.add(helpText);
-			}
-			setVisible(true);
+				displayResults(controller.search(searchField.getText()));
 		}
 
 	}
 
 	// Choose Folder Listening
 	private class ChooseReact implements ActionListener {
-		;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			chooser.setAcceptAllFileFilterUsed(false);
-			chooser.setDialogTitle("Sélectionnez le dossier où rechercher les fichiers");
-			int returnVal = chooser.showOpenDialog(getContentPane());
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				controller.changeRoot(chooser.getSelectedFile().getAbsolutePath());
-				confirmChoose(chooser.getSelectedFile().getAbsolutePath());
-			}
+			chooseRoot();
 		}
+
 	}
 
 	// Sync files Listening
 	public class SyncReact implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			controller.sync();
-			confirmSync();
+			sync();
 		}
-
 	}
 
 	@Override
 	public void displayResults(ArrayList<Result> results) {
-		// TODO Auto-generated method stub
+		try {
+			results = controller.search(searchField.getText());
+		} catch (NoSuchElementException eNoElement) {
+			results = new ArrayList<Result>();
+			results.add(new Result(-1, "Pas de résultat", ""));
+		}
+		resultsModel.removeAllElements();
+		if (!results.isEmpty()) {
+			for (Result result : results) {
+				resultsModel.addElement(result);
+			}
+		} else {
+			resultsModel.addElement(new Result(-1,
+					"Entrez une chaine à rechercher", ""));
+		}
+		setVisible(true);
 	}
 
 	@Override
-	public void confirmChoose(String fileName) {
-		JOptionPane.showMessageDialog(this, "Racine changée vers: " + fileName,
-				"Racine changée", JOptionPane.INFORMATION_MESSAGE);
+	public void chooseRoot() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setDialogTitle("Sélectionnez le dossier où rechercher les fichiers");
+		int returnVal = chooser.showOpenDialog(getContentPane());
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			controller.changeRoot(chooser.getSelectedFile()
+					.getAbsolutePath());
+			JOptionPane.showMessageDialog(this, "Racine changée vers: " + chooser.getSelectedFile()
+					.getAbsolutePath(),
+					"Racine changée", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	@Override
-	public void confirmSync() {
-		JOptionPane.showMessageDialog(this,
-				"La base de donnée a bien été synchronisée",
-				"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
-
+	public void sync() {
+		try {
+			controller.sync();
+			JOptionPane.showMessageDialog(this,
+					"La base de donnée a bien été synchronisée",
+					"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
+		} catch (FileNotFoundException eNotFound) {
+			JOptionPane.showMessageDialog(GraphicalUserInterface.this,
+					"Le dossier sélectionné n'existe plus, veuillez en choisir un nouveau",
+					"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
+			chooseRoot();
+		}
 	}
 
 }
