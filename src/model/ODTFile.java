@@ -32,30 +32,35 @@ import org.xml.sax.SAXException;
 public class ODTFile implements TextFile {
 	
 	private File odt = null;
-	private File repository = null;
-	private String path = null;
+	private File repertory = null;
+	private File extract = null;
+	private File results = null;
 
 	public ODTFile(String path) {
 		this.odt = new File(path);
-		this.repository = new File(odt.getParent());
-		this.path = path;
+		this.repertory = new File(odt.getParent());
+		this.extract = new File(repertory.getAbsolutePath()+"/"+odt.getName().replace(".odt", ""));
+		this.results = new File(extract.getAbsolutePath()+"/results.txt");
 	}
 	
-	public String getPath() {
-		return path;
+	public String getOdtPath() {
+		return odt.getAbsolutePath();
+	}
+	
+	public String getExtractPath() {
+		return extract.getAbsolutePath();
 	}
 
-	public File unzipODT() throws FileNotFoundException, IOException {
-		// Create the folder where it will be unzipped
-		File folder = new File(repository.getAbsolutePath()+"/"+odt.getName().replace(".odt", ""));
-		folder.mkdir();
+	public void unzipODT() throws FileNotFoundException, IOException {
+		extract.mkdir();
+		// Create the folder for the extraction
 		
 		File bufferFile = null; // Used to extract all files one by one
-		ZipInputStream zipI = new ZipInputStream(new BufferedInputStream(new FileInputStream(path)));
+		ZipInputStream zipI = new ZipInputStream(new BufferedInputStream(new FileInputStream(odt.getAbsolutePath())));
 		ZipEntry zipE = null; // Like an Iterator
 		try {
 			while ((zipE = zipI.getNextEntry()) != null) {
-				bufferFile = new File(folder.getAbsolutePath(), zipE.getName());
+				bufferFile = new File(extract.getAbsolutePath(), zipE.getName());
 				
 				if(zipE.isDirectory()) {
 					bufferFile.mkdirs();
@@ -84,104 +89,59 @@ public class ODTFile implements TextFile {
 		finally {
 			zipI.close();
 		}
-		return folder;
 	}
 	
-	public Result parseContentXML(File folder, CharSequence search) {
-		int frequency = 0;
-		String separator = ";";
+	public Result parseContentXML() {
+		String writing = "";
+		String separator = ";", lineSeparator = "#";
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		try {
+			System.out.println("In file : "+odt.getAbsolutePath()+" :");
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document parser = builder.parse(new File(folder.getAbsolutePath(), "content.xml"));
+			Document parser = builder.parse(new File(extract.getAbsolutePath(), "content.xml"));
 			
 			Element root = parser.getDocumentElement();
 			// This is the "office:document-content", which contains everything in the content.xml file
-			NodeList rootNodes = root.getChildNodes();
-			// We get his children ("office:scripts", "office:font-face-decls", "office:automatic-styles" & "office:body")
 			
-			for(int i=0 ; i<rootNodes.getLength() ; i++) {
-				// Parse root children and get the "office:body" one
-				if(rootNodes.item(i).getNodeName().equals("office:body")) {
-					
-					Element officeBody = (Element) rootNodes.item(i);
-					NodeList officeBodyNodes = officeBody.getChildNodes();
-					
-					for(int j=0 ; j<officeBodyNodes.getLength() ; j++) {
-						// Parse "office:body" children and get the "office:text" one, even if it should be the only child
-						if(officeBodyNodes.item(j).getNodeName().equals("office:text")) {
-						
-							Element officeText = (Element) officeBodyNodes.item(j);
-							
-							// Take the text:h and the text:title elements
-							NodeList textHList = officeText.getElementsByTagName("text:h");
-							NodeList textTitleList = officeText.getElementsByTagName("text:title");
-							
-							// Search among them the search value
-							for(int k=0 ; k<textHList.getLength() ; k++) {
-								Element textH = (Element) textHList.item(k);
-								System.out.println(textH.getTextContent());
-								
-								try {
-									BufferedWriter bw = new BufferedWriter(new FileWriter(folder.getAbsolutePath()+"/results.txt"));
-									BufferedReader br = new BufferedReader(new FileReader(folder.getAbsolutePath()+"/results.txt"));
-									
-									String temp = "";
-									String line = "";
-									
-									while((line = br.readLine()) != null) {
-										temp += line;
-									}
-									br.close();
-									
-									bw.write(temp+"text:h"+separator+textH.getAttribute("text:outline-level")+separator+textH.getTextContent());
-									bw.newLine();
-									bw.close();
-								}
-								catch(IOException ioe) {
-									ioe.printStackTrace();
-								}
-								
-								if(textH.getTextContent().contains(search.toString())) {
-									System.out.println("** found **");
-									frequency ++;
-								}
-							}
-							
-							for(int k=0 ; k<textTitleList.getLength() ; k++) {
-								Element textTitle = (Element) textTitleList.item(k);
-								System.out.println(textTitle.getTextContent());
-								
-								try {
-									BufferedWriter bw = new BufferedWriter(new FileWriter(folder.getAbsolutePath()+"/results.txt"));
-									BufferedReader br = new BufferedReader(new FileReader(folder.getAbsolutePath()+"/results.txt"));
-									
-									String temp = "";
-									String line = "";
-									
-									while((line = br.readLine()) != null) {
-										temp += line;
-									}
-									br.close();
-									
-									bw.write(temp+"text:title"+separator+textTitle.getTextContent());
-									bw.newLine();
-									bw.close();
-								}
-								catch(IOException ioe) {
-									ioe.printStackTrace();
-								}
-								
-								if(textTitle.getTextContent().contains(search.toString())) {
-									System.out.println("** found **");
-									frequency ++;
-								}
-							}
-						}
-					}
+			// Instantly get the "office:text" list even if it's not a direct child
+			NodeList officeTextList = root.getElementsByTagName("office:text");
+			Element officeText = (Element) officeTextList.item(0);
+			
+			// Same, it takes the "text:title" and "text:h" elements
+			NodeList textTitleList = officeText.getElementsByTagName("text:title");
+			NodeList textHList = officeText.getElementsByTagName("text:h");
+			
+			for(int i=0 ; i<textTitleList.getLength() ; i++) {
+				Element textTitle = (Element) textTitleList.item(i);
+				System.out.println(textTitle.getTextContent());
+				
+				writing += "text:title"+separator+textTitle.getTextContent()+lineSeparator;
+				// Add the useful informations to write in the file later
+			}
+			
+			
+			for(int i=0 ; i<textHList.getLength() ; i++) {
+				Element textH = (Element) textHList.item(i);
+				System.out.println(textH.getTextContent());
+				
+				writing += "text:h"+separator+textH.getAttribute("text:outline-level")+separator+textH.getTextContent()+lineSeparator;
+				
+			}
+			
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(extract.getAbsolutePath()+"/results.txt"));
+				
+				for(String str : writing.split(lineSeparator)) {
+					bw.write(str);
+					bw.newLine();
 				}
+				
+				bw.close();
+			}
+			catch(IOException ioe) {
+				ioe.printStackTrace();
 			}
 		}
 		catch(ParserConfigurationException pce) {
@@ -194,6 +154,6 @@ public class ODTFile implements TextFile {
 			ioe.printStackTrace();
 		}
 		
-		return new Result(frequency, path, "Quote");
+		return new Result(0, odt.getAbsolutePath(), "Quote");
 	}
 }

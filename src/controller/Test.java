@@ -8,9 +8,13 @@ import model.*;
 
 public class Test {
 	public static void main(String []args) {
-		ODTFile file = new ODTFile("/home/vincent/Documents/odt/exemple_traitement_de_texte_libre_office.odt");
+		Database db = new Database("/home/vincent/Documents/odt");
+		
 		try {
-			file.parseContentXML(file.unzipODT(), "Contraintes");
+			for(ODTFile file : db.getOdtFiles(db.getRoot().getAbsolutePath())) {
+				file.unzipODT();
+				file.parseContentXML();
+			}
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
 		} catch(IOException e) {
