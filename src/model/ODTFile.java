@@ -196,6 +196,10 @@ public class ODTFile implements TextFile {
 			ioe.printStackTrace();
 		}
 		
+<<<<<<< HEAD
 		return result;
+=======
+		return new Result(0, odt.getAbsolutePath(), "Quote");
+>>>>>>> 07c5efef2f41de8855188e28a4fa2140d8e89520
 	}
 }

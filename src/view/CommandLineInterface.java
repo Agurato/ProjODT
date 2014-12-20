@@ -13,13 +13,13 @@ public class CommandLineInterface implements UserInterface{
 	}
 
 	@Override
-	public void confirmChoose(String fileName) {
+	public void chooseRoot() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void confirmSync() {
+	public void sync() {
 		// TODO Auto-generated method stub
 		
 	}
