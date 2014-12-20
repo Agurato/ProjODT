@@ -44,11 +44,11 @@ public class ODTFile implements TextFile {
 		this.extract = new File(repertory.getAbsolutePath()+"/"+odt.getName().replace(".odt", ""));
 		this.results = new File(extract.getAbsolutePath()+"/results.txt");
 		
-		unzipODT();
-		parseContentXML();
+		this.unzipODT();
+		this.parseContentXML();
 	}
 	
-	public File getOdt() {
+	public File getFile() {
 		return odt;
 	}
 	
@@ -153,27 +153,21 @@ public class ODTFile implements TextFile {
 				ioe.printStackTrace();
 			}
 		}
-		catch(ParserConfigurationException pce) {
-			pce.printStackTrace();
+		catch(ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
 		}
-		catch(SAXException saxe) {
-			saxe.printStackTrace();
-		}
-		catch(IOException ioe) {
-			ioe.printStackTrace();
-		}
+		System.out.println();
 	}
 	
 	public ArrayList<Result> examination(String search) {
 		boolean resultsExists = false;
 		ArrayList<Result> result = new ArrayList<Result>();
 		
-		for(File file : repertory.listFiles()) {
+		for(File file : extract.listFiles()) {
 			if(file.getName().equals("results.txt")) {
 				resultsExists = true;
 			}
 		}
-		
 		if(!resultsExists) {
 			this.parseContentXML();
 		}
@@ -185,8 +179,9 @@ public class ODTFile implements TextFile {
 			
 			while((temp = br.readLine()) != null) {
 				split = temp.split(separator);
+				
 				if(split[2].contains(search)) {
-					result.add(new Result(Integer.parseInt(split[1]), odt.getAbsolutePath(), ""));
+					result.add(new Result(Integer.parseInt(split[1]), odt.getAbsolutePath(), split[2]));
 				}
 			}
 			
