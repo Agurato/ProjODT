@@ -1,17 +1,17 @@
 package model;
 
 public class Result {
-	private int frequency;
+	private int level;
 	private String filename;
 	
-	public Result(int frequency, String filename) {
+	public Result(int level, String filename) {
 		super();
-		this.frequency = frequency;
+		this.level = level;
 		this.filename = filename;
 	}
 	
-	public int getFrequency() {
-		return frequency;
+	public int getLevel() {
+		return level;
 	}
 	
 	public String getFilename() {

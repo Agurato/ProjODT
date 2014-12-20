@@ -8,8 +8,9 @@ public class DataBase {
 	File rootFolder;
 	
 	public DataBase(String rootFolderPath) {
-		files = new ArrayList<ODTFile>();
 		rootFolder = new File(rootFolderPath);
+		files = new ArrayList<ODTFile>();
+		files = getOdtFiles(rootFolder.getAbsolutePath());
 	}
 	
 	public File getRoot() {
@@ -17,28 +18,34 @@ public class DataBase {
 	}
 
 	public ArrayList<Result> search(String search) {
-		// TODO Auto-generated method stub
 		ArrayList<Result> results =  new ArrayList<Result>();
-		if(!search.equals("")){
-			results.add(new Result(156364, "YolODT.odt"));
-			results.add(new Result(264962, "bible.odt"));
-			results.add(new Result(260864, "RDJ.odt"));
+		
+		for(ODTFile odt : files) {
+			for(Result tempResult : odt.examination(search)) {
+				results.add(tempResult);
+			}
 		}
+		
 		return results;
-	}
-
-	public ArrayList<Result> listFiles() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	public void changeRoot(String pathName) {
-		// TODO Auto-generated method stub
-		
+		rootFolder = new File(pathName);
 	}
 	
 	public void sync() {
-		// TODO Auto-generated method stub
+		this.delete();
+		
+		// We call the function to extract everything and parse it
+		files = getOdtFiles(rootFolder.getAbsolutePath());
+	}
+	
+	public void delete() {
+		//We delete the extract folder and the arrayList
+		for(ODTFile odt : files) {
+			odt.getExtract().delete();
+		}
+		files.clear();
 	}
 	
 	public ArrayList<ODTFile> getOdtFiles(String pathname) {
