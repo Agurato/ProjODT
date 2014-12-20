@@ -4,7 +4,7 @@ public class Result {
 	private int level;
 	private String filename;
 	
-	public Result(int level, String filename) {
+	public Result(int level, String filename, String wtfLouis) {
 		super();
 		this.level = level;
 		this.filename = filename;

@@ -130,7 +130,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 			ArrayList<Result> results = controller
 					.search(searchField.getText());
 			resultsPanel.removeAll();
@@ -143,9 +142,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				resultsPanel.add(helpText);
 			}
 			setVisible(true);
-=======
 				displayResults(controller.search(searchField.getText()));
->>>>>>> 07c5efef2f41de8855188e28a4fa2140d8e89520
 		}
 
 	}

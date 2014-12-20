@@ -186,7 +186,7 @@ public class ODTFile implements TextFile {
 			while((temp = br.readLine()) != null) {
 				split = temp.split(separator);
 				if(split[2].contains(search)) {
-					result.add(new Result(Integer.parseInt(split[1]), odt.getAbsolutePath()));
+					result.add(new Result(Integer.parseInt(split[1]), odt.getAbsolutePath(), ""));
 				}
 			}
 			
