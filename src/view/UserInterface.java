@@ -12,6 +12,6 @@ import model.Result;
 
 public interface UserInterface {
 	public void displayResults(ArrayList<Result> results);
-	public void sync();
-	void chooseRoot();
+	public void confirmSync();
+	public void confirmChangeRoot(String rootPath);
 }

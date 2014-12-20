@@ -130,19 +130,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ArrayList<Result> results = controller
-					.search(searchField.getText());
-			resultsPanel.removeAll();
-			if (!results.isEmpty()) {
-				for (Result result : results) {
-					resultsPanel.add(new JLabel(result.getFilename()));
-					resultsPanel.add(new JLabel(Integer.toString(result.getLevel())));
-				}
-			} else {
-				resultsPanel.add(helpText);
-			}
-			setVisible(true);
+			try {
 				displayResults(controller.search(searchField.getText()));
+			} catch (NoSuchElementException eNoElement) {
+				JOptionPane.showMessageDialog(getContentPane(), "Impossible de trouver le dosser racine:",
+						"Racine introuvable", JOptionPane.ERROR_MESSAGE);
+				chooseRoot();
+				displayResults(controller.search(searchField.getText()));
+			}
 		}
 
 	}
@@ -167,12 +162,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	@Override
 	public void displayResults(ArrayList<Result> results) {
-		try {
-			results = controller.search(searchField.getText());
-		} catch (NoSuchElementException eNoElement) {
-			results = new ArrayList<Result>();
-			results.add(new Result(-1, "Pas de résultat", ""));
-		}
 		resultsModel.removeAllElements();
 		if (!results.isEmpty()) {
 			for (Result result : results) {
@@ -185,7 +174,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		setVisible(true);
 	}
 
-	@Override
 	public void chooseRoot() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -195,13 +183,18 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			controller.changeRoot(chooser.getSelectedFile()
 					.getAbsolutePath());
-			JOptionPane.showMessageDialog(this, "Racine changée vers: " + chooser.getSelectedFile()
-					.getAbsolutePath(),
-					"Racine changée", JOptionPane.INFORMATION_MESSAGE);
+			confirmChangeRoot(chooser.getSelectedFile()
+					.getAbsolutePath());
 		}
 	}
 
 	@Override
+	public void confirmChangeRoot(String rootPath) {
+		JOptionPane.showMessageDialog(this, "Racine changée vers: " + rootPath,
+				"Racine changée", JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+
 	public void sync() {
 		try {
 			controller.sync();
@@ -214,6 +207,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 					"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
 			chooseRoot();
 		}
+	}
+
+	@Override
+	public void confirmSync() {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(this,
+				"La base de donnée a bien été synchronisée",
+				"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }
