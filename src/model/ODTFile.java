@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -35,30 +36,35 @@ public class ODTFile implements TextFile {
 	private File repertory = null;
 	private File extract = null;
 	private File results = null;
+	private final String separator = ";";
 
 	public ODTFile(String path) {
 		this.odt = new File(path);
 		this.repertory = new File(odt.getParent());
 		this.extract = new File(repertory.getAbsolutePath()+"/"+odt.getName().replace(".odt", ""));
 		this.results = new File(extract.getAbsolutePath()+"/results.txt");
+		
+		unzipODT();
+		parseContentXML();
 	}
 	
-	public String getOdtPath() {
-		return odt.getAbsolutePath();
+	public File getOdt() {
+		return odt;
 	}
 	
-	public String getExtractPath() {
-		return extract.getAbsolutePath();
+	public File getExtract() {
+		return extract;
 	}
 
-	public void unzipODT() throws FileNotFoundException, IOException {
+	public void unzipODT() {
 		extract.mkdir();
 		// Create the folder for the extraction
 		
 		File bufferFile = null; // Used to extract all files one by one
-		ZipInputStream zipI = new ZipInputStream(new BufferedInputStream(new FileInputStream(odt.getAbsolutePath())));
-		ZipEntry zipE = null; // Like an Iterator
 		try {
+			ZipInputStream zipI = new ZipInputStream(new BufferedInputStream(new FileInputStream(odt.getAbsolutePath())));
+			ZipEntry zipE = null; // Like an Iterator
+			
 			while ((zipE = zipI.getNextEntry()) != null) {
 				bufferFile = new File(extract.getAbsolutePath(), zipE.getName());
 				
@@ -82,18 +88,21 @@ public class ODTFile implements TextFile {
 					}
 				} catch(IOException ioe) {
 					bufferFile.delete();
-					throw ioe;
 				}				
 			}
-		}
-		finally {
+
 			zipI.close();
+		}
+		catch(FileNotFoundException fnne) {
+			fnne.printStackTrace();
+		}
+		catch(IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 	
-	public Result parseContentXML() {
-		String writing = "";
-		String separator = ";", lineSeparator = "#";
+	public void parseContentXML() {
+		String writing = "", lineSeparator = "#";
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
@@ -117,7 +126,7 @@ public class ODTFile implements TextFile {
 				Element textTitle = (Element) textTitleList.item(i);
 				System.out.println(textTitle.getTextContent());
 				
-				writing += "text:title"+separator+textTitle.getTextContent()+lineSeparator;
+				writing += "text:title"+separator+"0"+separator+textTitle.getTextContent()+lineSeparator;
 				// Add the useful informations to write in the file later
 			}
 			
@@ -131,7 +140,7 @@ public class ODTFile implements TextFile {
 			}
 			
 			try {
-				BufferedWriter bw = new BufferedWriter(new FileWriter(extract.getAbsolutePath()+"/results.txt"));
+				BufferedWriter bw = new BufferedWriter(new FileWriter(results));
 				
 				for(String str : writing.split(lineSeparator)) {
 					bw.write(str);
@@ -153,7 +162,40 @@ public class ODTFile implements TextFile {
 		catch(IOException ioe) {
 			ioe.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Result> examination(String search) {
+		boolean resultsExists = false;
+		ArrayList<Result> result = new ArrayList<Result>();
 		
-		return new Result(0, odt.getAbsolutePath(), "Quote");
+		for(File file : repertory.listFiles()) {
+			if(file.getName().equals("results.txt")) {
+				resultsExists = true;
+			}
+		}
+		
+		if(!resultsExists) {
+			this.parseContentXML();
+		}
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(results));
+			String temp = null;
+			String[] split;
+			
+			while((temp = br.readLine()) != null) {
+				split = temp.split(separator);
+				if(split[2].contains(search)) {
+					result.add(new Result(Integer.parseInt(split[1]), odt.getAbsolutePath(), ""));
+				}
+			}
+			
+			br.close();
+		}
+		catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		return result;
 	}
 }

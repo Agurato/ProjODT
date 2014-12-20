@@ -130,6 +130,18 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			ArrayList<Result> results = controller
+					.search(searchField.getText());
+			resultsPanel.removeAll();
+			if (!results.isEmpty()) {
+				for (Result result : results) {
+					resultsPanel.add(new JLabel(result.getFilename()));
+					resultsPanel.add(new JLabel(Integer.toString(result.getLevel())));
+				}
+			} else {
+				resultsPanel.add(helpText);
+			}
+			setVisible(true);
 				displayResults(controller.search(searchField.getText()));
 		}
 
