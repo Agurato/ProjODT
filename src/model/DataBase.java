@@ -64,12 +64,6 @@ public class DataBase {
 				System.out.println("\""+str+"\"");
 			}
 			
-			System.out.println("\nFinal results :");
-			for(Result result : results) {
-				System.out.println(result.getQuote());
-			}
-			System.out.println();
-			
 			break;
 		case "null" :
 			String keyword = search.get(0);
@@ -90,14 +84,14 @@ public class DataBase {
 				}
 			}
 			
-			System.out.println("\nFinal results :");
-			for(Result result : results) {
-				System.out.println(result.getQuote());
-			}
-			System.out.println();
-			
 			break;
 		}
+		
+		System.out.println("\nFinal results :");
+		for(Result result : results) {
+			System.out.println(result.getQuote());
+		}
+		System.out.println();
 		
 		return results;
 	}

@@ -6,7 +6,7 @@ public class Result {
 	private String quote;
 	
 	public Result(int level, String filename, String quote) {
-		super();
+//		super();
 		this.level = level;
 		this.filename = filename;
 		this.quote = quote;

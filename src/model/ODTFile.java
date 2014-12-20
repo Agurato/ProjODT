@@ -130,7 +130,6 @@ public class ODTFile implements TextFile {
 				// Add the useful informations to write in the file later
 			}
 			
-			
 			for(int i=0 ; i<textHList.getLength() ; i++) {
 				Element textH = (Element) textHList.item(i);
 				System.out.println(textH.getTextContent());
