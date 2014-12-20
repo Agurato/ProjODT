@@ -58,4 +58,13 @@ public class DataBase {
 		
 		return files;
 	}
+
+	public ArrayList<Result> listFiles() {
+		// TODO Auto-generated method stub
+		ArrayList<Result> results = new ArrayList<Result>();
+		results.add(new Result(1, "YolODT.odt", "C'est le Cancer!"));
+		results.add(new Result(0, "bible.odt", "Et dieu dit: que"));
+		results.add(new Result(2, "RDJ.odt", "Jeu de rôle"));
+		return results;
+	}
 }

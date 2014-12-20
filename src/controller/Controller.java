@@ -23,12 +23,12 @@ public class Controller {
 	}
 
 	public Controller(){
-		database = new Database(
+		database = new DataBase(
 				System.getProperty("user.dir"));
 	}
 	
 	public Controller(String path){
-		database = new Database(path);
+		database = new DataBase(path);
 	}
 	public ArrayList<Result> search(String search) throws NoSuchElementException{
 		return database.search(search);

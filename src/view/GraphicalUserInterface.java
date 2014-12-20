@@ -130,19 +130,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ArrayList<Result> results = controller
-					.search(searchField.getText());
-			resultsPanel.removeAll();
-			if (!results.isEmpty()) {
-				for (Result result : results) {
-					resultsPanel.add(new JLabel(result.getFilename()));
-					resultsPanel.add(new JLabel(Integer.toString(result.getLevel())));
-				}
-			} else {
-				resultsPanel.add(helpText);
-			}
-			setVisible(true);
+			try {
 				displayResults(controller.search(searchField.getText()));
+			} catch (NoSuchElementException eNoElement) {
+				JOptionPane.showMessageDialog(getContentPane(), "Impossible de trouver le dosser racine:",
+						"Racine introuvable", JOptionPane.ERROR_MESSAGE);
+				chooseRoot();
+				displayResults(controller.search(searchField.getText()));
+			}
 		}
 
 	}
@@ -167,12 +162,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	@Override
 	public void displayResults(ArrayList<Result> results) {
-		try {
-			results = controller.search(searchField.getText());
-		} catch (NoSuchElementException eNoElement) {
-			results = new ArrayList<Result>();
-			results.add(new Result(-1, "Pas de résultat", ""));
-		}
 		resultsModel.removeAllElements();
 		if (!results.isEmpty()) {
 			for (Result result : results) {
