@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import model.Database;
 import model.Result;
+import view.CommandLineInterface;
 import view.UserInterface;
 import view.GraphicalUserInterface;
 
@@ -14,11 +15,21 @@ public class Controller {
 	static Database database;
 
 	public static void main(String[] Args) {
-		ui = (UserInterface) new GraphicalUserInterface();
-		database = new Database(
-				"/home/vincent/Documents/odt/exemple_traitement_de_texte_libre_office.odt");
+		if(Args.length == 0){
+			ui = (UserInterface) new GraphicalUserInterface();
+		}else{
+			ui = (UserInterface) new CommandLineInterface(Args);
+		}
 	}
 
+	public Controller(){
+		database = new Database(
+				System.getProperty("user.dir"));
+	}
+	
+	public Controller(String path){
+		database = new Database(path);
+	}
 	public ArrayList<Result> search(String search) throws NoSuchElementException{
 		return database.search(search);
 	}
@@ -29,5 +40,10 @@ public class Controller {
 
 	public void sync() throws FileNotFoundException {
 		database.sync();
+	}
+
+	public ArrayList<Result> listFiles() {
+		return database.listFiles();
+		
 	}
 }

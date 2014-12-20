@@ -173,7 +173,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		setVisible(true);
 	}
 
-	@Override
 	public void chooseRoot() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -183,13 +182,18 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			controller.changeRoot(chooser.getSelectedFile()
 					.getAbsolutePath());
-			JOptionPane.showMessageDialog(this, "Racine changée vers: " + chooser.getSelectedFile()
-					.getAbsolutePath(),
-					"Racine changée", JOptionPane.INFORMATION_MESSAGE);
+			confirmChangeRoot(chooser.getSelectedFile()
+					.getAbsolutePath());
 		}
 	}
 
 	@Override
+	public void confirmChangeRoot(String rootPath) {
+		JOptionPane.showMessageDialog(this, "Racine changée vers: " + rootPath,
+				"Racine changée", JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+
 	public void sync() {
 		try {
 			controller.sync();
@@ -202,6 +206,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 					"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
 			chooseRoot();
 		}
+	}
+
+	@Override
+	public void confirmSync() {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(this,
+				"La base de donnée a bien été synchronisée",
+				"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }
