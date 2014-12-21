@@ -13,6 +13,6 @@ public class Test {
 		research.add("Développement");
 		
 //		db.sync();
-		db.search(research, "null");
+		db.search(research, "or");
 	}
 }
