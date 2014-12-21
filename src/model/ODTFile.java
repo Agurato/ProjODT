@@ -180,7 +180,7 @@ public class ODTFile implements TextFile {
 				split = temp.split(separator);
 				
 				if(split[2].contains(search)) {
-					result.add(new Result(Integer.parseInt(split[1]), odt.getAbsolutePath(), split[2]));
+					result.add(new Result(Integer.parseInt(split[1]), 1, odt.getAbsolutePath(), split[2]));
 				}
 			}
 			
