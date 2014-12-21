@@ -9,10 +9,10 @@ public class Test {
 	public static void main(String []args) {
 		DataBase db = new DataBase("/home/vincent/Documents/odt");
 		ArrayList<String> research = new ArrayList<String>();
-		research.add("presentation");
-		research.add("Partie");
+		research.add("contraintes");
+		research.add("conclusion");
 		
 //		db.sync();
-		db.search(research, "or");
+		db.search(research, "and");
 	}
 }

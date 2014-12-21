@@ -2,12 +2,11 @@ package model;
 
 public class Result {
 	private int level;
-	private int frequency; // This represent how many different terms (among which we searched with) there are in this quote
+	private int frequency;
 	private String filename;
 	private String quote;
 	
 	public Result(int level, int freq, String filename, String quote) {
-//		super();
 		this.level = level;
 		this.frequency = freq;
 		this.filename = filename;
@@ -48,6 +47,6 @@ public class Result {
 	}
 
 	public String toString() {
-		return "File : "+filename+" ; Quote : "+quote+" ; Level : "+level+" ; Frequency : "+frequency;
+		return "File : "+filename+"\n\tQuote : "+quote+"\n\tLevel : "+level+"\n\tFrequency : "+frequency;
 	}
 }

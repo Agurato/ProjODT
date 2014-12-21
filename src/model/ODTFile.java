@@ -182,8 +182,7 @@ public class ODTFile implements TextFile {
 				
 				split[2] = Normalizer.normalize(split[2], Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
 				search = Normalizer.normalize(search, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", ""); // Remove accents
-				// e.g. : normalize("à", Normalizer.Form.NFD) returns "a`"
-				// [\u0300 - \u036F] is the interval for accents 
+				// e.g. : normalize("à", Normalizer.Form.NFD) returns "a`" [\u0300 - \u036F] is the interval for accents 
 				
 				if(split[2].toLowerCase().contains(search.toLowerCase())) {
 					result.add(new Result(Integer.parseInt(split[1]), 1, odt.getAbsolutePath(), split[2]));
