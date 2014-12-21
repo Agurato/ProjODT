@@ -2,7 +2,7 @@ package model;
 
 public class Result {
 	private int level;
-	private int frequency;
+	private int frequency; // This represent how many different terms (among which we searched with) there are in this quote
 	private String filename;
 	private String quote;
 	

@@ -28,7 +28,7 @@ public class DataBase {
 	public ArrayList<Result> search(ArrayList<String> search, String operator) {
 		ArrayList<Result> results =  new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
-		ArrayList<String> notFoundYet = new ArrayList<String>(); // Helps to find which one we didn't found
+		ArrayList<String> notFoundYet = new ArrayList<String>(); // Helps to find which String we didn't found yet
 		
 		// Remove duplicates
 		for(int i=0 ; i<search.size() ; i++) {
@@ -128,9 +128,7 @@ public class DataBase {
 		// If there is duplicates, remove them and increment the frequency
 		for(int i=0 ; i<results.size() ; i++) {
 			Result res = results.get(i);
-			System.out.println(res);
 			for(int j=i+1 ; j<results.size() ; j++) {
-				System.out.println("\t"+results.get(j));
 				if(res.equals(results.get(j))) {
 					res.setFrequency(res.getFrequency()+1);
 					results.remove(j);

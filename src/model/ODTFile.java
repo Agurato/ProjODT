@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -179,7 +180,12 @@ public class ODTFile implements TextFile {
 			while((temp = br.readLine()) != null) {
 				split = temp.split(separator);
 				
-				if(split[2].contains(search)) {
+				split[2] = Normalizer.normalize(split[2], Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
+				search = Normalizer.normalize(search, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", ""); // Remove accents
+				// e.g. : normalize("à", Normalizer.Form.NFD) returns "a`"
+				// [\u0300 - \u036F] is the interval for accents 
+				
+				if(split[2].toLowerCase().contains(search.toLowerCase())) {
 					result.add(new Result(Integer.parseInt(split[1]), 1, odt.getAbsolutePath(), split[2]));
 				}
 			}
