@@ -46,7 +46,7 @@ public class ODTFile implements TextFile {
 		this.results = new File(extract.getAbsolutePath()+"/results.txt");
 		
 		this.unzipODT();
-		this.parseContentXML();
+//		this.parseContentXML();
 	}
 	
 	public File getFile() {
@@ -55,6 +55,18 @@ public class ODTFile implements TextFile {
 	
 	public File getExtract() {
 		return extract;
+	}
+	
+	public void suppExtract(File supp) {
+		for(File file : supp.listFiles()) {
+			if(file.isDirectory()) {
+				suppExtract(file);
+			}
+			file.delete();
+		}
+		if(extract.listFiles().length == 0) {
+			extract.delete();
+		}
 	}
 
 	public void unzipODT() {

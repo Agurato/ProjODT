@@ -11,6 +11,10 @@ import java.util.Set;
 public class DataBase {
 	ArrayList<ODTFile> files;
 	File rootFolder;
+	
+	public DataBase() {
+		files = new ArrayList<ODTFile>();
+	}
 
 	public DataBase(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
@@ -29,7 +33,27 @@ public class DataBase {
 	public void setRoot(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
 	}
+	
+	public void addOdt(ODTFile odt) {
+		files.add(odt);
+	}
 
+	public void sync() {
+		// We delete the extract folder and the arrayList
+		this.deleteFolders();
+		files.clear();
+
+		// We call the function to extract every odt
+		files = getOdtFiles(rootFolder.getAbsolutePath());
+		this.parse();
+	}
+	
+	public void parse() {
+		for(ODTFile odt : files) {
+			odt.parseContentXML();
+		}
+	}
+	
 	public ArrayList<Result> contains(String search) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
@@ -52,7 +76,7 @@ public class DataBase {
 		return results;
 	}
 
-	public <Result> ArrayList<Result> union(ArrayList<Result> list1,
+	public ArrayList<Result> union(ArrayList<Result> list1,
 			ArrayList<Result> list2) {
 		Set<Result> set = new HashSet<Result>();
 
@@ -62,7 +86,7 @@ public class DataBase {
 		return new ArrayList<Result>(set);
 	}
 
-	public <Result> ArrayList<Result> intersection(ArrayList<Result> list1,
+	public ArrayList<Result> intersection(ArrayList<Result> list1,
 			ArrayList<Result> list2) {
 		ArrayList<Result> list = new ArrayList<Result>();
 
@@ -119,18 +143,9 @@ public class DataBase {
 		return results;
 	}
 
-	public void sync() {
-		// We delete the extract folder and the arrayList
-		this.deleteFolders();
-		files.clear();
-
-		// We call the function to extract everything and parse it
-		files = getOdtFiles(rootFolder.getAbsolutePath());
-	}
-
 	public void deleteFolders() {
 		for (ODTFile odt : files) {
-			odt.getExtract().delete();
+			odt.suppExtract(odt.getExtract());
 		}
 	}
 
