@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -29,6 +30,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -36,6 +39,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.ScrollPane;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
@@ -103,9 +107,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		menuWIMP.add(fileMenu);
 		// adding elements of fileMenu
 		chooseItem = new JMenuItem("Changer la racine");
+		chooseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(chooseItem);
 		chooseItem.addActionListener(new ChooseReact());
 		syncItem = new JMenuItem("Synchroniser");
+		syncItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(syncItem);
 		syncItem.addActionListener(new SyncReact());
 
