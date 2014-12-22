@@ -6,6 +6,10 @@ import java.util.ArrayList;
 public class DataBase {
 	ArrayList<ODTFile> files;
 	File rootFolder;
+	
+	public DataBase() {
+		files = new ArrayList<ODTFile>();
+	}
 
 	public DataBase(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
@@ -24,7 +28,27 @@ public class DataBase {
 	public void setRoot(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
 	}
+	
+	public void addOdt(ODTFile odt) {
+		files.add(odt);
+	}
 
+	public void sync() {
+		// We delete the extract folder and the arrayList
+		this.deleteFolders();
+		files.clear();
+
+		// We call the function to extract every odt
+		files = getOdtFiles(rootFolder.getAbsolutePath());
+		this.parse();
+	}
+	
+	public void parse() {
+		for(ODTFile odt : files) {
+			odt.parseContentXML();
+		}
+	}
+	
 	public ArrayList<Result> search(ArrayList<String> search, String operator) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
@@ -38,7 +62,7 @@ public class DataBase {
 				}
 			}
 		}
-
+		
 		notFoundYet.addAll(search);
 		
 		switch (operator) {
@@ -134,12 +158,12 @@ public class DataBase {
 			break;
 		}
 
-		// If there is duplicates, remove them and increment the frequency
+		// If there are duplicates, remove them and increment the frequency
 		for (int i = 0; i < results.size(); i++) {
 			Result res = results.get(i);
 			for (int j = i + 1; j < results.size(); j++) {
 				if (res.equals(results.get(j))) {
-					res.setFrequency(res.getFrequency() + 1);
+					res.setFrequency(res.getFrequency() + results.get(j).getFrequency());
 					results.remove(j);
 				}
 			}
@@ -154,18 +178,9 @@ public class DataBase {
 		return results;
 	}
 
-	public void sync() {
-		// We delete the extract folder and the arrayList
-		this.deleteFolders();
-		files.clear();
-
-		// We call the function to extract everything and parse it
-		files = getOdtFiles(rootFolder.getAbsolutePath());
-	}
-
 	public void deleteFolders() {
 		for (ODTFile odt : files) {
-			odt.getExtract().delete();
+			odt.suppExtract(odt.getExtract());
 		}
 	}
 

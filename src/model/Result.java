@@ -6,9 +6,9 @@ public class Result {
 	private String filename;
 	private String quote;
 	
-	public Result(int level, int freq, String filename, String quote) {
+	public Result(int level, int frequency, String filename, String quote) {
 		this.level = level;
-		this.frequency = freq;
+		this.frequency = frequency;
 		this.filename = filename;
 		this.quote = quote;
 	}
