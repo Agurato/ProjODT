@@ -1,7 +1,12 @@
 package model;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class DataBase {
 	ArrayList<ODTFile> files;
@@ -25,132 +30,92 @@ public class DataBase {
 		rootFolder = new File(rootFolderPath);
 	}
 
-	public ArrayList<Result> search(ArrayList<String> search, String operator) {
+	public ArrayList<Result> contains(String search) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
-		ArrayList<String> notFoundYet = new ArrayList<String>(); // Helps to find which String we didn't found yet
 
-		// Remove duplicates
-		for (int i = 0; i < search.size(); i++) {
-			for (int j = i + 1; j < search.size(); j++) {
-				if (search.get(i).equals(search.get(j))) {
-					search.remove(j);
-				}
+		for (ODTFile odt : files) {
+			exam = odt.examination(search);
+			System.out.println("File = " + odt.getFile().getAbsolutePath()
+					+ " :");
+
+			if (exam.size() == 0) {
+				System.out.println("\t\"" + search + "\" not found !");
+			} else {
+				System.out.println("\t\"" + search + "\" found !");
+			}
+
+			for (Result tempResult : exam) {
+				results.add(tempResult);
+			}
+		}
+		return results;
+	}
+
+	public <Result> ArrayList<Result> union(ArrayList<Result> list1,
+			ArrayList<Result> list2) {
+		Set<Result> set = new HashSet<Result>();
+
+		set.addAll(list1);
+		set.addAll(list2);
+
+		return new ArrayList<Result>(set);
+	}
+
+	public <Result> ArrayList<Result> intersection(ArrayList<Result> list1,
+			ArrayList<Result> list2) {
+		ArrayList<Result> list = new ArrayList<Result>();
+
+		for (Result t : list1) {
+			if (list2.contains(t)) {
+				list.add(t);
 			}
 		}
 
-		notFoundYet.addAll(search);
-		
-		switch (operator) {
+		return list;
+	}
 
-		case "and":
-			
-			for (ODTFile odt : files) {
-				System.out.println("File = "+ odt.getFile().getAbsolutePath() + " :");
-				
-				ArrayList<Result> res = new ArrayList<Result>(); // Used to add every result for 1 file
-																 // exam is used for 1 file and 1 String
-				
-				for (String str : search) {
-					exam = odt.examination(str);
-					res.addAll(exam);
+	public ArrayList<Result> search(String search) {
+		ArrayList<Result> results = new ArrayList<Result>();
 
-					if (exam.size() == 0) { // If there wasn't that word in the file
-						System.out.println("\t\"" +str + "\" not found !");
-					}
-					else {	// Else, we remove it from notFoundYet
-						notFoundYet.remove(str);
-						System.out.println("\t\"" +str+ "\" found and removed from notFoundYet !");
-					}
-				}
-				// If we found all the Strings in the same file, we add them to results
-				if(notFoundYet.size() == 0) {
-					for (Result tempResult : res) {
-						results.add(tempResult);
-					}
-				}
-				// Else, we clear the list and re-add every terms in search
-				else {
-					notFoundYet.clear();
-					for (String str : search) {
-						notFoundYet.add(str);
-					}
-				}
-				res.clear(); // We clear res to go on with the next file
+		// Separate OR Statements
+		String[] orSplits = search.split(" OU ");
+		for (String orSplit : orSplits) {
+			ArrayList<Result> andResults = new ArrayList<Result>();
+			// Separate AND Statements
+			Iterator<String> andIt = Arrays.asList(orSplit.split(" ET "))
+					.iterator();
+
+			// Iterate
+			String andSplit;
+			// Special treatment for the first one
+			// because intersection(empty,something)=empty
+			if (andIt.hasNext()) {
+				andSplit = andIt.next();
+				andResults = contains(andSplit);
 			}
-			
-			break;
-
-		case "or":
-
-			for (ODTFile odt : files) {
-				System.out.println("File = "+ odt.getFile().getAbsolutePath() + " :");
-
-				for (String str : search) {
-					exam = odt.examination(str);
-
-					if (exam.size() == 0) {
-						System.out.println("\t\"" + str + "\" not found !");
-					}
-					else {
-						notFoundYet.remove(str);
-						System.out.println("\t\"" + str + "\" found "+ exam.size()+ " time(s) and removed from notFoundYet !");
-					}
-					
-					for (Result tempResult : exam) {
-						results.add(tempResult);
-					}
-				}
+			while (andIt.hasNext()) {
+				andSplit = andIt.next();
+				//Intersection of results
+				andResults = intersection(andResults, contains(andSplit));
 			}
 
-			System.out.println("\nNot Found : ");
-			for (String str : notFoundYet) {
-				System.out.println("\"" + str + "\"");
-			}
-
-			break;
-
-		case "null":
-			String keyword = search.get(0);
-
-			for (ODTFile odt : files) {
-				exam = odt.examination(keyword);
-				System.out.println("File = " + odt.getFile().getAbsolutePath()+ " :");
-
-				if (exam.size() == 0) {
-					System.out.println("\t\"" + keyword + "\" not found !");
-				}
-				else {
-					System.out.println("\t\"" + keyword + "\" found !");
-				}
-
-				for (Result tempResult : exam) {
-					results.add(tempResult);
-				}
-			}
-
-			break;
-		default:
-			break;
+			// Union of results
+			results = union(results, andResults);
 		}
 
-		// If there is duplicates, remove them and increment the frequency
+		// Check if multiple results for one file
 		for (int i = 0; i < results.size(); i++) {
 			Result res = results.get(i);
 			for (int j = i + 1; j < results.size(); j++) {
 				if (res.equals(results.get(j))) {
-					res.setFrequency(res.getFrequency() + 1);
+					res.setFrequency(res.getFrequency()
+							+ results.get(j).getFrequency());
 					results.remove(j);
 				}
 			}
 		}
 		
-		System.out.println("\nFinal results :");
-		for (Result result : results) {
-			System.out.println(result.toString());
-		}
-		System.out.println();
-
 		return results;
 	}
 

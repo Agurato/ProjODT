@@ -91,7 +91,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		// resultsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		resultsList.setVisibleRowCount(-1);
 		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
-		resultsModel.addElement(new Result(-1,
+		resultsModel.addElement(new Result(-1, -1,
 				"Entrez une chaine à rechercher", ""));
 
 		// Menu
@@ -133,7 +133,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			try {
 				displayResults(controller.search(searchField.getText()));
 			} catch (NoSuchElementException eNoElement) {
-				JOptionPane.showMessageDialog(getContentPane(), "Impossible de trouver le dosser racine:",
+				JOptionPane.showMessageDialog(getContentPane(),
+						"Impossible de trouver le dosser racine:",
 						"Racine introuvable", JOptionPane.ERROR_MESSAGE);
 				chooseRoot();
 				displayResults(controller.search(searchField.getText()));
@@ -168,7 +169,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				resultsModel.addElement(result);
 			}
 		} else {
-			resultsModel.addElement(new Result(-1,
+			resultsModel.addElement(new Result(-1, -1,
 					"Entrez une chaine à rechercher", ""));
 		}
 		setVisible(true);
@@ -181,10 +182,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		chooser.setDialogTitle("Sélectionnez le dossier où rechercher les fichiers");
 		int returnVal = chooser.showOpenDialog(getContentPane());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			controller.changeRoot(chooser.getSelectedFile()
-					.getAbsolutePath());
-			confirmChangeRoot(chooser.getSelectedFile()
-					.getAbsolutePath());
+			controller.changeRoot(chooser.getSelectedFile().getAbsolutePath());
+			confirmChangeRoot(chooser.getSelectedFile().getAbsolutePath());
 		}
 	}
 
@@ -192,7 +191,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	public void confirmChangeRoot(String rootPath) {
 		JOptionPane.showMessageDialog(this, "Racine changée vers: " + rootPath,
 				"Racine changée", JOptionPane.INFORMATION_MESSAGE);
-		
+
 	}
 
 	public void sync() {
@@ -200,11 +199,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			controller.sync();
 			JOptionPane.showMessageDialog(this,
 					"La base de donnée a bien été synchronisée",
-					"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
+					"Base de données synchronisé",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (FileNotFoundException eNotFound) {
-			JOptionPane.showMessageDialog(GraphicalUserInterface.this,
-					"Le dossier sélectionné n'existe plus, veuillez en choisir un nouveau",
-					"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							GraphicalUserInterface.this,
+							"Le dossier sélectionné n'existe plus, veuillez en choisir un nouveau",
+							"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
 			chooseRoot();
 		}
 	}

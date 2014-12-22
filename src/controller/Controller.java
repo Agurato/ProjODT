@@ -42,8 +42,4 @@ public class Controller {
 		database.sync();
 	}
 
-	public ArrayList<Result> listFiles() {
-		return database.listFiles();
-		
-	}
 }
