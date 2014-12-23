@@ -22,6 +22,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
@@ -61,9 +63,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	JMenuItem syncItem;
 	JMenuItem closeItem;
 
-	JPanel searchPanel;
 	JTextField searchField;
-	JButton searchButton;
 
 	JList<Result> resultsList;
 	DefaultListModel<Result> resultsModel;
@@ -76,16 +76,9 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Insets insets = getContentPane().getInsets();
 
-		// searchPanel
-		searchPanel = new JPanel();
-		searchPanel.setLayout(new BorderLayout());
-		getContentPane().add(searchPanel, BorderLayout.NORTH);
 		// searchField
 		searchField = new JTextField(10);
-		searchPanel.add(searchField, BorderLayout.CENTER);
-		// searchButton
-		searchButton = new JButton("Rechercher");
-		searchPanel.add(searchButton, BorderLayout.EAST);
+		getContentPane().add(searchField, BorderLayout.NORTH);
 
 		// Results List
 		resultsModel = new DefaultListModel<Result>();
@@ -133,8 +126,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		this.setLocationRelativeTo(null);
 
 		// Listen to actions
-		searchField.addActionListener(new SearchReact());
-		searchButton.addActionListener(new SearchReact());
+		searchField.addCaretListener(new SearchReact());
 
 		setVisible(true);
 
@@ -143,10 +135,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	}
 
 	// search validation listening
-	public class SearchReact implements ActionListener {
+	public class SearchReact implements CaretListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void caretUpdate(CaretEvent e) {
 			try {
 				displayResults(controller.search(searchField.getText()));
 			} catch (NoSuchElementException eNoElement) {
