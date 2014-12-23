@@ -37,7 +37,7 @@ public class DataBase {
 	public void addOdt(ODTFile odt) {
 		files.add(odt);
 	}
-	
+
 	public void addOdt(String path) {
 		files.add(new ODTFile(path));
 	}
@@ -78,7 +78,8 @@ public class DataBase {
 		return results;
 	}
 
-	public ArrayList<Result> union(ArrayList<Result> list1, ArrayList<Result> list2) {
+	public ArrayList<Result> union(ArrayList<Result> list1,
+			ArrayList<Result> list2) {
 		Set<Result> set = new HashSet<Result>();
 
 		set.addAll(list1);
@@ -87,7 +88,8 @@ public class DataBase {
 		return new ArrayList<Result>(set);
 	}
 
-	public ArrayList<Result> intersection(ArrayList<Result> list1, ArrayList<Result> list2) {
+	public ArrayList<Result> intersection(ArrayList<Result> list1,
+			ArrayList<Result> list2) {
 		ArrayList<Result> list = new ArrayList<Result>();
 
 		for (Result t : list1) {
@@ -102,62 +104,61 @@ public class DataBase {
 	public ArrayList<Result> search(String search) {
 		ArrayList<Result> results = new ArrayList<Result>();
 
-		// Separate OR Statements
-		String[] orSplits = search.split("OU");
-		ArrayList<Result> orResults = new ArrayList<Result>();
-		for (String orSplit : orSplits) {
-			orSplit = orSplit.trim();
-			ArrayList<Result> andResults = new ArrayList<Result>();
-			// Separate AND Statements
-			Iterator<String> andIt = Arrays.asList(orSplit.split("ET"))
-					.iterator();
+		if (!search.isEmpty()) {
+			// Separate OR Statements
+			String[] orSplits = search.split("OU");
+			ArrayList<Result> orResults = new ArrayList<Result>();
+			for (String orSplit : orSplits) {
+				orSplit = orSplit.trim();
+				ArrayList<Result> andResults = new ArrayList<Result>();
+				// Separate AND Statements
+				Iterator<String> andIt = Arrays.asList(orSplit.split("ET"))
+						.iterator();
 
-			// Iterate
-			String andSplit;
-			// Special treatment for the first one
-			// because intersection(empty,something)=empty
-			if (andIt.hasNext()) {
-				andSplit = andIt.next().trim();
-				andResults = contains(andSplit);
-			}
-			while (andIt.hasNext()) {
-				andSplit = andIt.next().trim();
-				// Intersection of results
-				andResults = intersection(andResults, contains(andSplit));
-			}
-
-			// Union of results
-			orResults = union(orResults, andResults);
-		}
-
-		// Check if multiple results for one file
-		for (int i = 0; i < orResults.size(); i++){
-			Result tempResult = orResults.get(i);
-			System.out.println(">" + tempResult.getQuote() + ": " + tempResult.getLevel());
-			for(int j = i+1; j < orResults.size();){
-				
-				// If there already is a result with the same filename
-				if (tempResult.getFilename().equals(orResults.get(j).getFilename())){
-					int freq = tempResult.getFrequency() + orResults.get(j).getFrequency();
-					System.out.println("+->" + orResults.get(j).getQuote() + ": " + orResults.get(j).getLevel());
-					
-					// If second result has a upper title level
-					System.out.println(" +->" + tempResult.getQuote() + ": " + tempResult.getLevel() + ", "
-							+orResults.get(j).getQuote() + ": " + orResults.get(j).getLevel());
-					if(tempResult.getLevel() >= orResults.get(j).getLevel()){
-						System.out.println("upper");
-						tempResult = orResults.get(j);
-					}
-					
-					tempResult.setFrequency(freq);
-					orResults.remove(j);
-				}else{// We go forward
-					j++;
+				// Iterate
+				String andSplit;
+				// Special treatment for the first one
+				// because intersection(empty,something)=empty
+				if (andIt.hasNext()) {
+					andSplit = andIt.next().trim();
+					andResults = contains(andSplit);
 				}
-			}
-			results.add(tempResult);
-		}
+				while (andIt.hasNext()) {
+					andSplit = andIt.next().trim();
+					// Intersection of results
+					andResults = intersection(andResults, contains(andSplit));
+				}
 
+				// Union of results
+				orResults = union(orResults, andResults);
+			}
+
+			// Check if multiple results for one file
+			for (int i = 0; i < orResults.size(); i++) {
+				Result tempResult = orResults.get(i);
+				for (int j = i + 1; j < orResults.size();) {
+
+					// If there already is a result with the same filename
+					if (tempResult.getFilename().equals(
+							orResults.get(j).getFilename())) {
+						int freq = tempResult.getFrequency()
+								+ orResults.get(j).getFrequency();
+
+						// If second result has a upper title level
+						if (tempResult.getLevel() >= orResults.get(j)
+								.getLevel()) {
+							tempResult = orResults.get(j);
+						}
+
+						tempResult.setFrequency(freq);
+						orResults.remove(j);
+					} else {// We go forward
+						j++;
+					}
+				}
+				results.add(tempResult);
+			}
+		}
 		return results;
 	}
 
