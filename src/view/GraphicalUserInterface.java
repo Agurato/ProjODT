@@ -109,17 +109,20 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		// adding elements of fileMenu
 		// ChangeRoot
 		chooseItem = new JMenuItem("Changer la racine");
-		chooseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		chooseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit
+				.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(chooseItem);
 		chooseItem.addActionListener(new ChooseReact());
 		// Sync
 		syncItem = new JMenuItem("Synchroniser");
-		syncItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		syncItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit
+				.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(syncItem);
 		syncItem.addActionListener(new SyncReact());
 		// Close
 		closeItem = new JMenuItem("Fermer");
-		closeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		closeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit
+				.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(closeItem);
 		closeItem.addActionListener(new CloseReact());
 
@@ -174,7 +177,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			sync();
 		}
 	}
-	
+
 	// Close window Listening
 	public class CloseReact implements ActionListener {
 		@Override

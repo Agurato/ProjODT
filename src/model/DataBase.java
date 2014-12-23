@@ -11,7 +11,7 @@ import java.util.Set;
 public class DataBase {
 	ArrayList<ODTFile> files;
 	File rootFolder;
-	
+
 	public DataBase() {
 		files = new ArrayList<ODTFile>();
 	}
@@ -33,7 +33,7 @@ public class DataBase {
 	public void setRoot(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
 	}
-	
+
 	public void addOdt(ODTFile odt) {
 		files.add(odt);
 	}
@@ -47,13 +47,13 @@ public class DataBase {
 		files = getOdtFiles(rootFolder.getAbsolutePath());
 		this.parse();
 	}
-	
+
 	public void parse() {
-		for(ODTFile odt : files) {
+		for (ODTFile odt : files) {
 			odt.parseContentXML();
 		}
 	}
-	
+
 	public ArrayList<Result> contains(String search) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
@@ -69,9 +69,7 @@ public class DataBase {
 				System.out.println("\t\"" + search + "\" found !");
 			}
 
-			for (Result tempResult : exam) {
-				results.add(tempResult);
-			}
+			results.addAll(exam);
 		}
 		return results;
 	}
@@ -103,11 +101,12 @@ public class DataBase {
 		ArrayList<Result> results = new ArrayList<Result>();
 
 		// Separate OR Statements
-		String[] orSplits = search.split(" OU ");
+		String[] orSplits = search.split("OU");
 		for (String orSplit : orSplits) {
+			orSplit = orSplit.trim();
 			ArrayList<Result> andResults = new ArrayList<Result>();
 			// Separate AND Statements
-			Iterator<String> andIt = Arrays.asList(orSplit.split(" ET "))
+			Iterator<String> andIt = Arrays.asList(orSplit.split("ET"))
 					.iterator();
 
 			// Iterate
@@ -115,12 +114,12 @@ public class DataBase {
 			// Special treatment for the first one
 			// because intersection(empty,something)=empty
 			if (andIt.hasNext()) {
-				andSplit = andIt.next();
+				andSplit = andIt.next().trim();
 				andResults = contains(andSplit);
 			}
 			while (andIt.hasNext()) {
-				andSplit = andIt.next();
-				//Intersection of results
+				andSplit = andIt.next().trim();
+				// Intersection of results
 				andResults = intersection(andResults, contains(andSplit));
 			}
 
@@ -130,16 +129,28 @@ public class DataBase {
 
 		// Check if multiple results for one file
 		for (int i = 0; i < results.size(); i++) {
-			Result res = results.get(i);
+			Result result1 = results.get(i);
 			for (int j = i + 1; j < results.size(); j++) {
-				if (res.equals(results.get(j))) {
-					res.setFrequency(res.getFrequency()
-							+ results.get(j).getFrequency());
+				Result result2 = results.get(j);
+
+				// If there already is a result with the same filename
+				if (result1.getFilename().equals(result2.getFilename())) {
+					int freq = result1.getFrequency() + result2.getFrequency();
+
+					// If second result has a upper title level
+					System.out.println(result1.getFilename() + ": " + result1.getLevel() + ", "
+							+result2.getFilename() + ": " + result2.getLevel());
+					if (result1.getLevel() >= result2.getLevel()) {
+						System.out.println("upper");
+						results.set(i, result2);
+					}
+
+					results.get(i).setFrequency(freq);
 					results.remove(j);
 				}
 			}
 		}
-		
+
 		return results;
 	}
 
