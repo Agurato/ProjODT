@@ -40,13 +40,17 @@ public class ODTFile implements TextFile {
 	private final String separator = ";";
 
 	public ODTFile(String path) {
-		this.odt = new File(path);
-		this.repertory = new File(odt.getParent());
-		this.extract = new File(repertory.getAbsolutePath()+"/"+odt.getName().replace(".odt", ""));
-		this.results = new File(extract.getAbsolutePath()+"/results.txt");
-		
-		this.unzipODT();
-//		this.parseContentXML();
+		if(path.endsWith(".odt")) {
+			this.odt = new File(path);
+			this.repertory = new File(odt.getParent());
+			this.extract = new File(repertory.getAbsolutePath()+"/"+odt.getName().replace(".odt", ""));
+			this.results = new File(extract.getAbsolutePath()+"/results.txt");
+			
+			this.unzipODT();
+		}
+		else {
+			System.out.println("The given path : "+path+" doesn't correspond to a odt file");
+		}
 	}
 	
 	public File getFile() {
@@ -194,7 +198,8 @@ public class ODTFile implements TextFile {
 				
 				split[2] = Normalizer.normalize(split[2], Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
 				search = Normalizer.normalize(search, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", ""); // Remove accents
-				// e.g. : normalize("à", Normalizer.Form.NFD) returns "a`" [\u0300 - \u036F] is the interval for accents 
+				// e.g. : normalize("à", Normalizer.Form.NFD) returns "a`" and replaceAll("[\u0300-\u036F]", "") returns a
+				// [\u0300-\u036F] is the interval for accents
 				
 				if(split[2].toLowerCase().contains(search.toLowerCase())) {
 					result.add(new Result(Integer.parseInt(split[1]), 1, odt.getAbsolutePath(), split[2]));

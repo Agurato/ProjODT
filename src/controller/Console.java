@@ -1,14 +1,11 @@
 package controller;
 
-import java.util.ArrayList;
-
 import model.*;
 //import view.*;
 
 public class Console {
 	public static void main(String []args) {
 		DataBase db = null;
-		ArrayList<String> research;
 		
 		for(int i=0 ; i<args.length-1 ; i++) {
 			switch(args[i]) {
@@ -19,7 +16,7 @@ public class Console {
 				break;
 			case "-f" :
 				db = new DataBase();
-				db.addOdt(new ODTFile(args[i+1]));
+				db.addOdt(args[i+1]);
 				i++;
 				
 				break;
