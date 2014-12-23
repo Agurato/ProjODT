@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -29,6 +30,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -36,6 +39,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.ScrollPane;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
@@ -55,6 +59,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	JMenu fileMenu;
 	JMenuItem chooseItem;
 	JMenuItem syncItem;
+	JMenuItem closeItem;
 
 	JPanel searchPanel;
 	JTextField searchField;
@@ -91,7 +96,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		// resultsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		resultsList.setVisibleRowCount(-1);
 		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
-		resultsModel.addElement(new Result(-1,
+		resultsModel.addElement(new Result(-1, -1,
 				"Entrez une chaine à rechercher", ""));
 
 		// Menu
@@ -102,12 +107,21 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		fileMenu = new JMenu("Fichier");
 		menuWIMP.add(fileMenu);
 		// adding elements of fileMenu
+		// ChangeRoot
 		chooseItem = new JMenuItem("Changer la racine");
+		chooseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(chooseItem);
 		chooseItem.addActionListener(new ChooseReact());
+		// Sync
 		syncItem = new JMenuItem("Synchroniser");
+		syncItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(syncItem);
 		syncItem.addActionListener(new SyncReact());
+		// Close
+		closeItem = new JMenuItem("Fermer");
+		closeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		fileMenu.add(closeItem);
+		closeItem.addActionListener(new CloseReact());
 
 		// Set size
 		this.setSize(500 + insets.left + insets.right, 300 + insets.top
@@ -133,7 +147,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			try {
 				displayResults(controller.search(searchField.getText()));
 			} catch (NoSuchElementException eNoElement) {
-				JOptionPane.showMessageDialog(getContentPane(), "Impossible de trouver le dosser racine:",
+				JOptionPane.showMessageDialog(getContentPane(),
+						"Impossible de trouver le dosser racine:",
 						"Racine introuvable", JOptionPane.ERROR_MESSAGE);
 				chooseRoot();
 				displayResults(controller.search(searchField.getText()));
@@ -159,6 +174,15 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			sync();
 		}
 	}
+	
+	// Close window Listening
+	public class CloseReact implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			System.exit(NORMAL);
+		}
+	}
 
 	@Override
 	public void displayResults(ArrayList<Result> results) {
@@ -168,7 +192,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				resultsModel.addElement(result);
 			}
 		} else {
-			resultsModel.addElement(new Result(-1,
+			resultsModel.addElement(new Result(-1, -1,
 					"Entrez une chaine à rechercher", ""));
 		}
 		setVisible(true);
@@ -181,10 +205,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		chooser.setDialogTitle("Sélectionnez le dossier où rechercher les fichiers");
 		int returnVal = chooser.showOpenDialog(getContentPane());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			controller.changeRoot(chooser.getSelectedFile()
-					.getAbsolutePath());
-			confirmChangeRoot(chooser.getSelectedFile()
-					.getAbsolutePath());
+			controller.changeRoot(chooser.getSelectedFile().getAbsolutePath());
+			confirmChangeRoot(chooser.getSelectedFile().getAbsolutePath());
 		}
 	}
 
@@ -192,7 +214,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	public void confirmChangeRoot(String rootPath) {
 		JOptionPane.showMessageDialog(this, "Racine changée vers: " + rootPath,
 				"Racine changée", JOptionPane.INFORMATION_MESSAGE);
-		
+
 	}
 
 	public void sync() {
@@ -200,11 +222,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			controller.sync();
 			JOptionPane.showMessageDialog(this,
 					"La base de donnée a bien été synchronisée",
-					"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
+					"Base de données synchronisé",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (FileNotFoundException eNotFound) {
-			JOptionPane.showMessageDialog(GraphicalUserInterface.this,
-					"Le dossier sélectionné n'existe plus, veuillez en choisir un nouveau",
-					"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							GraphicalUserInterface.this,
+							"Le dossier sélectionné n'existe plus, veuillez en choisir un nouveau",
+							"Dossier Inexistant", JOptionPane.ERROR_MESSAGE);
 			chooseRoot();
 		}
 	}

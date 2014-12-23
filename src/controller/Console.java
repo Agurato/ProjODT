@@ -24,10 +24,8 @@ public class Console {
 				
 				break;
 			case "-w" :
-				research = new ArrayList<String>();
-				research.add(args[i+1]);
 				if(db != null) {
-					db.search(research, "null");
+					db.search(args[i+1]);
 				}
 				else {
 					System.out.println("DataBase not initialized !");
