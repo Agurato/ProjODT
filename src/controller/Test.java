@@ -8,11 +8,9 @@ import model.*;
 public class Test {
 	public static void main(String []args) {
 		DataBase db = new DataBase("/home/vincent/Documents/odt");
-		ArrayList<String> research = new ArrayList<String>();
-		research.add("contraintes");
-		research.add("conclusion");
+		String research = "contraintes conclusion";
 		
 //		db.sync();
-		db.search(research, "and");
+		db.search(research);
 	}
 }
