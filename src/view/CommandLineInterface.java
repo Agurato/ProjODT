@@ -1,9 +1,6 @@
 package view;
 
-import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import controller.Controller;
 import model.Result;
@@ -19,11 +16,11 @@ public class CommandLineInterface implements UserInterface{
 		Action action = Action.NONE;
 		String param = "";
 		
-		if(args[index].equals("-f") || args[index].equals("-d")) {
+		if(args[index].equals("-f") || args[index].equals("--file") || args[index].equals("-d") || args[index].equals("--directory")) {
 			index ++;
 			action = Action.LIST;
 		}
-		else if(args[index].equals("-w")) {
+		else if(args[index].equals("-w") || args[index].equals("--word")) {
 			index ++;
 			action = Action.SEARCH;
 			while(index<args.length) {
@@ -54,6 +51,15 @@ public class CommandLineInterface implements UserInterface{
 			
 			break;
 		}
+		
+		System.out.println("\n---------------------");
+		System.out.println("ProjODT - v1.0 - (c) Vincent Monot & Louis Desportes");
+		System.out.println("Utilitaire de recherche dans une base d'ODT");
+		System.out.println("");
+		System.out.println("Commandes:");
+		System.out.println("  -d,  --database : défini la racine de la base de donnés à utiliser");
+		System.out.println("  -f,  --file: ajoute un fichier à la base de donnés");
+		System.out.println("  -w,  --word : recherche le mot dans la base de donnés");
 		
 //		if(args[index].equals("search")){
 //			index++;
@@ -89,7 +95,7 @@ public class CommandLineInterface implements UserInterface{
 		
 	}
 
-	public void chooseRoot() {
+	public void chooseRoot(String pathName) {
 		// TODO Auto-generated method stub
 		
 	}
