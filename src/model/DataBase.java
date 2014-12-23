@@ -37,6 +37,10 @@ public class DataBase {
 	public void addOdt(ODTFile odt) {
 		files.add(odt);
 	}
+	
+	public void addOdt(String path) {
+		files.add(new ODTFile(path));
+	}
 
 	public void sync() {
 		// We delete the extract folder and the arrayList
@@ -64,9 +68,9 @@ public class DataBase {
 					+ " :");
 
 			if (exam.size() == 0) {
-				System.out.println("\t\"" + search + "\" not found !");
+				System.out.println("\t\"" + search + "\" not found !\n");
 			} else {
-				System.out.println("\t\"" + search + "\" found !");
+				System.out.println("\t\"" + search + "\" found !\n");
 			}
 
 			results.addAll(exam);
@@ -74,8 +78,7 @@ public class DataBase {
 		return results;
 	}
 
-	public ArrayList<Result> union(ArrayList<Result> list1,
-			ArrayList<Result> list2) {
+	public ArrayList<Result> union(ArrayList<Result> list1, ArrayList<Result> list2) {
 		Set<Result> set = new HashSet<Result>();
 
 		set.addAll(list1);
@@ -84,8 +87,7 @@ public class DataBase {
 		return new ArrayList<Result>(set);
 	}
 
-	public ArrayList<Result> intersection(ArrayList<Result> list1,
-			ArrayList<Result> list2) {
+	public ArrayList<Result> intersection(ArrayList<Result> list1, ArrayList<Result> list2) {
 		ArrayList<Result> list = new ArrayList<Result>();
 
 		for (Result t : list1) {
