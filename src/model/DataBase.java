@@ -104,6 +104,7 @@ public class DataBase {
 
 		// Separate OR Statements
 		String[] orSplits = search.split("OU");
+		ArrayList<Result> orResults = new ArrayList<Result>();
 		for (String orSplit : orSplits) {
 			orSplit = orSplit.trim();
 			ArrayList<Result> andResults = new ArrayList<Result>();
@@ -126,31 +127,35 @@ public class DataBase {
 			}
 
 			// Union of results
-			results = union(results, andResults);
+			orResults = union(orResults, andResults);
 		}
 
 		// Check if multiple results for one file
-		for (int i = 0; i < results.size(); i++) {
-			Result result1 = results.get(i);
-			for (int j = i + 1; j < results.size(); j++) {
-				Result result2 = results.get(j);
-
+		for (int i = 0; i < orResults.size(); i++){
+			Result tempResult = orResults.get(i);
+			System.out.println(">" + tempResult.getQuote() + ": " + tempResult.getLevel());
+			for(int j = i+1; j < orResults.size();){
+				
 				// If there already is a result with the same filename
-				if (result1.getFilename().equals(result2.getFilename())) {
-					int freq = result1.getFrequency() + result2.getFrequency();
-
+				if (tempResult.getFilename().equals(orResults.get(j).getFilename())){
+					int freq = tempResult.getFrequency() + orResults.get(j).getFrequency();
+					System.out.println("+->" + orResults.get(j).getQuote() + ": " + orResults.get(j).getLevel());
+					
 					// If second result has a upper title level
-					System.out.println(result1.getFilename() + ": " + result1.getLevel() + ", "
-							+result2.getFilename() + ": " + result2.getLevel());
-					if (result1.getLevel() >= result2.getLevel()) {
+					System.out.println(" +->" + tempResult.getQuote() + ": " + tempResult.getLevel() + ", "
+							+orResults.get(j).getQuote() + ": " + orResults.get(j).getLevel());
+					if(tempResult.getLevel() >= orResults.get(j).getLevel()){
 						System.out.println("upper");
-						results.set(i, result2);
+						tempResult = orResults.get(j);
 					}
-
-					results.get(i).setFrequency(freq);
-					results.remove(j);
+					
+					tempResult.setFrequency(freq);
+					orResults.remove(j);
+				}else{// We go forward
+					j++;
 				}
 			}
+			results.add(tempResult);
 		}
 
 		return results;
