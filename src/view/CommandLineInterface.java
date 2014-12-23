@@ -19,11 +19,11 @@ public class CommandLineInterface implements UserInterface{
 		Action action = Action.NONE;
 		String param = "";
 		
-		if(args[index].equals("-f") || args[index].equals("-d")) {
+		if(args[index].equals("-f") || args[index].equals("--file") || args[index].equals("-d") || args[index].equals("--directory")) {
 			index ++;
 			action = Action.LIST;
 		}
-		else if(args[index].equals("-w")) {
+		else if(args[index].equals("-w") || args[index].equals("--word")) {
 			index ++;
 			action = Action.SEARCH;
 			while(index<args.length) {
@@ -89,7 +89,7 @@ public class CommandLineInterface implements UserInterface{
 		
 	}
 
-	public void chooseRoot() {
+	public void chooseRoot(String pathName) {
 		// TODO Auto-generated method stub
 		
 	}
