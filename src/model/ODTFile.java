@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -13,9 +14,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -132,8 +135,7 @@ public class ODTFile implements TextFile {
 			// This is the "office:document-content", which contains everything in the content.xml file
 			
 			// Instantly get the "office:text" list even if it's not a direct child
-			NodeList officeTextList = root.getElementsByTagName("office:text");
-			Element officeText = (Element) officeTextList.item(0);
+			Element officeText = (Element) root.getElementsByTagName("office:text").item(0);
 			
 			// Same, it takes the "text:title" and "text:h" elements
 			NodeList textTitleList = officeText.getElementsByTagName("text:title");
@@ -175,6 +177,59 @@ public class ODTFile implements TextFile {
 		System.out.println();
 	}
 	
+	public HashMap<String, String> parseMetaXML() {
+		HashMap<String, String> metaInfos = new HashMap<String, String>();
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		try {			
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document parser = builder.parse(new File(extract.getAbsolutePath(), "meta.xml"));
+			
+			Element root = parser.getDocumentElement();
+			
+			// Get the office version
+			Element officeVersion = (Element) root.getElementsByTagName("office:document-meta").item(0);
+			metaInfos.put("officeVersion", officeVersion.getAttribute("office:version"));
+			
+			Element officeMeta = (Element) root.getElementsByTagName("office:meta").item(0);
+
+			// Get the creator
+			Element dcCreator = (Element) officeMeta.getElementsByTagName("dc:creator").item(0);
+			metaInfos.put("creator", dcCreator.getTextContent());
+			
+			// Get the initial creator
+			Element initialCreator = (Element) officeMeta.getElementsByTagName("meta:initial-creator").item(0);
+			metaInfos.put("initialCreator", initialCreator.getTextContent());
+			
+			// Get the date
+			Element dcDate = (Element) officeMeta.getElementsByTagName("dc:date").item(0);
+			metaInfos.put("date", dcDate.getTextContent());
+			
+			//Get the initial date
+			Element initialDate = (Element) officeMeta.getElementsByTagName("meta:creation-date").item(0);
+			metaInfos.put("initialDate", initialDate.getTextContent());
+			
+			// Get the title
+			Element dcTitle = (Element) officeMeta.getElementsByTagName("dc:title").item(0);
+			metaInfos.put("title", dcTitle.getTextContent());
+			
+			// Get the subject
+			Element dcSubject = (Element) officeMeta.getElementsByTagName("dc:subject").item(0);
+			metaInfos.put("subject", dcSubject.getTextContent());
+			
+			Element pageCount = (Element) officeMeta.getElementsByTagName("meta:document-statistic").item(0);
+			metaInfos.put("pageCount", pageCount.getAttribute("meta:page-count"));
+			metaInfos.put("wordCount", pageCount.getAttribute("meta:word-count"));
+			
+		}
+		catch(ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return metaInfos;
+	}
+	
 	public ArrayList<Result> examination(String search) {
 		boolean resultsExists = false;
 		ArrayList<Result> result = new ArrayList<Result>();
@@ -213,5 +268,15 @@ public class ODTFile implements TextFile {
 		}
 		
 		return result;
+	}
+	
+	public BufferedImage getThumbnail() {
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File(extract.getAbsolutePath()+"/Thumbnails/thumbnail.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return image;
 	}
 }
