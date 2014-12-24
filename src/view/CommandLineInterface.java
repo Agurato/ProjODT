@@ -15,41 +15,50 @@ public class CommandLineInterface implements UserInterface{
 		int index = 0;
 		Action action = Action.NONE;
 		String param = "";
-		
-		if(args[index].equals("-f") || args[index].equals("--file") || args[index].equals("-d") || args[index].equals("--directory")) {
-			index ++;
-			action = Action.LIST;
-		}
-		else if(args[index].equals("-w") || args[index].equals("--word")) {
-			index ++;
-			action = Action.SEARCH;
-			while(index<args.length) {
-				if(!args[index].startsWith("-")) {
-					// We add a space to separate the words
-					param += " "+args[index];
-					index ++;
+		while(index<args.length) {
+			if(args[index].equals("-f") || args[index].equals("--file") || args[index].equals("-d") || args[index].equals("--directory")
+					|| args[index].equals("list")) {
+				index ++;
+				action = Action.LIST;
+			}
+			else if(args[index].equals("display")) {
+				action = Action.DISPLAY;
+			}
+			else if(args[index].equals("-w") || args[index].equals("--word") || args[index].equals("search")) {
+				index ++;
+				action = Action.SEARCH;
+				while(index<args.length) {
+					if(!args[index].startsWith("-")) {
+						// We add a space to separate the words
+						param += " "+args[index];
+						index ++;
+					}
+				}
+				// We delete the first character (' ') if we added another keyword
+				if(index > 1) {
+					param.substring(1);
 				}
 			}
-			// We delete the first character (' ') if we added another keyword
-			if(index > 1) {
-				param.substring(1);
+			
+			switch(action) {
+			case LIST :
+				controller = new Controller(args[index]);
+				
+				break;
+			case DISPLAY :
+				
+				
+				break;
+			case SEARCH :
+				for(Result res : controller.search(param)) {
+					System.out.println(res);
+				}
+				
+				break;
+			default :
+				
+				break;
 			}
-		}
-		
-		switch(action) {
-		case LIST :
-			controller = new Controller(args[index]);
-			
-			break;
-		case SEARCH :
-			for(Result res : controller.search(param)) {
-				System.out.println(res);
-			}
-			
-			break;
-		default :
-			
-			break;
 		}
 		
 		System.out.println("\n---------------------");
@@ -57,7 +66,7 @@ public class CommandLineInterface implements UserInterface{
 		System.out.println("Utilitaire de recherche dans une base d'ODT");
 		System.out.println("");
 		System.out.println("Commandes:");
-		System.out.println("  -d,  --database : défini la racine de la base de donnés à utiliser");
+		System.out.println("  -d,  --directory : défini la racine de la base de donnés à utiliser");
 		System.out.println("  -f,  --file: ajoute un fichier à la base de donnés");
 		System.out.println("  -w,  --word : recherche le mot dans la base de donnés");
 		
