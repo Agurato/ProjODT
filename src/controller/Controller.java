@@ -48,6 +48,14 @@ public class Controller {
 		database = new DataBase(pathName);
 	}
 
+	public void addOdt(String pathName) {
+		database.addOdt(pathName);
+	}
+	
+	public ArrayList<Result> listFiles(){
+		return database.listFiles();
+	}
+
 	public void sync() throws FileNotFoundException {
 		database.sync();
 	}

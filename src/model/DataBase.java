@@ -181,4 +181,8 @@ public class DataBase {
 
 		return files;
 	}
+
+	public ArrayList<Result> listFiles() {
+		return search("");
+	}
 }
