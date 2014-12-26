@@ -80,7 +80,7 @@ public class DataBase {
 		return results;
 	}
 
-	public ArrayList<Result> union(ArrayList<Result> list1,
+	private ArrayList<Result> union(ArrayList<Result> list1,
 			ArrayList<Result> list2) {
 		Set<Result> set = new HashSet<Result>();
 
@@ -90,7 +90,7 @@ public class DataBase {
 		return new ArrayList<Result>(set);
 	}
 
-	public ArrayList<Result> intersection(ArrayList<Result> list1,
+	private ArrayList<Result> intersection(ArrayList<Result> list1,
 			ArrayList<Result> list2) {
 		ArrayList<Result> list = new ArrayList<Result>();
 
@@ -185,6 +185,10 @@ public class DataBase {
 	}
 
 	public ArrayList<Result> listFiles() {
-		return search("");
+		ArrayList<Result> result = new ArrayList<Result>();
+		for(ODTFile file: files){
+			result.add(new Result(-1, -1, file.getFilename(), "", null));
+		}
+		return result;
 	}
 }

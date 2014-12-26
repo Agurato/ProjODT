@@ -83,9 +83,9 @@ public class CommandLineInterface implements UserInterface{
 	public void ListFiles(ArrayList<Result> files) {
 		if(!files.isEmpty()){
 			if(files.size()==1){
-				System.out.println("1 titre dans la base de données:");
+				System.out.println("1 fichier dans la base de données:");
 			}else{
-				System.out.println(files.size() + "titres dans la base de données:");
+				System.out.println(files.size() + " fichiers dans la base de données:");
 			}
 			for(Result file: files){
 				System.out.println("  * " + file.getFilename());

@@ -41,6 +41,7 @@ public class ODTFile implements TextFile {
 	private File extract = null;
 	private File results = null;
 	private final String separator = ";";
+	private String path;
 
 	public ODTFile(String path) {
 		if(path.endsWith(".odt")) {
@@ -54,6 +55,7 @@ public class ODTFile implements TextFile {
 		else {
 			System.out.println("The given path : "+path+" doesn't correspond to a odt file");
 		}
+		this.path = path;
 	}
 	
 	public File getFile() {
@@ -62,6 +64,10 @@ public class ODTFile implements TextFile {
 	
 	public File getExtract() {
 		return extract;
+	}
+	
+	public String getFilename(){
+		return path;
 	}
 	
 	public void suppExtract(File supp) {
