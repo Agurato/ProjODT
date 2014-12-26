@@ -51,7 +51,11 @@ public class CommandLineInterface implements UserInterface{
 	@Override
 	public void ListTitles(ArrayList<Result> titles) {
 		if(!titles.isEmpty()){
-			System.out.println(titles.size() + " titres dans " + titles.get(0).getFilename() +":");
+			if(titles.size()==1){
+				System.out.println("1 titre dans " + titles.get(0).getFilename() +":");
+			}else{
+				System.out.println(titles.size() + " titres dans " + titles.get(0).getFilename() +":");
+			}
 			for(Result title: titles){
 				int level = title.getLevel();
 				if(level == 0) {
@@ -73,6 +77,22 @@ public class CommandLineInterface implements UserInterface{
 	@Override
 	public void confirmOpening(String filename) {
 		System.out.println("Ouverture de " + filename);
+	}
+
+	@Override
+	public void ListFiles(ArrayList<Result> files) {
+		if(!files.isEmpty()){
+			if(files.size()==1){
+				System.out.println("1 titre dans la base de données:");
+			}else{
+				System.out.println(files.size() + "titres dans la base de données:");
+			}
+			for(Result file: files){
+				System.out.println("  * " + file.getFilename());
+			}
+		}else{
+			System.out.println("La base de données est vide.");
+		}
 	}
 
 }

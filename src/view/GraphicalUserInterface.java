@@ -332,4 +332,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	@Override
+	public void ListFiles(ArrayList<Result> files) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -100,7 +100,7 @@ public class Controller {
 		case LIST:
 			if (!help) {
 				ui = (UserInterface) new CommandLineInterface();
-				ui.ListTitles(database.listFiles());
+				ui.ListFiles(database.listFiles());
 			}
 			break;
 		case SEARCH:
@@ -120,6 +120,13 @@ public class Controller {
 					System.out.println("Fichier non trouvé");
 					e.printStackTrace();
 				}
+			}
+			break;
+		case SYNC:
+			if (!help) {
+				ui = (UserInterface) new CommandLineInterface();
+				database.sync();
+				ui.confirmSync();
 			}
 			break;
 		default:

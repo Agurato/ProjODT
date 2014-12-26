@@ -17,4 +17,5 @@ public interface UserInterface {
 	public void displayHelp();
 	public void ListTitles(ArrayList<Result> titles);
 	public void confirmOpening(String filename);
+	public void ListFiles(ArrayList<Result> files);
 }
