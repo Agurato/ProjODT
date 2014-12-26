@@ -37,6 +37,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -79,7 +81,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	JList<Result> resultsList;
 	DefaultListModel<Result> resultsModel;
 	JLabel resultThumbnail;
-	
+
 	Controller controller;
 
 	public GraphicalUserInterface() {
@@ -88,12 +90,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		getContentPane().setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Insets insets = getContentPane().getInsets();
-		
+
 		// Menu
 		// adding the JmenuBar
 		menuWIMP = new JMenuBar();
 		this.setJMenuBar(menuWIMP);
-		
+
 		// adding the fileMenu
 		fileMenu = new JMenu("Fichier");
 		menuWIMP.add(fileMenu);
@@ -116,7 +118,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(closeItem);
 		closeItem.addActionListener(new CloseReact());
-		
+
 		// adding the helpMenu
 		helpMenu = new JMenu("Aide");
 		menuWIMP.add(helpMenu);
@@ -145,6 +147,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		resultsList
 				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		resultsList.addListSelectionListener(new resultSelectReact());
+		resultsList.addMouseListener(new resultClicReact());
 		resultsList.setVisibleRowCount(-1);
 		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
 		resultsModel.addElement(new Result(-1, -1,
@@ -183,28 +186,62 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	public class resultClicReact implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount() == 2) {
+				try {
+					Controller.openFile(resultsModel.get(
+							resultsList.locationToIndex(e.getPoint()))
+							.getFilename());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+	}
+
 	// Choose Folder Listening
 	private class resultSelectReact implements ListSelectionListener {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			BufferedImage thumbnail = resultsList.getSelectedValue().getThumbnail();
-			//If image, remove it
-			if(resultThumbnail != null){
+			BufferedImage thumbnail = resultsList.getSelectedValue()
+					.getThumbnail();
+			// If image, remove it
+			if (resultThumbnail != null) {
 				getContentPane().remove(resultThumbnail);
 			}
-			//If thumbnail, add it
-			if(thumbnail != null){
+			// If thumbnail, add it
+			if (thumbnail != null) {
 				resultThumbnail = new JLabel(new ImageIcon(thumbnail));
 				getContentPane().add(resultThumbnail, BorderLayout.WEST);
 				System.out.println("Display Image");
-			}else{
+			} else {
 				System.out.println("No Thumbnail");
 			}
 		}
 
 	}
-	
+
 	// Choose Folder Listening
 	private class ChooseReact implements ActionListener {
 
@@ -335,7 +372,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	@Override
 	public void ListFiles(ArrayList<Result> files) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
