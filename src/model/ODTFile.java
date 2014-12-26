@@ -257,7 +257,7 @@ public class ODTFile implements TextFile {
 				// [\u0300-\u036F] is the interval for accents
 				
 				if(split[2].toLowerCase().contains(search.toLowerCase())) {
-					result.add(new Result(Integer.parseInt(split[1]), 1, odt.getAbsolutePath(), split[2]));
+					result.add(new Result(Integer.parseInt(split[1]), 1, odt.getAbsolutePath(), split[2], getThumbnail()));
 				}
 			}
 			
@@ -278,5 +278,21 @@ public class ODTFile implements TextFile {
 			e.printStackTrace();
 		}
 		return image;
+	}
+	
+	public ArrayList<Result> listTitles(){
+		//TODO: Quick fix, results should be in memory since instanciation
+		boolean resultsExists = false;
+		ArrayList<Result> result = new ArrayList<Result>();
+		
+		for(File file : extract.listFiles()) {
+			if(file.getName().equals("results.txt")) {
+				resultsExists = true;
+			}
+		}
+		if(!resultsExists) {
+			this.parseContentXML();
+		}
+		return null;
 	}
 }

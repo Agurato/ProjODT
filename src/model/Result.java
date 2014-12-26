@@ -1,12 +1,15 @@
 package model;
 
+import java.awt.image.BufferedImage;
+
 public class Result {
 	private int level;
 	private int frequency;
 	private String filename;
 	private String quote;
+	private BufferedImage thumbnail;
 	
-	public Result(int level, int frequency, String filename, String quote) {
+	public Result(int level, int frequency, String filename, String quote, BufferedImage thumbnail) {
 		this.level = level;
 		this.frequency = frequency;
 		this.filename = filename;
@@ -27,6 +30,10 @@ public class Result {
 	
 	public String getQuote() {
 		return quote;
+	}
+	
+	public BufferedImage getThumbnail(){
+		return thumbnail;
 	}
 	
 	public void setFrequency(int freq) {

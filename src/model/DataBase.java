@@ -64,14 +64,16 @@ public class DataBase {
 
 		for (ODTFile odt : files) {
 			exam = odt.examination(search);
-			System.out.println("File = " + odt.getFile().getAbsolutePath()
-					+ " :");
+			//DEBUG
+			/*System.out.println("File = " + odt.getFile().getAbsolutePath()
+					+ " :");*/
 
-			if (exam.size() == 0) {
+			//DEBUG
+			/*if (exam.size() == 0) {
 				System.out.println("\t\"" + search + "\" not found !\n");
 			} else {
 				System.out.println("\t\"" + search + "\" found !\n");
-			}
+			}*/
 
 			results.addAll(exam);
 		}

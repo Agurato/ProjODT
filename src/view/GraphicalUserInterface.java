@@ -37,6 +37,7 @@ import java.awt.event.KeyEvent;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
@@ -45,6 +46,9 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import model.Result;
 import view.ListResultCellRenderer;
@@ -62,6 +66,9 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	JMenuItem chooseItem;
 	JMenuItem syncItem;
 	JMenuItem closeItem;
+	JMenu helpMenu;
+	JMenuItem helpItem;
+	JMenuItem aboutItem;
 
 	JTextField searchField;
 
@@ -90,7 +97,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		resultsList.setVisibleRowCount(-1);
 		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
 		resultsModel.addElement(new Result(-1, -1,
-				"Entrez une chaine à rechercher", ""));
+				"Entrez une chaine à rechercher", "", null));
 
 		// Menu
 		// adding the JmenuBar
@@ -118,6 +125,23 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(closeItem);
 		closeItem.addActionListener(new CloseReact());
+		
+		// adding the helpMenu
+				helpMenu = new JMenu("Aide");
+				menuWIMP.add(helpMenu);
+				// adding elements of helpMenu
+				// Help
+				helpItem = new JMenuItem("Aide");
+				helpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit
+						.getDefaultToolkit().getMenuShortcutKeyMask()));
+				helpMenu.add(helpItem);
+				helpItem.addActionListener(new HelpReact());
+				// About
+				aboutItem = new JMenuItem("À propos");
+				aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit
+						.getDefaultToolkit().getMenuShortcutKeyMask()));
+				helpMenu.add(aboutItem);
+				aboutItem.addActionListener(new AboutReact());
 
 		// Set size
 		this.setSize(500 + insets.left + insets.right, 300 + insets.top
@@ -179,6 +203,23 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
+	// Close window Listening
+	public class HelpReact implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			displayHelp();
+		}
+	}
+
+	// Close window Listening
+	public class AboutReact implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(getContentPane(),
+					"ProjODT v1.0 — Vincent Monot & Louis Desportes",
+					"À propos", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
 	@Override
 	public void displayResults(ArrayList<Result> results) {
 		resultsModel.removeAllElements();
@@ -188,7 +229,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			}
 		} else {
 			resultsModel.addElement(new Result(-1, -1,
-					"Entrez une chaine à rechercher", ""));
+					"Entrez une chaine à rechercher", "", null));
 		}
 		setVisible(true);
 	}
@@ -235,6 +276,30 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		JOptionPane.showMessageDialog(this,
 				"La base de donnée a bien été synchronisée",
 				"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	@Override
+	public void displayHelp() {
+		Desktop d = Desktop.getDesktop();
+		try {
+			d.browse(new URI("http://akkes.fr/projODT/"));
+		} catch (IOException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void ListTitles(ArrayList<Result> titles) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void confirmOpening(String filename) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
