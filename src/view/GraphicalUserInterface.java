@@ -60,9 +60,10 @@ import model.Result;
 import view.ListResultCellRenderer;
 
 /**
+ * Graphical User Interface
  * 
  * @author Louis Desportes
- *
+ * @version 1.0
  */
 
 public class GraphicalUserInterface extends JFrame implements UserInterface {
@@ -168,7 +169,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		controller = new Controller();
 	}
 
-	// search validation listening
+	/**
+	 * Listener to searchField modifications
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	public class SearchReact implements CaretListener {
 
 		@Override
@@ -186,6 +192,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	/**
+	 * Listener to doubleClic on resultsList
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	public class resultClicReact implements MouseListener {
 
 		@Override
@@ -223,7 +235,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
-	// Choose Folder Listening
+	/**
+	 * resultsList element select listener
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	private class resultSelectReact implements ListSelectionListener {
 
 		@Override
@@ -246,7 +263,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
-	// Choose Folder Listening
+	/**
+	 * ChooseItem Listener
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	private class ChooseReact implements ActionListener {
 
 		@Override
@@ -256,7 +278,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
-	// Sync files Listening
+	/**
+	 * syncItem Listener
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	public class SyncReact implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -264,7 +291,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
-	// Close window Listening
+	/**
+	 * closeItem Listener
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	public class CloseReact implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -273,7 +305,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
-	// Close window Listening
+	/**
+	 * helpItem Listener
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	public class HelpReact implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -281,7 +318,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
-	// Close window Listening
+	/**
+	 * aboutItem Listener
+	 * 
+	 * @author Louis Desportes
+	 * @version 1
+	 */
 	public class AboutReact implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -291,6 +333,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
+	/**
+	 * Display results of search
+	 * 
+	 * @param results the results to display
+	 */
 	@Override
 	public void displayResults(ArrayList<Result> results) {
 		resultsModel.removeAllElements();
@@ -305,6 +352,9 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		setVisible(true);
 	}
 
+	/**
+	 * Change root folder dialog
+	 */
 	public void chooseRoot() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -317,6 +367,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
+	/**
+	 * Confirm that root folder has been changed
+	 * 
+	 * @param rootPath The new root folder
+	 */
 	@Override
 	public void confirmChangeRoot(String rootPath) {
 		JOptionPane.showMessageDialog(this, "Racine changée vers: " + rootPath,
@@ -324,13 +379,13 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	/**
+	 * Sync dialog
+	 */
 	public void sync() {
 		try {
 			controller.sync();
-			JOptionPane.showMessageDialog(this,
-					"La base de donnée a bien été synchronisée",
-					"Base de données synchronisé",
-					JOptionPane.INFORMATION_MESSAGE);
+			confirmSync();
 		} catch (FileNotFoundException eNotFound) {
 			JOptionPane
 					.showMessageDialog(
@@ -341,6 +396,9 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
+	/**
+	 * Confirm that the database has been sync
+	 */
 	@Override
 	public void confirmSync() {
 		// TODO Auto-generated method stub
@@ -349,6 +407,9 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Open help page in default browser
+	 */
 	@Override
 	public void displayHelp() {
 		Desktop d = Desktop.getDesktop();
@@ -361,18 +422,27 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	/**
+	 * No need
+	 */
 	@Override
 	public void ListTitles(ArrayList<Result> titles) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * No need
+	 */
 	@Override
 	public void confirmOpening(String filename) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * No need
+	 */
 	@Override
 	public void ListFiles(ArrayList<Result> files) {
 		// TODO Auto-generated method stub
