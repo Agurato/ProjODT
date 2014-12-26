@@ -52,8 +52,7 @@ public class Controller {
 				action = Action.SEARCH;
 				i++;
 				while (i < args.length && !args[i].startsWith("-")) {
-					//TODO : add a " " between each String we take from args
-					param += args[i];
+					param = param + " " + args[i];
 					i++;
 				}
 
@@ -62,8 +61,7 @@ public class Controller {
 				action = Action.OPEN;
 				i++;
 				while (i < args.length && !args[i].startsWith("-")) {
-					//TODO : add a " " between each String we take from args
-					param += args[i];
+					param = param + " " + args[i];
 					i++;
 				}
 
