@@ -42,8 +42,10 @@ public class CommandLineInterface implements UserInterface{
 		System.out.println("");
 		System.out.println("Commandes:");
 		System.out.println("  -d,  --database : défini la racine de la base de donnés à utiliser");
-		System.out.println("  -f,  --file :     ajoute un fichier à la base de donnés");
-		System.out.println("  -w,  --word :     recherche le mot dans la base de donnés");
+		System.out.println("  -h,  --help : affiche l'aide");
+		System.out.println("  display : affiche tous les titres de la base de données");
+		System.out.println("  search : recherche le/les termes donnés dans la base de données. Peut être utilisé avec ET/OU pour affiner les recherches (priorité au ET)");
+		System.out.println("  open : ouvre le fichier adéquat");
 	}
 
 	@Override
@@ -51,25 +53,17 @@ public class CommandLineInterface implements UserInterface{
 		if(!titles.isEmpty()){
 			System.out.println(titles.size() + " titres dans " + titles.get(0).getFilename() +":");
 			for(Result title: titles){
-				switch (title.getLevel()) {
-				case 0:
-					System.out.println(">" + title.getQuote());
-					break;
-				case 1:
-					System.out.println("->" + title.getQuote());
-					break;
-				case 2:
-					System.out.println(" ->" + title.getQuote());
-					break;
-				case 3:
-					System.out.println("  ->" + title.getQuote());
-					break;
-				case 4:
-					System.out.println("   ->" + title.getQuote());
-					break;
-				default:
-					break;
+				int level = title.getLevel();
+				if(level == 0) {
+					System.out.print(">");
 				}
+				else {
+					for(int i=1 ; i<level ; i++) {
+						System.out.print(" ");
+					}
+					System.out.print("->");
+				}
+				System.out.println(title.getQuote());
 			}
 		}else{
 			System.out.println("Aucun titre dans ce fichier.");
