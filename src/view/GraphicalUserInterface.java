@@ -196,8 +196,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 							resultsList.locationToIndex(e.getPoint()))
 							.getFilename());
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane
+							.showMessageDialog(
+									GraphicalUserInterface.this,
+									"Impossible d'ouvrir le fichier, aucune application associé",
+									"Ouverture impossible",
+									JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
