@@ -37,7 +37,6 @@ public class CommandLineInterface implements UserInterface{
 	
 	@Override
 	public void displayHelp() {
-		System.out.println("\n---------------------");
 		System.out.println("ProjODT - v1.0 - (c) Vincent Monot & Louis Desportes");
 		System.out.println("Utilitaire de recherche dans une base d'ODT");
 		System.out.println("");

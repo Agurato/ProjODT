@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,8 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
@@ -34,6 +37,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -74,6 +78,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	JList<Result> resultsList;
 	DefaultListModel<Result> resultsModel;
+	JLabel resultThumbnail;
+	
 	Controller controller;
 
 	public GraphicalUserInterface() {
@@ -82,27 +88,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		getContentPane().setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Insets insets = getContentPane().getInsets();
-
-		// searchField
-		searchField = new JTextField(10);
-		getContentPane().add(searchField, BorderLayout.NORTH);
-
-		// Results List
-		resultsModel = new DefaultListModel<Result>();
-		resultsList = new JList<Result>(resultsModel);
-		resultsList.setCellRenderer(new ListResultCellRenderer());
-		resultsList
-				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		// resultsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		resultsList.setVisibleRowCount(-1);
-		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
-		resultsModel.addElement(new Result(-1, -1,
-				"Entrez une chaine à rechercher", "", null));
-
+		
 		// Menu
 		// adding the JmenuBar
 		menuWIMP = new JMenuBar();
 		this.setJMenuBar(menuWIMP);
+		
 		// adding the fileMenu
 		fileMenu = new JMenu("Fichier");
 		menuWIMP.add(fileMenu);
@@ -127,21 +118,37 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		closeItem.addActionListener(new CloseReact());
 		
 		// adding the helpMenu
-				helpMenu = new JMenu("Aide");
-				menuWIMP.add(helpMenu);
-				// adding elements of helpMenu
-				// Help
-				helpItem = new JMenuItem("Aide");
-				helpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit
-						.getDefaultToolkit().getMenuShortcutKeyMask()));
-				helpMenu.add(helpItem);
-				helpItem.addActionListener(new HelpReact());
-				// About
-				aboutItem = new JMenuItem("À propos");
-				aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit
-						.getDefaultToolkit().getMenuShortcutKeyMask()));
-				helpMenu.add(aboutItem);
-				aboutItem.addActionListener(new AboutReact());
+		helpMenu = new JMenu("Aide");
+		menuWIMP.add(helpMenu);
+		// adding elements of helpMenu
+		// Help
+		helpItem = new JMenuItem("Manuel d'utilisation");
+		helpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit
+				.getDefaultToolkit().getMenuShortcutKeyMask()));
+		helpMenu.add(helpItem);
+		helpItem.addActionListener(new HelpReact());
+		// About
+		aboutItem = new JMenuItem("À propos");
+		aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit
+				.getDefaultToolkit().getMenuShortcutKeyMask()));
+		helpMenu.add(aboutItem);
+		aboutItem.addActionListener(new AboutReact());
+
+		// searchField
+		searchField = new JTextField(10);
+		getContentPane().add(searchField, BorderLayout.NORTH);
+
+		// Results List
+		resultsModel = new DefaultListModel<Result>();
+		resultsList = new JList<Result>(resultsModel);
+		resultsList.setCellRenderer(new ListResultCellRenderer());
+		resultsList
+				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		resultsList.addListSelectionListener(new resultSelectReact());
+		resultsList.setVisibleRowCount(-1);
+		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
+		resultsModel.addElement(new Result(-1, -1,
+				"Entrez une chaine à rechercher", "", null));
 
 		// Set size
 		this.setSize(500 + insets.left + insets.right, 300 + insets.top
@@ -176,6 +183,28 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	// Choose Folder Listening
+	private class resultSelectReact implements ListSelectionListener {
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			BufferedImage thumbnail = resultsList.getSelectedValue().getThumbnail();
+			//If image, remove it
+			if(resultThumbnail != null){
+				getContentPane().remove(resultThumbnail);
+			}
+			//If thumbnail, add it
+			if(thumbnail != null){
+				resultThumbnail = new JLabel(new ImageIcon(thumbnail));
+				getContentPane().add(resultThumbnail, BorderLayout.WEST);
+				System.out.println("Display Image");
+			}else{
+				System.out.println("No Thumbnail");
+			}
+		}
+
+	}
+	
 	// Choose Folder Listening
 	private class ChooseReact implements ActionListener {
 
@@ -220,6 +249,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 					"À propos", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
+
 	@Override
 	public void displayResults(ArrayList<Result> results) {
 		resultsModel.removeAllElements();
@@ -287,19 +317,19 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public void ListTitles(ArrayList<Result> titles) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void confirmOpening(String filename) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
