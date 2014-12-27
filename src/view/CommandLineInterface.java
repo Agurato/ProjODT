@@ -97,8 +97,34 @@ public class CommandLineInterface implements UserInterface{
 
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
-		for(Entry<String, String> entry : infos.entrySet()) {
-			System.out.println(entry.getKey()+" : "+entry.getValue());
+		String temp = null;
+		
+		if((temp = infos.get("officeVersion")) != null) {
+			System.out.println("Office version : "+temp);
+		}
+		if((temp = infos.get("initialCreator")) != null) {
+			System.out.println("Initial creator : "+temp);
+		}
+		if((temp = infos.get("initialDate")) != null) {
+			System.out.println("Initial date : "+temp);
+		}
+		if((temp = infos.get("creator")) != null) {
+			System.out.println("Final creator : "+temp);
+		}
+		if((temp = infos.get("date")) != null) {
+			System.out.println("Final date : "+temp);
+		}
+		if((temp = infos.get("title")) != null) {
+			System.out.println("Title : "+temp);
+		}
+		if((temp = infos.get("subject")) != null) {
+			System.out.println("Subject : "+temp);
+		}
+		if((temp = infos.get("wordCount")) != null) {
+			System.out.println("Number of word : "+temp);
+		}
+		if((temp = infos.get("pageCount")) != null) {
+			System.out.println("Number of pages : "+temp);
 		}
 	}
 }
