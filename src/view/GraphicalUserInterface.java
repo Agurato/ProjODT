@@ -200,6 +200,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	/**
+	 * Render resultsList Jlist Cells
+	 * @author Louis Desportes
+	 *
+	 */
 	public class ListResultCellRenderer extends JLabel implements
 			ListCellRenderer<Result> {
 
@@ -485,7 +490,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	}
 
 	/**
-	 * No need
+	 * No need, opening itself is feedback
 	 */
 	@Override
 	public void confirmOpening(String filename) {
@@ -503,10 +508,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	}
 
 	/**
-	 * No need
+	 * Display TextFile info
 	 */
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
+		
 		for (Entry<String, String> entry : infos.entrySet()) {
 			JPanel tempPanel = new JPanel(new BorderLayout());
 			tempPanel.add(new JLabel(entry.getKey()), BorderLayout.LINE_START);
