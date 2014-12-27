@@ -195,9 +195,9 @@ public class ODTFile implements TextFile {
 			Element root = parser.getDocumentElement();
 			
 			// Get the office version
-			Element officeVersion = (Element) root.getElementsByTagName("office:document-meta").item(0);
+			String officeVersion = root.getAttribute("office:version");
 			if(officeVersion != null){
-				metaInfos.put("officeVersion", officeVersion.getAttribute("office:version"));
+				metaInfos.put("officeVersion", officeVersion);
 			}
 			
 			Element officeMeta = (Element) root.getElementsByTagName("office:meta").item(0);
