@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -15,6 +16,7 @@ public class CommandLineInterface implements UserInterface{
 
 	@Override
 	public void displayResults(ArrayList<Result> results) {
+		Collections.sort(results);
 		if(!results.isEmpty()){
 			System.out.println(results.size() + " résultats:");
 			for(Result result: results){

@@ -2,7 +2,7 @@ package model;
 
 import java.awt.image.BufferedImage;
 
-public class Result {
+public class Result implements Comparable<Result> {
 	private int level;
 	private int frequency;
 	private String filename;
@@ -56,5 +56,10 @@ public class Result {
 
 	public String toString() {
 		return "File : "+filename+"\n\tQuote : "+quote+"\n\tLevel : "+level+"\n\tFrequency : "+frequency;
+	}
+
+	@Override
+	public int compareTo(Result comparedResult) {
+		return comparedResult.getLevel() * comparedResult.getFrequency() - level * frequency;
 	}
 }

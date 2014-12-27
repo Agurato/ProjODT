@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Map.Entry;
@@ -155,7 +156,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		getContentPane().add(new JScrollPane(infoPanel), BorderLayout.EAST);
 
 		// Set size
-		this.setSize(700 + insets.left + insets.right, 300 + insets.top
+		this.setSize(900 + insets.left + insets.right, 500 + insets.top
 				+ insets.bottom);
 		// Center the window
 		this.setLocationRelativeTo(null);
@@ -218,7 +219,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			}
 
 			if (isSelected) {
-				cellPanel.setBackground(list.getSelectionBackground());
+				cellPanel.setBackground(list.getSelectionBackground().brighter().brighter());
 				cellPanel.setForeground(list.getSelectionForeground());
 			} else {
 				cellPanel.setBackground(list.getBackground());
@@ -226,7 +227,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			}
 
 			cellPanel.add(new JLabel(result.getFilename().replace(root, "")),
-					BorderLayout.WEST);
+					BorderLayout.NORTH);
 			if (result.getLevel() == -1) {
 				cellPanel.add(new JLabel(result.getQuote()), BorderLayout.EAST);
 			} else {
@@ -303,9 +304,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			ODTFile file = new ODTFile(resultsList.getSelectedValue()
 					.getFilename());
 			displayInfos(file.parseMetaXML());
-			infoPanel.setSize(thumbnail.getWidth() +
-					getContentPane().getInsets().left +
-					getContentPane().getInsets().right, 10*thumbnail.getHeight());
+			infoPanel.setSize(thumbnail.getWidth(), 10*thumbnail.getHeight());
 			setVisible(true);
 		}
 	}
@@ -389,6 +388,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	@Override
 	public void displayResults(ArrayList<Result> results) {
 		resultsModel.removeAllElements();
+		Collections.sort(results);
 		if (!results.isEmpty()) {
 			for (Result result : results) {
 				resultsModel.addElement(result);
@@ -504,7 +504,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
 		for (Entry<String, String> entry : infos.entrySet()) {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
 			JPanel tempPanel = new JPanel(new BorderLayout());
 			tempPanel.add(new JLabel(entry.getKey()), BorderLayout.LINE_START);
 			tempPanel.add(new JLabel(entry.getValue()), BorderLayout.LINE_END);
