@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -36,6 +38,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -148,10 +151,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		// infoPanel
 		infoPanel = new JPanel();
+		infoPanel.setLayout(new FlowLayout());
 		getContentPane().add(new JScrollPane(infoPanel), BorderLayout.EAST);
 
 		// Set size
-		this.setSize(600 + insets.left + insets.right, 300 + insets.top
+		this.setSize(700 + insets.left + insets.right, 300 + insets.top
 				+ insets.bottom);
 		// Center the window
 		this.setLocationRelativeTo(null);
@@ -198,7 +202,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	public class ListResultCellRenderer extends JLabel implements
 			ListCellRenderer<Result> {
 
-		private static final long serialVersionUID = -5291601875494028402L;
+		private static final long serialVersionUID = 1;
 
 		@Override
 		public Component getListCellRendererComponent(
@@ -296,12 +300,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			if (thumbnail != null) {
 				infoPanel.add(new JLabel(new ImageIcon(thumbnail)));
 			}
-			infoPanel.setSize(thumbnail.getWidth() +
-					getContentPane().getInsets().left +
-					getContentPane().getInsets().right, thumbnail.getHeight());
 			ODTFile file = new ODTFile(resultsList.getSelectedValue()
 					.getFilename());
 			displayInfos(file.parseMetaXML());
+			infoPanel.setSize(thumbnail.getWidth() +
+					getContentPane().getInsets().left +
+					getContentPane().getInsets().right, 10*thumbnail.getHeight());
 			setVisible(true);
 		}
 	}
@@ -501,8 +505,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	public void displayInfos(HashMap<String, String> infos) {
 		for (Entry<String, String> entry : infos.entrySet()) {
 			System.out.println(entry.getKey() + " : " + entry.getValue());
-			infoPanel.add(new JLabel(entry.getKey()));
-			infoPanel.add(new JLabel(entry.getValue()));
+			JLabel keyLabel = new JLabel(entry.getKey());
+			keyLabel.setAlignmentX(LEFT_ALIGNMENT);
+			infoPanel.add(keyLabel);
+			JLabel valueLabel = new JLabel(entry.getKey());
+			valueLabel.setAlignmentX(RIGHT_ALIGNMENT);
+			infoPanel.add(valueLabel);
 		}
 	}
 }

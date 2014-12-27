@@ -196,33 +196,47 @@ public class ODTFile implements TextFile {
 			
 			// Get the office version
 			Element officeVersion = (Element) root.getElementsByTagName("office:document-meta").item(0);
-			metaInfos.put("officeVersion", officeVersion.getAttribute("office:version"));
+			if(officeVersion != null){
+				metaInfos.put("officeVersion", officeVersion.getAttribute("office:version"));
+			}
 			
 			Element officeMeta = (Element) root.getElementsByTagName("office:meta").item(0);
 
 			// Get the creator
 			Element dcCreator = (Element) officeMeta.getElementsByTagName("dc:creator").item(0);
-			metaInfos.put("creator", dcCreator.getTextContent());
+			if(dcCreator != null){
+				metaInfos.put("creator", dcCreator.getTextContent());
+			}
 			
 			// Get the initial creator
 			Element initialCreator = (Element) officeMeta.getElementsByTagName("meta:initial-creator").item(0);
-			metaInfos.put("initialCreator", initialCreator.getTextContent());
+			if(initialCreator != null){
+				metaInfos.put("initialCreator", initialCreator.getTextContent());
+			}
 			
 			// Get the date
 			Element dcDate = (Element) officeMeta.getElementsByTagName("dc:date").item(0);
-			metaInfos.put("date", dcDate.getTextContent());
+			if(dcDate != null){
+				metaInfos.put("date", dcDate.getTextContent());
+			}
 			
 			//Get the initial date
 			Element initialDate = (Element) officeMeta.getElementsByTagName("meta:creation-date").item(0);
-			metaInfos.put("initialDate", initialDate.getTextContent());
+			if(initialDate != null){
+				metaInfos.put("initialDate", initialDate.getTextContent());
+			}
 			
 			// Get the title
 			Element dcTitle = (Element) officeMeta.getElementsByTagName("dc:title").item(0);
-			metaInfos.put("title", dcTitle.getTextContent());
+			if(dcTitle != null){
+				metaInfos.put("title", dcTitle.getTextContent());
+			}
 			
 			// Get the subject
 			Element dcSubject = (Element) officeMeta.getElementsByTagName("dc:subject").item(0);
-			metaInfos.put("subject", dcSubject.getTextContent());
+			if(dcSubject != null){
+				metaInfos.put("subject", dcSubject.getTextContent());
+			}
 			
 			Element pageCount = (Element) officeMeta.getElementsByTagName("meta:document-statistic").item(0);
 			metaInfos.put("pageCount", pageCount.getAttribute("meta:page-count"));
