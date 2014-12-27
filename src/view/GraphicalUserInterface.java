@@ -3,7 +3,6 @@ package view;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -155,7 +154,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				"Entrez une chaine à rechercher", "", null));
 
 		// Set size
-		this.setSize(500 + insets.left + insets.right, 300 + insets.top
+		getFrames()[0].setSize(500 + insets.left + insets.right, 300 + insets.top
 				+ insets.bottom);
 		// Center the window
 		this.setLocationRelativeTo(null);
@@ -250,16 +249,22 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			// If image, remove it
 			if (resultThumbnail != null) {
 				getContentPane().remove(resultThumbnail);
+				getFrames()[0].setSize(
+						getFrames()[0].getWidth() - resultThumbnail.getIcon().getIconWidth(),
+						getFrames()[0].getHeight());
 			}
 			// If thumbnail, add it
 			if (thumbnail != null) {
+				getFrames()[0].setSize(
+						getFrames()[0].getWidth() + thumbnail.getWidth(),
+						getFrames()[0].getHeight());
 				resultThumbnail = new JLabel(new ImageIcon(thumbnail));
 				getContentPane().add(resultThumbnail, BorderLayout.EAST);
 			} else {
+				resultThumbnail = null;
 			}
 			setVisible(true);
 		}
-
 	}
 
 	/**
@@ -335,7 +340,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	/**
 	 * Display results of search
 	 * 
-	 * @param results the results to display
+	 * @param results
+	 *            the results to display
 	 */
 	@Override
 	public void displayResults(ArrayList<Result> results) {
@@ -369,7 +375,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	/**
 	 * Confirm that root folder has been changed
 	 * 
-	 * @param rootPath The new root folder
+	 * @param rootPath
+	 *            The new root folder
 	 */
 	@Override
 	public void confirmChangeRoot(String rootPath) {
