@@ -154,8 +154,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				"Entrez une chaine à rechercher", "", null));
 
 		// Set size
-		getFrames()[0].setSize(500 + insets.left + insets.right, 300 + insets.top
-				+ insets.bottom);
+		getFrames()[0].setSize(500 + insets.left + insets.right, 300
+				+ insets.top + insets.bottom);
 		// Center the window
 		this.setLocationRelativeTo(null);
 
@@ -244,24 +244,25 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			BufferedImage thumbnail = resultsList.getSelectedValue()
-					.getThumbnail();
-			// If image, remove it
-			if (resultThumbnail != null) {
-				getContentPane().remove(resultThumbnail);
-				getFrames()[0].setSize(
-						getFrames()[0].getWidth() - resultThumbnail.getIcon().getIconWidth(),
-						getFrames()[0].getHeight());
-			}
-			// If thumbnail, add it
-			if (thumbnail != null) {
-				getFrames()[0].setSize(
-						getFrames()[0].getWidth() + thumbnail.getWidth(),
-						getFrames()[0].getHeight());
-				resultThumbnail = new JLabel(new ImageIcon(thumbnail));
-				getContentPane().add(resultThumbnail, BorderLayout.EAST);
-			} else {
-				resultThumbnail = null;
+			if (resultsList.getSelectedValue() != null) {
+				BufferedImage thumbnail = resultsList.getSelectedValue()
+						.getThumbnail();
+				// If image, remove it
+				if (resultThumbnail != null) {
+					getContentPane().remove(resultThumbnail);
+					getFrames()[0].setSize(getFrames()[0].getWidth()
+							- resultThumbnail.getIcon().getIconWidth(),
+							getFrames()[0].getHeight());
+				}
+				// If thumbnail, add it
+				if (thumbnail != null) {
+					getFrames()[0].setSize(getFrames()[0].getWidth()
+							+ thumbnail.getWidth(), getFrames()[0].getHeight());
+					resultThumbnail = new JLabel(new ImageIcon(thumbnail));
+					getContentPane().add(resultThumbnail, BorderLayout.EAST);
+				} else {
+					resultThumbnail = null;
+				}
 			}
 			setVisible(true);
 		}
