@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -14,9 +15,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -31,7 +34,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.BorderLayout;
@@ -40,8 +45,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import model.ODTFile;
 import model.Result;
-import view.ListResultCellRenderer;
 
 /**
  * Graphical User Interface
@@ -65,12 +70,15 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	JList<Result> resultsList;
 	DefaultListModel<Result> resultsModel;
-	JLabel resultThumbnail;
+	JPanel infoPanel;
 
 	Controller controller;
 
+	String root;
+
 	public GraphicalUserInterface() {
 		super("ProjODT");
+		root = System.getProperty("user.dir");
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		getContentPane().setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -138,9 +146,13 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		resultsModel.addElement(new Result(-1, -1,
 				"Entrez une chaine à rechercher", "", null));
 
+		// infoPanel
+		infoPanel = new JPanel();
+		getContentPane().add(new JScrollPane(infoPanel), BorderLayout.EAST);
+
 		// Set size
-		getFrames()[0].setSize(500 + insets.left + insets.right, 300
-				+ insets.top + insets.bottom);
+		this.setSize(600 + insets.left + insets.right, 300 + insets.top
+				+ insets.bottom);
 		// Center the window
 		this.setLocationRelativeTo(null);
 
@@ -151,6 +163,13 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		// Start controller
 		controller = new Controller();
+
+	}
+
+	public GraphicalUserInterface(String root) {
+		this();
+		this.root = root;
+		controller.changeRoot(root);
 	}
 
 	/**
@@ -174,6 +193,47 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			}
 		}
 
+	}
+
+	public class ListResultCellRenderer extends JLabel implements
+			ListCellRenderer<Result> {
+
+		private static final long serialVersionUID = -5291601875494028402L;
+
+		@Override
+		public Component getListCellRendererComponent(
+				JList<? extends Result> list, Result value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			JPanel cellPanel = new JPanel();
+			cellPanel.setLayout(new BorderLayout());
+			Result result = (Result) value;
+			if (result.getLevel() == 0) {
+				cellPanel.setFont(list.getFont());
+			} else {
+				cellPanel.setFont(cellPanel.getFont().deriveFont(Font.PLAIN));
+			}
+
+			if (isSelected) {
+				cellPanel.setBackground(list.getSelectionBackground());
+				cellPanel.setForeground(list.getSelectionForeground());
+			} else {
+				cellPanel.setBackground(list.getBackground());
+				cellPanel.setForeground(list.getForeground());
+			}
+
+			cellPanel.add(new JLabel(result.getFilename().replace(root, "")),
+					BorderLayout.WEST);
+			if (result.getLevel() == -1) {
+				cellPanel.add(new JLabel(result.getQuote()), BorderLayout.EAST);
+			} else {
+				cellPanel.add(new JLabel("« " + result.getQuote() + " »"),
+						BorderLayout.EAST);
+			}
+
+			cellPanel.setEnabled(list.isEnabled());
+			cellPanel.setOpaque(true);
+			return cellPanel;
+		}
 	}
 
 	/**
@@ -229,26 +289,19 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			if (resultsList.getSelectedValue() != null) {
-				BufferedImage thumbnail = resultsList.getSelectedValue()
-						.getThumbnail();
-				// If image, remove it
-				if (resultThumbnail != null) {
-					getContentPane().remove(resultThumbnail);
-					getFrames()[0].setSize(getFrames()[0].getWidth()
-							- resultThumbnail.getIcon().getIconWidth(),
-							getFrames()[0].getHeight());
-				}
-				// If thumbnail, add it
-				if (thumbnail != null) {
-					getFrames()[0].setSize(getFrames()[0].getWidth()
-							+ thumbnail.getWidth(), getFrames()[0].getHeight());
-					resultThumbnail = new JLabel(new ImageIcon(thumbnail));
-					getContentPane().add(resultThumbnail, BorderLayout.EAST);
-				} else {
-					resultThumbnail = null;
-				}
+			BufferedImage thumbnail = resultsList.getSelectedValue()
+					.getThumbnail();
+			infoPanel.removeAll();
+			// If thumbnail, add it
+			if (thumbnail != null) {
+				infoPanel.add(new JLabel(new ImageIcon(thumbnail)));
 			}
+			infoPanel.setSize(thumbnail.getWidth() +
+					getContentPane().getInsets().left +
+					getContentPane().getInsets().right, thumbnail.getHeight());
+			ODTFile file = new ODTFile(resultsList.getSelectedValue()
+					.getFilename());
+			displayInfos(file.parseMetaXML());
 			setVisible(true);
 		}
 	}
@@ -440,12 +493,16 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	/**
 	 * No need
 	 */
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
-		// TODO Auto-generated method stub
+		for (Entry<String, String> entry : infos.entrySet()) {
+			System.out.println(entry.getKey() + " : " + entry.getValue());
+			infoPanel.add(new JLabel(entry.getKey()));
+			infoPanel.add(new JLabel(entry.getValue()));
+		}
 	}
 }

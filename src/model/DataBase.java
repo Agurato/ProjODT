@@ -25,6 +25,10 @@ public class DataBase {
 	public File getRoot() {
 		return rootFolder;
 	}
+	
+	public String getRootPath() {
+		return rootFolder.getAbsolutePath();
+	}
 
 	public ArrayList<ODTFile> getOdt() {
 		return files;

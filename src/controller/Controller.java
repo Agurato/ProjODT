@@ -180,6 +180,10 @@ public class Controller {
 	public void sync() throws FileNotFoundException {
 		database.sync();
 	}
+	
+	public String getRootPath(){
+		return database.getRootPath();
+	}
 
 	public static void openFile(String path) throws IOException {
 		Desktop.getDesktop().open(new File(path));
