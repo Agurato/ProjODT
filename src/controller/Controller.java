@@ -15,6 +15,12 @@ import view.CommandLineInterface;
 import view.UserInterface;
 import view.GraphicalUserInterface;
 
+/**
+ * Controller for ProjODT
+ * @author Vincent Monot
+ * @author Louis Desportes
+ *
+ */
 public class Controller {
 	static UserInterface ui;
 	static DataBase database;
@@ -23,6 +29,10 @@ public class Controller {
 		NONE, SEARCH, LIST, DISPLAY, SYNC, OPEN
 	}
 
+	/**
+	 * Start of the program
+	 * @param args The arguments passed by the command line
+	 */
 	public static void main(String[] args) {
 		boolean help = false;
 		Action action = Action.NONE;
@@ -160,35 +170,72 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Ask database to search an expression
+	 * @param search The expression to search
+	 * @return A list of results
+	 * @throws NoSuchElementException No results in the database
+	 */
 	public ArrayList<Result> search(String search)
 			throws NoSuchElementException {
 		return database.search(search);
 	}
 
+	/**
+	 * Change the root of the database
+	 * @param pathName The path to the new root
+	 */
 	public void changeRoot(String pathName) {
 		database = new DataBase(pathName);
 	}
 
+	/**
+	 * Add single ODT to the database
+	 * @param pathName The ODT to be added
+	 * @deprecated
+	 */
 	public void addOdt(String pathName) {
 		database.addOdt(pathName);
 	}
 
+	/**
+	 * List files in the database
+	 * @return An ArrayList<Result> with an Arbitrary Quote
+	 */
 	public ArrayList<Result> listFiles() {
 		return database.listFiles();
 	}
 
+	/**
+	 * Sync the dataBase with the HardDrive
+	 * @throws FileNotFoundException
+	 */
 	public void sync() throws FileNotFoundException {
 		database.sync();
 	}
 	
+	/**
+	 * Get the Root Path
+	 * @return An String of the absolute root path
+	 */
 	public String getRootPath(){
 		return database.getRootPath();
 	}
 
+	/**
+	 * Open a File with the default application
+	 * @param path The path of the file to open
+	 * @throws IOException The is no default application
+	 */
 	public static void openFile(String path) throws IOException {
-		Desktop.getDesktop().open(new File(path));
+		openFile(new File(path));
 	}
 
+	/**
+	 * Open a File with the default application
+	 * @param path The file to open
+	 * @throws IOException The is no default application
+	 */
 	public static void openFile(File file) throws IOException {
 		Desktop.getDesktop().open(file);
 	}
