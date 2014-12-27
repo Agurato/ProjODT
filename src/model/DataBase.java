@@ -8,6 +8,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * Database of TextFiles
+ * @author Vincent Monot
+ *
+ */
 public class DataBase {
 	ArrayList<ODTFile> files;
 	File rootFolder;
@@ -22,30 +27,61 @@ public class DataBase {
 		files = getOdtFiles(rootFolder.getAbsolutePath());
 	}
 
+	/**
+	 * return the root Folder
+	 * @return The root Folder
+	 */
 	public File getRoot() {
 		return rootFolder;
 	}
 	
+	/**
+	 * Return the path to the root Folder
+	 * @return a String of the path to the root Folder
+	 */
 	public String getRootPath() {
-		return rootFolder.getAbsolutePath();
+		return getRoot().getAbsolutePath();
 	}
 
+	/**
+	 * Return an Array of files in the database
+	 * @return and ArrayList<ODTFile> of files in the database
+	 */
 	public ArrayList<ODTFile> getOdt() {
 		return files;
 	}
 
+	/**
+	 * change root to a new folder
+	 * @param rootFolderPath The path to the new Folder
+	 */
 	public void setRoot(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
 	}
 
+	/**
+	 * add An file to the database
+	 * @param odt The ODTFile to be added
+	 * @deprecated
+	 */
 	public void addOdt(ODTFile odt) {
 		files.add(odt);
 	}
 
+	/**
+	 * add An file to the database
+	 * @param path the path to the ODTFile to be added
+	 * @deprecated
+	 */
 	public void addOdt(String path) {
-		files.add(new ODTFile(path));
+		addOdt(new ODTFile(path));
 	}
 	
+	/**
+	 * Do something very strange related to HashMaps, Infos and XFiles
+	 * @return The truth is out there
+	 */
+	//TODO Fix
 	public HashMap<String, HashMap<String, String>> getInfos() {
 		// The key corresponds to the filename
 		// The key of the value corresponds to info name
@@ -58,6 +94,9 @@ public class DataBase {
 		return infos;
 	}
 
+	/**
+	 * Sync database with files from the hard drive
+	 */
 	public void sync() {
 		// We delete the extract folder and the arrayList
 		this.deleteFolders();
@@ -68,12 +107,20 @@ public class DataBase {
 		this.parse();
 	}
 
+	/**
+	 * Extract content from the ODTFiles
+	 */
 	public void parse() {
 		for (ODTFile odt : files) {
 			odt.parseContentXML();
 		}
 	}
 
+	/**
+	 * Search if the database contains an expression 
+	 * @param search The expression to be searched
+	 * @return An ArrayList<Result> of results
+	 */
 	public ArrayList<Result> contains(String search) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
@@ -96,6 +143,12 @@ public class DataBase {
 		return results;
 	}
 
+	/**
+	 * Return the union of Two ArrayList
+	 * @param list1 The first list
+	 * @param list2 The second list
+	 * @return The union of the two lists
+	 */
 	private ArrayList<Result> union(ArrayList<Result> list1,
 			ArrayList<Result> list2) {
 		Set<Result> set = new HashSet<Result>();
@@ -106,6 +159,12 @@ public class DataBase {
 		return new ArrayList<Result>(set);
 	}
 
+	/**
+	 * Return the intersection of Two ArrayList
+	 * @param list1 The first list
+	 * @param list2 The second list
+	 * @return The intersection of the two lists
+	 */
 	private ArrayList<Result> intersection(ArrayList<Result> list1,
 			ArrayList<Result> list2) {
 		ArrayList<Result> list = new ArrayList<Result>();
@@ -119,6 +178,11 @@ public class DataBase {
 		return list;
 	}
 
+	/**
+	 * Search the database if an expression has results
+	 * @param search the expression to be searched
+	 * @return An ArrayList<Result> of results
+	 */
 	public ArrayList<Result> search(String search) {
 		ArrayList<Result> results = new ArrayList<Result>();
 
@@ -180,12 +244,20 @@ public class DataBase {
 		return results;
 	}
 
+	/**
+	 * delete extracted folders
+	 */
 	public void deleteFolders() {
 		for (ODTFile odt : files) {
 			odt.suppExtract(odt.getExtract());
 		}
 	}
 
+	/**
+	 * Return a list of ODTFiles within a directory
+	 * @param pathname The pathname to the directory to be inspected
+	 * @return an ArrayList<ODTFile> within that directory
+	 */
 	public ArrayList<ODTFile> getOdtFiles(String pathname) {
 		File repertory = new File(pathname);
 
@@ -200,6 +272,10 @@ public class DataBase {
 		return files;
 	}
 
+	/**
+	 * list the files from the database
+	 * @return
+	 */
 	public ArrayList<Result> listFiles() {
 		ArrayList<Result> result = new ArrayList<Result>();
 		for(ODTFile file: files){

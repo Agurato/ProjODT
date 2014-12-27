@@ -208,7 +208,6 @@ public class Controller {
 
 	/**
 	 * Sync the dataBase with the HardDrive
-	 * @throws FileNotFoundException
 	 */
 	public void sync() throws FileNotFoundException {
 		database.sync();
