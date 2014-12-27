@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -40,6 +41,18 @@ public class DataBase {
 
 	public void addOdt(String path) {
 		files.add(new ODTFile(path));
+	}
+	
+	public HashMap<String, HashMap<String, String>> getInfos() {
+		// The key corresponds to the filename
+		// The key of the value corresponds to info name
+		// The value of the value corresponds to the info
+		HashMap<String, HashMap<String, String>> infos = new HashMap<String, HashMap<String, String>>();
+		for(ODTFile odt : files) {
+			infos.put(odt.getFilename(), odt.parseMetaXML());
+		}
+		
+		return infos;
 	}
 
 	public void sync() {
