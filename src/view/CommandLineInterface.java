@@ -49,7 +49,7 @@ public class CommandLineInterface implements UserInterface{
 	}
 
 	@Override
-	public void ListTitles(ArrayList<Result> titles) {
+	public void listTitles(ArrayList<Result> titles) {
 		if(!titles.isEmpty()){
 			if(titles.size()==1){
 				System.out.println("1 titre dans " + titles.get(0).getFilename() +":");
@@ -80,7 +80,7 @@ public class CommandLineInterface implements UserInterface{
 	}
 
 	@Override
-	public void ListFiles(ArrayList<Result> files) {
+	public void listFiles(ArrayList<Result> files) {
 		if(!files.isEmpty()){
 			if(files.size()==1){
 				System.out.println("1 fichier dans la base de données:");

@@ -15,7 +15,7 @@ public interface UserInterface {
 	public void confirmSync();
 	public void confirmChangeRoot(String rootPath);
 	public void displayHelp();
-	public void ListTitles(ArrayList<Result> titles);
+	public void listTitles(ArrayList<Result> titles);
 	public void confirmOpening(String filename);
-	public void ListFiles(ArrayList<Result> files);
+	public void listFiles(ArrayList<Result> files);
 }

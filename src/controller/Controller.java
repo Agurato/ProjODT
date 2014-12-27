@@ -96,13 +96,13 @@ public class Controller {
 			if (!help) {
 				TextFile textFile = (TextFile) new ODTFile(param);
 				ui = (UserInterface) new CommandLineInterface();
-				ui.ListTitles(textFile.examination(""));
+				ui.listTitles(textFile.examination(""));
 			}
 			break;
 		case LIST:
 			if (!help) {
 				ui = (UserInterface) new CommandLineInterface();
-				ui.ListFiles(database.listFiles());
+				ui.listFiles(database.listFiles());
 			}
 			break;
 		case SEARCH:

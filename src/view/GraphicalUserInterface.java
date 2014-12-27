@@ -426,7 +426,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 * No need
 	 */
 	@Override
-	public void ListTitles(ArrayList<Result> titles) {
+	public void listTitles(ArrayList<Result> titles) {
 		// TODO Auto-generated method stub
 
 	}
@@ -444,7 +444,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 * No need
 	 */
 	@Override
-	public void ListFiles(ArrayList<Result> files) {
+	public void listFiles(ArrayList<Result> files) {
 		// TODO Auto-generated method stub
 
 	}
