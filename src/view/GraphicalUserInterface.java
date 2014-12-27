@@ -151,7 +151,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		// infoPanel
 		infoPanel = new JPanel();
-		infoPanel.setLayout(new FlowLayout());
+		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
 		getContentPane().add(new JScrollPane(infoPanel), BorderLayout.EAST);
 
 		// Set size
@@ -505,12 +505,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	public void displayInfos(HashMap<String, String> infos) {
 		for (Entry<String, String> entry : infos.entrySet()) {
 			System.out.println(entry.getKey() + " : " + entry.getValue());
-			JLabel keyLabel = new JLabel(entry.getKey());
-			keyLabel.setAlignmentX(LEFT_ALIGNMENT);
-			infoPanel.add(keyLabel);
-			JLabel valueLabel = new JLabel(entry.getKey());
-			valueLabel.setAlignmentX(RIGHT_ALIGNMENT);
-			infoPanel.add(valueLabel);
+			JPanel tempPanel = new JPanel(new BorderLayout());
+			tempPanel.add(new JLabel(entry.getKey()), BorderLayout.LINE_START);
+			tempPanel.add(new JLabel(entry.getValue()), BorderLayout.LINE_END);
+			infoPanel.add(tempPanel);
 		}
 	}
 }
