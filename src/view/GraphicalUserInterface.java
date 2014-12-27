@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 import javax.swing.Box;
@@ -447,5 +448,12 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * No need
+	 */
+	@Override
+	public void displayInfos(HashMap<String, String> infos) {
+		// TODO Auto-generated method stub
+	}
 }
