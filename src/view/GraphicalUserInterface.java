@@ -219,7 +219,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			}
 
 			if (isSelected) {
-				cellPanel.setBackground(list.getSelectionBackground().brighter().brighter());
+				cellPanel.setBackground(list.getSelectionBackground()
+						.brighter().brighter());
 				cellPanel.setForeground(list.getSelectionForeground());
 			} else {
 				cellPanel.setBackground(list.getBackground());
@@ -294,17 +295,20 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			BufferedImage thumbnail = resultsList.getSelectedValue()
-					.getThumbnail();
 			infoPanel.removeAll();
-			// If thumbnail, add it
-			if (thumbnail != null) {
-				infoPanel.add(new JLabel(new ImageIcon(thumbnail)));
+			if (!resultsList.isSelectionEmpty() && resultsList.getSelectedValue().getLevel() != -1) {
+				BufferedImage thumbnail = resultsList.getSelectedValue()
+						.getThumbnail();
+				// If thumbnail, add it
+				if (thumbnail != null) {
+					infoPanel.add(new JLabel(new ImageIcon(thumbnail)));
+				}
+				ODTFile file = new ODTFile(resultsList.getSelectedValue()
+						.getFilename());
+				displayInfos(file.parseMetaXML());
+				infoPanel.setSize(thumbnail.getWidth(),
+						10 * thumbnail.getHeight());
 			}
-			ODTFile file = new ODTFile(resultsList.getSelectedValue()
-					.getFilename());
-			displayInfos(file.parseMetaXML());
-			infoPanel.setSize(thumbnail.getWidth(), 10*thumbnail.getHeight());
 			setVisible(true);
 		}
 	}
