@@ -55,6 +55,7 @@ public class Controller {
 					param = param + " " + args[i];
 					i++;
 				}
+				param = param.substring(1);
 
 				break;
 			case "open":
@@ -64,6 +65,7 @@ public class Controller {
 					param = param + " " + args[i];
 					i++;
 				}
+				param = param.substring(1);
 
 				break;
 			case "list":
