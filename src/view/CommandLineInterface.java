@@ -1,12 +1,10 @@
 package view;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import controller.Controller;
-import model.DataBase;
 import model.Result;
 
 public class CommandLineInterface implements UserInterface{

@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.Desktop;
-import java.awt.TextField;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
