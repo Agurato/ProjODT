@@ -14,6 +14,7 @@ public class Result {
 		this.frequency = frequency;
 		this.filename = filename;
 		this.quote = quote;
+		this.thumbnail = thumbnail;
 	}
 	
 	public int getLevel() {
