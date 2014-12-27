@@ -58,7 +58,7 @@ public class CommandLineInterface implements UserInterface{
 	}
 	
 	/**
-	 * Display Command Line Help
+	 * Display command line help
 	 */
 	//TODO add new commands
 	@Override
@@ -76,6 +76,7 @@ public class CommandLineInterface implements UserInterface{
 
 	/**
 	 * List the titles of a file
+	 * @param titles The titles to display
 	 */
 	@Override
 	public void listTitles(ArrayList<Result> titles) {

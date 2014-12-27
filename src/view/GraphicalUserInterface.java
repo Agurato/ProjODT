@@ -509,6 +509,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	/**
 	 * Display TextFile info
+	 * @param infos The informations to display
 	 */
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {

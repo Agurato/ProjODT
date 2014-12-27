@@ -12,12 +12,46 @@ import model.Result;
  */
 
 public interface UserInterface {
+	/**
+	 * Display results of search
+	 * 
+	 * @param results
+	 *            the results to display
+	 */
 	public void displayResults(ArrayList<Result> results);
+	/**
+	 * Confirm that the database has been sync
+	 */
 	public void confirmSync();
+	/**
+	 * Confirm that root folder has been changed
+	 * 
+	 * @param rootPath
+	 *            The new root folder
+	 */
 	public void confirmChangeRoot(String rootPath);
+	/**
+	 * Display help
+	 */
 	public void displayHelp();
+	/**
+	 * List the titles of a file
+	 * @param titles The titles to display
+	 */
 	public void listTitles(ArrayList<Result> titles);
+	/**
+	 * confirm that a file is about to open
+	 * @param filename The path of the file opening
+	 */
 	public void confirmOpening(String filename);
+	/**
+	 * List files
+	 * @param files The files to list
+	 */
 	public void listFiles(ArrayList<Result> files);
+	/**
+	 * Display TextFile info
+	 * @param infos The informations to display
+	 */
 	public void displayInfos(HashMap<String, String> infos);
 }
