@@ -8,12 +8,23 @@ import java.util.Map.Entry;
 import controller.Controller;
 import model.Result;
 
+/**
+ * Command Line Interface
+ * @author Louis Desportes
+ *
+ */
 public class CommandLineInterface implements UserInterface{
 	
 	public CommandLineInterface() {
 		Controller controller = new Controller();
 	}
 
+	/**
+	 * Display results of search
+	 * 
+	 * @param results
+	 *            the results to display
+	 */
 	@Override
 	public void displayResults(ArrayList<Result> results) {
 		Collections.sort(results);
@@ -27,16 +38,29 @@ public class CommandLineInterface implements UserInterface{
 		}
 	}
 
+	/**
+	 * Confirm that the database has been sync
+	 */
 	@Override
 	public void confirmSync() {
 		System.out.println("La base de données à bien été synchronisé.");
 	}
 
+	/**
+	 * Confirm that root folder has been changed
+	 * 
+	 * @param rootPath
+	 *            The new root folder
+	 */
 	@Override
 	public void confirmChangeRoot(String rootPath) {
 		System.out.println("La racine a bien été changée vers: " + rootPath);
 	}
 	
+	/**
+	 * Display Command Line Help
+	 */
+	//TODO add new commands
 	@Override
 	public void displayHelp() {
 		System.out.println("ProjODT - v1.0 - (c) Vincent Monot & Louis Desportes");
@@ -50,6 +74,9 @@ public class CommandLineInterface implements UserInterface{
 		System.out.println("  open : ouvre le fichier adéquat");
 	}
 
+	/**
+	 * List the titles of a file
+	 */
 	@Override
 	public void listTitles(ArrayList<Result> titles) {
 		if(!titles.isEmpty()){
@@ -76,11 +103,19 @@ public class CommandLineInterface implements UserInterface{
 		}
 	}
 
+	/**
+	 * confirm that a file is about to open
+	 * @param filename The path of the file opening
+	 */
 	@Override
 	public void confirmOpening(String filename) {
 		System.out.println("Ouverture de " + filename);
 	}
 
+	/**
+	 * List files
+	 * @param files The files to list
+	 */
 	@Override
 	public void listFiles(ArrayList<Result> files) {
 		if(!files.isEmpty()){
@@ -97,6 +132,10 @@ public class CommandLineInterface implements UserInterface{
 		}
 	}
 
+	/**
+	 * Displays info about a file
+	 * @param infos The informations to display
+	 */
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
 		String temp = null;
