@@ -2,6 +2,8 @@ package view;
 
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import controller.Controller;
 import model.DataBase;
@@ -95,4 +97,10 @@ public class CommandLineInterface implements UserInterface{
 		}
 	}
 
+	@Override
+	public void displayInfos(HashMap<String, String> infos) {
+		for(Entry<String, String> entry : infos.entrySet()) {
+			System.out.println(entry.getKey()+" : "+entry.getValue());
+		}
+	}
 }
