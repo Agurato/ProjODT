@@ -254,11 +254,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			// If thumbnail, add it
 			if (thumbnail != null) {
 				resultThumbnail = new JLabel(new ImageIcon(thumbnail));
-				getContentPane().add(resultThumbnail, BorderLayout.WEST);
-				System.out.println("Display Image");
+				getContentPane().add(resultThumbnail, BorderLayout.EAST);
 			} else {
-				System.out.println("No Thumbnail");
 			}
+			setVisible(true);
 		}
 
 	}
