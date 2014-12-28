@@ -192,7 +192,7 @@ public class Controller {
 	 * List files in the database
 	 * @return An ArrayList<Result> with an Arbitrary Quote
 	 */
-	public ArrayList<Result> listFiles() {
+	public ArrayList<TextFile> listFiles() {
 		return database.listFiles();
 	}
 

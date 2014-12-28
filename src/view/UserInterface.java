@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Result;
+import model.TextFile;
 
 /**
  * 
@@ -56,9 +57,9 @@ public interface UserInterface {
 	public void noDefaultApp(String filename);
 	/**
 	 * List files
-	 * @param files The files to list
+	 * @param arrayList The files to list
 	 */
-	public void listFiles(ArrayList<Result> files);
+	public void listFiles(ArrayList<TextFile> arrayList);
 	/**
 	 * Display TextFile info
 	 * @param infos The informations to display

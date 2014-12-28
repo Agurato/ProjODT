@@ -494,7 +494,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 * No need
 	 */
 	@Override
-	public void listFiles(ArrayList<Result> files) {
+	public void listFiles(ArrayList<TextFile> files) {
 	}
 
 	/**

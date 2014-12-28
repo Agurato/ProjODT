@@ -24,7 +24,7 @@ public class DataBase {
 	File rootFolder;
 
 	public DataBase() {
-		files = new ArrayList<TextFile>();
+		this(System.getProperty("user.dir"));
 	}
 
 	public DataBase(String rootFolderPath) {
@@ -89,15 +89,6 @@ public class DataBase {
 	 */
 	public String getRootPath() {
 		return getRoot().getAbsolutePath();
-	}
-
-	/**
-	 * Return an Array of files in the database
-	 * 
-	 * @return and ArrayList<TextFile> of files in the database
-	 */
-	public ArrayList<TextFile> getTextFile() {
-		return files;
 	}
 
 	/**
@@ -311,11 +302,7 @@ public class DataBase {
 	 * 
 	 * @return
 	 */
-	public ArrayList<Result> listFiles() {
-		ArrayList<Result> result = new ArrayList<Result>();
-		for (TextFile file : files) {
-			result.add(new Result(-1, -1, file.getFilename(), ""));
-		}
-		return result;
+	public ArrayList<TextFile> listFiles() {
+		return files;
 	}
 }

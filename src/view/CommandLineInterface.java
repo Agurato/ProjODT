@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import model.Result;
+import model.TextFile;
 
 /**
  * Command Line Interface
@@ -115,14 +116,14 @@ public class CommandLineInterface implements UserInterface{
 	 * @param files The files to list
 	 */
 	@Override
-	public void listFiles(ArrayList<Result> files) {
+	public void listFiles(ArrayList<TextFile> files) {
 		if(!files.isEmpty()){
 			if(files.size()==1){
 				System.out.println("1 fichier dans la base de données:");
 			}else{
 				System.out.println(files.size() + " fichiers dans la base de données:");
 			}
-			for(Result file: files){
+			for(TextFile file: files){
 				System.out.println("  * " + file.getFilename());
 			}
 		}else{
