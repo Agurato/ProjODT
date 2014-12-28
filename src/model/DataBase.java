@@ -14,17 +14,17 @@ import java.util.Set;
  *
  */
 public class DataBase {
-	ArrayList<ODTFile> files;
+	ArrayList<TextFile> files;
 	File rootFolder;
 
 	public DataBase() {
-		files = new ArrayList<ODTFile>();
+		files = new ArrayList<TextFile>();
 	}
 
 	public DataBase(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
-		files = new ArrayList<ODTFile>();
-		files = getOdtFiles(rootFolder.getAbsolutePath());
+		files = new ArrayList<TextFile>();
+		files = getTextFiles(rootFolder.getAbsolutePath());
 	}
 
 	/**
@@ -45,9 +45,9 @@ public class DataBase {
 
 	/**
 	 * Return an Array of files in the database
-	 * @return and ArrayList<ODTFile> of files in the database
+	 * @return and ArrayList<TextFile> of files in the database
 	 */
-	public ArrayList<ODTFile> getOdt() {
+	public ArrayList<TextFile> getTextFile() {
 		return files;
 	}
 
@@ -61,16 +61,16 @@ public class DataBase {
 
 	/**
 	 * add An file to the database
-	 * @param odt The ODTFile to be added
+	 * @param odt The TextFile to be added
 	 * @deprecated
 	 */
-	public void addOdt(ODTFile odt) {
+	public void addOdt(TextFile odt) {
 		files.add(odt);
 	}
 
 	/**
 	 * add An file to the database
-	 * @param path the path to the ODTFile to be added
+	 * @param path the path to the TextFile to be added
 	 * @deprecated
 	 */
 	public void addOdt(String path) {
@@ -85,7 +85,7 @@ public class DataBase {
 		files.clear();
 
 		// We call the function to extract every odt
-		files = getOdtFiles(rootFolder.getAbsolutePath());
+		files = getTextFiles(rootFolder.getAbsolutePath());
 	}
 
 	/**
@@ -97,19 +97,8 @@ public class DataBase {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
 
-		for (ODTFile odt : files) {
+		for (TextFile odt : files) {
 			exam = odt.contains(search);
-			//DEBUG
-			/*System.out.println("File = " + odt.getFile().getAbsolutePath()
-					+ " :");*/
-
-			//DEBUG
-			/*if (exam.size() == 0) {
-				System.out.println("\t\"" + search + "\" not found !\n");
-			} else {
-				System.out.println("\t\"" + search + "\" found !\n");
-			}*/
-
 			results.addAll(exam);
 		}
 		return results;
@@ -217,16 +206,16 @@ public class DataBase {
 	}
 
 	/**
-	 * Return a list of ODTFiles within a directory
+	 * Return a list of TextFiles within a directory
 	 * @param pathname The pathname to the directory to be inspected
-	 * @return an ArrayList<ODTFile> within that directory
+	 * @return an ArrayList<TextFile> within that directory
 	 */
-	public ArrayList<ODTFile> getOdtFiles(String pathname) {
+	public ArrayList<TextFile> getTextFiles(String pathname) {
 		File repertory = new File(pathname);
 
 		if (repertory.isDirectory()) {
 			for (File file : repertory.listFiles()) {
-				files = getOdtFiles(file.getAbsolutePath());
+				files = getTextFiles(file.getAbsolutePath());
 			}
 		} else if (repertory.getAbsolutePath().endsWith(".odt")) {
 			files.add(new ODTFile(repertory.getAbsolutePath()));
@@ -241,7 +230,7 @@ public class DataBase {
 	 */
 	public ArrayList<Result> listFiles() {
 		ArrayList<Result> result = new ArrayList<Result>();
-		for(ODTFile file: files){
+		for(TextFile file: files){
 			result.add(new Result(-1, -1, file.getFilename(), "", null));
 		}
 		return result;

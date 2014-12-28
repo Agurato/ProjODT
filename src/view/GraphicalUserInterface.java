@@ -51,6 +51,7 @@ import java.net.URISyntaxException;
 
 import model.ODTFile;
 import model.Result;
+import model.TextFile;
 
 /**
  * Graphical User Interface
@@ -308,7 +309,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				if (thumbnail != null) {
 					infoPanel.add(new JLabel(new ImageIcon(thumbnail)));
 				}
-				ODTFile file = new ODTFile(resultsList.getSelectedValue()
+				TextFile file = new ODTFile(resultsList.getSelectedValue()
 						.getFilename());
 				displayInfos(file.getInfos());
 				infoPanel.setSize(thumbnail.getWidth(),

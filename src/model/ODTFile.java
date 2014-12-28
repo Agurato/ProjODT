@@ -160,12 +160,11 @@ public class ODTFile implements TextFile {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		try {
-			System.out.println("In file : "+odt.getAbsolutePath()+" :");
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document parser = builder.parse(new File(extractedRepertory.getAbsolutePath(), "content.xml"));
 			
-			Element root = parser.getDocumentElement();
 			// This is the "office:document-content", which contains everything in the content.xml file
+			Element root = parser.getDocumentElement();
 			
 			// Instantly get the "office:text" list even if it's not a direct child
 			Element officeText = (Element) root.getElementsByTagName("office:text").item(0);
@@ -176,24 +175,19 @@ public class ODTFile implements TextFile {
 			
 			for(int i=0 ; i<textTitleList.getLength() ; i++) {
 				Element textTitle = (Element) textTitleList.item(i);
-				System.out.println(textTitle.getTextContent());
 				
 				titles.add(new Result(0, 1, odt.getAbsolutePath(), textTitle.getTextContent(), getThumbnail()));
 				// Add the useful informations to write in the file later
 			}
 			
 			for(int i=0 ; i<textHList.getLength() ; i++) {
-				Element textH = (Element) textHList.item(i);
-				System.out.println(textH.getTextContent());
-				
+				Element textH = (Element) textHList.item(i);				
 				titles.add(new Result(Integer.parseInt(textH.getAttribute("text:outline-level")), 1, odt.getAbsolutePath(), textH.getTextContent(), getThumbnail()));
-				
 			}
 		}
 		catch(ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println();
 	}
 	
 	/**
@@ -277,7 +271,6 @@ public class ODTFile implements TextFile {
 		ArrayList<Result> contained = new ArrayList<Result>();
 		
 		for(Result title: titles){
-			System.out.println(title);
 			if(title.getQuote().toLowerCase().contains(search.toLowerCase())){
 				contained.add(title);
 			}
