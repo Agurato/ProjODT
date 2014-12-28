@@ -102,28 +102,6 @@ public class DataBase {
 	}
 
 	/**
-	 * add An file to the database
-	 * 
-	 * @param odt
-	 *            The TextFile to be added
-	 * @deprecated
-	 */
-	public void addOdt(TextFile odt) {
-		files.add(odt);
-	}
-
-	/**
-	 * add An file to the database
-	 * 
-	 * @param path
-	 *            the path to the TextFile to be added
-	 * @deprecated
-	 */
-	public void addOdt(String path) {
-		addOdt(new ODTFile(path));
-	}
-
-	/**
 	 * Sync database with files from the hard drive
 	 */
 	public void sync() {

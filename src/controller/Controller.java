@@ -180,15 +180,6 @@ public class Controller {
 	}
 
 	/**
-	 * Add single ODT to the database
-	 * @param pathName The ODT to be added
-	 * @deprecated
-	 */
-	public void addOdt(String pathName) {
-		database.addOdt(pathName);
-	}
-
-	/**
 	 * List files in the database
 	 * @return An ArrayList<Result> with an Arbitrary Quote
 	 */
