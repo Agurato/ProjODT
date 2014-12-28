@@ -146,7 +146,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		resultsList.setVisibleRowCount(-1);
 		getContentPane().add(new JScrollPane(resultsList), BorderLayout.CENTER);
 		resultsModel.addElement(new Result(-1, -1,
-				"Entrez une chaine à rechercher", "", null));
+				"Entrez une chaine à rechercher", ""));
 
 		// infoPanel
 		infoPanel = new JPanel();
@@ -301,14 +301,13 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		public void valueChanged(ListSelectionEvent e) {
 			infoPanel.removeAll();
 			if (!resultsList.isSelectionEmpty() && resultsList.getSelectedValue().getLevel() != -1) {
-				ImageIcon thumbnail = resultsList.getSelectedValue()
-						.getThumbnail();
+				TextFile file = new ODTFile(resultsList.getSelectedValue()
+						.getFilename());
+				ImageIcon thumbnail = file.getThumbnail();
 				// If thumbnail, add it
 				if (thumbnail != null) {
 					infoPanel.add(new JLabel(thumbnail));
 				}
-				TextFile file = new ODTFile(resultsList.getSelectedValue()
-						.getFilename());
 				displayInfos(file.getInfos());
 			}
 			setVisible(true);
@@ -401,7 +400,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			}
 		} else {
 			resultsModel.addElement(new Result(-1, -1,
-					"Entrez une chaine à rechercher", "", null));
+					"Entrez une chaine à rechercher", ""));
 		}
 		setVisible(true);
 	}

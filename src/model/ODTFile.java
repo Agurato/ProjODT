@@ -42,6 +42,7 @@ public class ODTFile implements TextFile , Serializable {
 	private ArrayList<Result> titles = null;
 	private HashMap<String, String> infos;
 	private String path;
+	ImageIcon thumbnail;
 	
 	/**
 	 * 
@@ -58,6 +59,7 @@ public class ODTFile implements TextFile , Serializable {
 			parseContentXML();
 			infos = new HashMap<String, String>();
 			parseMetaXML();
+			parseThumbnail();
 			suppExtract(extractedRepertory);
 		}
 		else {
@@ -175,13 +177,13 @@ public class ODTFile implements TextFile , Serializable {
 			for(int i=0 ; i<textTitleList.getLength() ; i++) {
 				Element textTitle = (Element) textTitleList.item(i);
 				
-				titles.add(new Result(0, 1, odt.getAbsolutePath(), textTitle.getTextContent(), getThumbnail()));
+				titles.add(new Result(0, 1, odt.getAbsolutePath(), textTitle.getTextContent()));
 				// Add the useful informations to write in the file later
 			}
 			
 			for(int i=0 ; i<textHList.getLength() ; i++) {
 				Element textH = (Element) textHList.item(i);				
-				titles.add(new Result(Integer.parseInt(textH.getAttribute("text:outline-level")), 1, odt.getAbsolutePath(), textH.getTextContent(), getThumbnail()));
+				titles.add(new Result(Integer.parseInt(textH.getAttribute("text:outline-level")), 1, odt.getAbsolutePath(), textH.getTextContent()));
 			}
 		}
 		catch(ParserConfigurationException | SAXException | IOException e) {
@@ -282,14 +284,16 @@ public class ODTFile implements TextFile , Serializable {
 	 * 
 	 * @return the thumbnail image
 	 */
-	public ImageIcon getThumbnail() {
-		ImageIcon image = null;
+	private void parseThumbnail() {
 		try {
-			image =  new ImageIcon(ImageIO.read(new File(extractedRepertory.getAbsolutePath()+"/Thumbnails/thumbnail.png")));
+			thumbnail =  new ImageIcon(ImageIO.read(new File(extractedRepertory.getAbsolutePath()+"/Thumbnails/thumbnail.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return image;
+	}
+	
+	public ImageIcon getThumbnail() {
+		return thumbnail;
 	}
 	
 	/**

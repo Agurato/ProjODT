@@ -314,7 +314,7 @@ public class DataBase {
 	public ArrayList<Result> listFiles() {
 		ArrayList<Result> result = new ArrayList<Result>();
 		for (TextFile file : files) {
-			result.add(new Result(-1, -1, file.getFilename(), "", null));
+			result.add(new Result(-1, -1, file.getFilename(), ""));
 		}
 		return result;
 	}

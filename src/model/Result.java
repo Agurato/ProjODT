@@ -2,8 +2,6 @@ package model;
 
 import java.io.Serializable;
 
-import javax.swing.ImageIcon;
-
 /**
  * Used for the researches in the files
  * @author Louis Desportes
@@ -20,7 +18,6 @@ public class Result implements Comparable<Result>, Serializable {
 	private int frequency;
 	private String filename;
 	private String quote;
-	private ImageIcon thumbnail;
 	
 	/**
 	 * 
@@ -31,12 +28,11 @@ public class Result implements Comparable<Result>, Serializable {
 	 * @param thumbnail
 	 */
 	
-	public Result(int level, int frequency, String filename, String quote, ImageIcon thumbnail) {
+	public Result(int level, int frequency, String filename, String quote) {
 		this.level = level;
 		this.frequency = frequency;
 		this.filename = filename;
 		this.quote = quote;
-		this.thumbnail = thumbnail;
 	}
 	
 	/**
@@ -73,15 +69,6 @@ public class Result implements Comparable<Result>, Serializable {
 	
 	public String getQuote() {
 		return quote;
-	}
-	
-	/**
-	 * 
-	 * @return the thumbnail of the file
-	 */
-	
-	public ImageIcon getThumbnail(){
-		return thumbnail;
 	}
 	
 	/**
