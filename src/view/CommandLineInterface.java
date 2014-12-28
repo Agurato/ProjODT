@@ -65,11 +65,15 @@ public class CommandLineInterface implements UserInterface{
 		System.out.println("Utilitaire de recherche dans une base d'ODT");
 		System.out.println("");
 		System.out.println("Commandes:");
-		System.out.println("  -d,  --database : défini la racine de la base de donnés à utiliser");
-		System.out.println("  -h,  --help : affiche l'aide");
 		System.out.println("  display : affiche tous les titres de la base de données");
 		System.out.println("  search : recherche le/les termes donnés dans la base de données. Peut être utilisé avec ET/OU pour affiner les recherches (priorité au ET)");
 		System.out.println("  open : ouvre le résultat de recherche le plus pertinent");
+		System.out.println("  sync: synchronise la base de données");
+		System.out.println("  list: liste les fichiers présents dans la base de données");
+		System.out.println("");
+		System.out.println("Options:");
+		System.out.println("  -d,  --database : défini la racine de la base de donnés à utiliser");
+		System.out.println("  -h,  --help : affiche l'aide");
 	}
 
 	/**
