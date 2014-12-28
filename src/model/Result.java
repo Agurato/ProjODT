@@ -1,6 +1,9 @@
 package model;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+
+import javax.swing.ImageIcon;
 
 /**
  * Used for the researches in the files
@@ -9,12 +12,12 @@ import java.awt.image.BufferedImage;
  *
  */
 
-public class Result implements Comparable<Result> {
+public class Result implements Comparable<Result>, Serializable {
 	private int level;
 	private int frequency;
 	private String filename;
 	private String quote;
-	private BufferedImage thumbnail;
+	private ImageIcon thumbnail;
 	
 	/**
 	 * 
@@ -25,7 +28,7 @@ public class Result implements Comparable<Result> {
 	 * @param thumbnail
 	 */
 	
-	public Result(int level, int frequency, String filename, String quote, BufferedImage thumbnail) {
+	public Result(int level, int frequency, String filename, String quote, ImageIcon thumbnail) {
 		this.level = level;
 		this.frequency = frequency;
 		this.filename = filename;
@@ -74,7 +77,7 @@ public class Result implements Comparable<Result> {
 	 * @return the thumbnail of the file
 	 */
 	
-	public BufferedImage getThumbnail(){
+	public ImageIcon getThumbnail(){
 		return thumbnail;
 	}
 	

@@ -1,6 +1,12 @@
 package model;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +16,7 @@ import java.util.Set;
 
 /**
  * Database of TextFiles
+ * 
  * @author Vincent Monot
  *
  */
@@ -23,20 +30,64 @@ public class DataBase {
 
 	public DataBase(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
+		boolean loaded = false;
 		files = new ArrayList<TextFile>();
-		files = getTextFiles(rootFolder.getAbsolutePath());
+		for (File file : rootFolder.listFiles()) {
+			if (file.getName().equals(".projODT")) {
+				// Load Serialized save
+				try {
+					ObjectInputStream ois = new ObjectInputStream(
+							new FileInputStream(rootFolder.getAbsolutePath()
+									+ "/.projODT"));
+					files = (ArrayList<TextFile>) ois.readObject();
+					ois.close();
+					System.out.println("Loaded .projODT");
+					loaded = true;
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		if(!loaded){
+			files = getTextFiles(rootFolder.getAbsolutePath());
+			// Serialize files
+			try {
+				ObjectOutputStream oos = new ObjectOutputStream(
+						new FileOutputStream(rootFolder.getAbsolutePath()
+								+ "/.projODT"));
+				oos.writeObject(files);
+				oos.close();
+				System.out.println("Generated .projODT");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			loaded = true;
+		}
 	}
 
 	/**
 	 * return the root Folder
+	 * 
 	 * @return The root Folder
 	 */
 	public File getRoot() {
 		return rootFolder;
 	}
-	
+
 	/**
 	 * Return the path to the root Folder
+	 * 
 	 * @return a String of the path to the root Folder
 	 */
 	public String getRootPath() {
@@ -45,6 +96,7 @@ public class DataBase {
 
 	/**
 	 * Return an Array of files in the database
+	 * 
 	 * @return and ArrayList<TextFile> of files in the database
 	 */
 	public ArrayList<TextFile> getTextFile() {
@@ -53,7 +105,9 @@ public class DataBase {
 
 	/**
 	 * change root to a new folder
-	 * @param rootFolderPath The path to the new Folder
+	 * 
+	 * @param rootFolderPath
+	 *            The path to the new Folder
 	 */
 	public void setRoot(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
@@ -61,7 +115,9 @@ public class DataBase {
 
 	/**
 	 * add An file to the database
-	 * @param odt The TextFile to be added
+	 * 
+	 * @param odt
+	 *            The TextFile to be added
 	 * @deprecated
 	 */
 	public void addOdt(TextFile odt) {
@@ -70,7 +126,9 @@ public class DataBase {
 
 	/**
 	 * add An file to the database
-	 * @param path the path to the TextFile to be added
+	 * 
+	 * @param path
+	 *            the path to the TextFile to be added
 	 * @deprecated
 	 */
 	public void addOdt(String path) {
@@ -86,11 +144,28 @@ public class DataBase {
 
 		// We call the function to extract every odt
 		files = getTextFiles(rootFolder.getAbsolutePath());
+		// Serialize files
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(rootFolder.getAbsolutePath()
+							+ "/.projODT"));
+			oos.writeObject(files);
+			oos.close();
+			System.out.println("Generated .projODT");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Search if the database contains an expression 
-	 * @param search The expression to be searched
+	 * Search if the database contains an expression
+	 * 
+	 * @param search
+	 *            The expression to be searched
 	 * @return An ArrayList<Result> of results
 	 */
 	public ArrayList<Result> contains(String search) {
@@ -106,8 +181,11 @@ public class DataBase {
 
 	/**
 	 * Return the union of Two ArrayList
-	 * @param list1 The first list
-	 * @param list2 The second list
+	 * 
+	 * @param list1
+	 *            The first list
+	 * @param list2
+	 *            The second list
 	 * @return The union of the two lists
 	 */
 	private ArrayList<Result> union(ArrayList<Result> list1,
@@ -122,8 +200,11 @@ public class DataBase {
 
 	/**
 	 * Return the intersection of Two ArrayList
-	 * @param list1 The first list
-	 * @param list2 The second list
+	 * 
+	 * @param list1
+	 *            The first list
+	 * @param list2
+	 *            The second list
 	 * @return The intersection of the two lists
 	 */
 	private ArrayList<Result> intersection(ArrayList<Result> list1,
@@ -141,7 +222,9 @@ public class DataBase {
 
 	/**
 	 * Search the database if an expression has results
-	 * @param search the expression to be searched
+	 * 
+	 * @param search
+	 *            the expression to be searched
 	 * @return An ArrayList<Result> of results
 	 */
 	public ArrayList<Result> search(String search) {
@@ -207,7 +290,9 @@ public class DataBase {
 
 	/**
 	 * Return a list of TextFiles within a directory
-	 * @param pathname The pathname to the directory to be inspected
+	 * 
+	 * @param pathname
+	 *            The pathname to the directory to be inspected
 	 * @return an ArrayList<TextFile> within that directory
 	 */
 	public ArrayList<TextFile> getTextFiles(String pathname) {
@@ -226,11 +311,12 @@ public class DataBase {
 
 	/**
 	 * list the files from the database
+	 * 
 	 * @return
 	 */
 	public ArrayList<Result> listFiles() {
 		ArrayList<Result> result = new ArrayList<Result>();
-		for(TextFile file: files){
+		for (TextFile file : files) {
 			result.add(new Result(-1, -1, file.getFilename(), "", null));
 		}
 		return result;

@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +36,7 @@ import org.xml.sax.SAXException;
  *
  */
 
-public class ODTFile implements TextFile {
+public class ODTFile implements TextFile , Serializable {
 	
 	private File odt = null;
 	private File repertory = null;
@@ -283,10 +285,10 @@ public class ODTFile implements TextFile {
 	 * 
 	 * @return the thumbnail image
 	 */
-	public BufferedImage getThumbnail() {
-		BufferedImage image = null;
+	public ImageIcon getThumbnail() {
+		ImageIcon image = null;
 		try {
-			image = ImageIO.read(new File(extractedRepertory.getAbsolutePath()+"/Thumbnails/thumbnail.png"));
+			image =  new ImageIcon(ImageIO.read(new File(extractedRepertory.getAbsolutePath()+"/Thumbnails/thumbnail.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

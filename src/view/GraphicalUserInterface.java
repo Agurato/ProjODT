@@ -303,17 +303,15 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		public void valueChanged(ListSelectionEvent e) {
 			infoPanel.removeAll();
 			if (!resultsList.isSelectionEmpty() && resultsList.getSelectedValue().getLevel() != -1) {
-				BufferedImage thumbnail = resultsList.getSelectedValue()
+				ImageIcon thumbnail = resultsList.getSelectedValue()
 						.getThumbnail();
 				// If thumbnail, add it
 				if (thumbnail != null) {
-					infoPanel.add(new JLabel(new ImageIcon(thumbnail)));
+					infoPanel.add(new JLabel(thumbnail));
 				}
 				TextFile file = new ODTFile(resultsList.getSelectedValue()
 						.getFilename());
 				displayInfos(file.getInfos());
-				infoPanel.setSize(thumbnail.getWidth(),
-						10 * thumbnail.getHeight());
 			}
 			setVisible(true);
 		}
