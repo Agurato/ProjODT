@@ -235,7 +235,7 @@ public class Controller {
 	 * @param path The file to open
 	 * @throws IOException The is no default application
 	 */
-	public static void openFile(File file) throws IOException {
+	public static void openFile(File file) throws IOException, IllegalArgumentException {
 		Desktop.getDesktop().open(file);
 	}
 }

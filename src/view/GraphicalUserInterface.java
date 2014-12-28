@@ -263,13 +263,14 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 					Controller.openFile(resultsModel.get(
 							resultsList.locationToIndex(e.getPoint()))
 							.getFilename());
+				} catch (IllegalArgumentException e1) {
+					fileNotFound(resultsModel.get(
+							resultsList.locationToIndex(e.getPoint()))
+							.getFilename());
 				} catch (IOException e1) {
-					JOptionPane
-							.showMessageDialog(
-									GraphicalUserInterface.this,
-									"Impossible d'ouvrir le fichier, aucune application associé",
-									"Ouverture impossible",
-									JOptionPane.ERROR_MESSAGE);
+					noDefaultApp(resultsModel.get(
+							resultsList.locationToIndex(e.getPoint()))
+							.getFilename());
 				}
 			}
 		}
@@ -519,5 +520,27 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 			tempPanel.add(new JLabel(entry.getValue()), BorderLayout.LINE_END);
 			infoPanel.add(tempPanel);
 		}
+	}
+
+	@Override
+	public void fileNotFound(String filename) {
+		JOptionPane
+		.showMessageDialog(
+				GraphicalUserInterface.this,
+				"Le fichier n'existe pas.",
+				"Ouverture impossible",
+				JOptionPane.ERROR_MESSAGE);
+		
+	}
+
+	@Override
+	public void noDefaultApp(String filename) {
+		JOptionPane
+		.showMessageDialog(
+				GraphicalUserInterface.this,
+				"Aucune application associé.",
+				"Ouverture impossible",
+				JOptionPane.ERROR_MESSAGE);
+		
 	}
 }

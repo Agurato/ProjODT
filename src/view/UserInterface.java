@@ -45,6 +45,16 @@ public interface UserInterface {
 	 */
 	public void confirmOpening(String filename);
 	/**
+	 * Inform the user that the file to be opened can't be found
+	 * @param filename The path to the file to be opened
+	 */
+	public void fileNotFound(String filename);
+	/**
+	 * Inform the user that there is no default application to open the file
+	 * @param filename The path to the file to be opened
+	 */
+	public void noDefaultApp(String filename);
+	/**
 	 * List files
 	 * @param files The files to list
 	 */

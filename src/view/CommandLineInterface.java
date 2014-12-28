@@ -70,7 +70,7 @@ public class CommandLineInterface implements UserInterface{
 		System.out.println("  -h,  --help : affiche l'aide");
 		System.out.println("  display : affiche tous les titres de la base de données");
 		System.out.println("  search : recherche le/les termes donnés dans la base de données. Peut être utilisé avec ET/OU pour affiner les recherches (priorité au ET)");
-		System.out.println("  open : ouvre le fichier adéquat");
+		System.out.println("  open : ouvre le résultat de recherche le plus pertinent");
 	}
 
 	/**
@@ -167,5 +167,17 @@ public class CommandLineInterface implements UserInterface{
 		if((temp = infos.get("pageCount")) != null) {
 			System.out.println("Number of pages : "+temp);
 		}
+	}
+
+	@Override
+	public void fileNotFound(String filename) {
+		System.out.println(filename + " non trouvé, impossible de l'ouvrir.");
+		
+	}
+
+	@Override
+	public void noDefaultApp(String filename) {
+		System.out.println("Aucune application par defaut pour ouvrir: " + filename);
+		
 	}
 }
