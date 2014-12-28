@@ -2,6 +2,13 @@ package model;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Used for the researches in the files
+ * @author Louis Desportes
+ * @author Vincent Monot
+ *
+ */
+
 public class Result implements Comparable<Result> {
 	private int level;
 	private int frequency;
