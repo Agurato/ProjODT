@@ -27,6 +27,7 @@ public class DataBase {
 		this(System.getProperty("user.dir"));
 	}
 
+	@SuppressWarnings("unchecked")
 	public DataBase(String rootFolderPath) {
 		rootFolder = new File(rootFolderPath);
 		boolean loaded = false;
