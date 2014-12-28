@@ -13,6 +13,7 @@ Dans les deux cas, votre programme va s'éxecuter à l'aide de la commande (si v
 
 Partie graphique
 ----------------
+Vous pourrez trouver une version illustrée de ce manuel à l'adresse: http://akkes.fr/projets/projodt/manuel/
 Pour la partie graphique, c'est l'unique commande à rentrer pour lancer le programme.
 
 La barre de menu possède plusieurs onglets :
@@ -35,6 +36,7 @@ Un clic simple sur la citation trouvée ouvre l'image associée au fichier .odt 
 Partie console
 --------------
 Pour la partie console, il faut rajouter à cette commande certaines actions/options :
+
 * __display__ _fichierOdtATraiter_ : permet d'afficher tous les titres et les informations utiles du fichier passé en paramètre
   * [__-h__], [__--help__] ouvre l'aide associée à l'action __display__
 * __list__  : permet de lister tous les fichiers .odt à partir du répertoire racine actuel dans la base de données

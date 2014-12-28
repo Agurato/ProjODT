@@ -308,6 +308,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				if (thumbnail != null) {
 					infoPanel.add(new JLabel(thumbnail));
 				}
+				listTitles(file.listTitles());
 				displayInfos(file.getInfos());
 			}
 			setVisible(true);
@@ -481,6 +482,19 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 */
 	@Override
 	public void listTitles(ArrayList<Result> titles) {
+		for (Result title : titles) {
+			String indentString = "";
+			if(title.getLevel() == 0) {
+				indentString += ">";
+			}
+			else {
+				for(int i=1 ; i<title.getLevel() ; i++) {
+					indentString += " ";
+				}
+				indentString += "->";
+			}
+			infoPanel.add(new JLabel(indentString + title.getQuote()));
+		}
 	}
 
 	/**
@@ -503,7 +517,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 */
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
-		
 		for (Entry<String, String> entry : infos.entrySet()) {
 			JPanel tempPanel = new JPanel(new BorderLayout());
 			tempPanel.add(new JLabel(entry.getKey()), BorderLayout.LINE_START);
