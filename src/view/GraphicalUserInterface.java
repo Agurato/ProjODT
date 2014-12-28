@@ -310,7 +310,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 				}
 				ODTFile file = new ODTFile(resultsList.getSelectedValue()
 						.getFilename());
-				displayInfos(file.parseMetaXML());
+				displayInfos(file.getInfos());
 				infoPanel.setSize(thumbnail.getWidth(),
 						10 * thumbnail.getHeight());
 			}

@@ -105,8 +105,8 @@ public class Controller {
 			if (!help) {
 				TextFile textFile = (TextFile) new ODTFile(param);
 				ui = (UserInterface) new CommandLineInterface();
-				ui.displayInfos(textFile.parseMetaXML());
-				ui.listTitles(textFile.examination(""));
+				ui.displayInfos(textFile.getInfos());
+				ui.listTitles(textFile.contains(""));
 			}
 			break;
 		case LIST:

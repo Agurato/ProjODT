@@ -76,44 +76,16 @@ public class DataBase {
 	public void addOdt(String path) {
 		addOdt(new ODTFile(path));
 	}
-	
-	/**
-	 * Do something very strange related to HashMaps, Infos and XFiles
-	 * @return The truth is out there
-	 */
-	//TODO Fix
-	public HashMap<String, HashMap<String, String>> getInfos() {
-		// The key corresponds to the filename
-		// The key of the value corresponds to info name
-		// The value of the value corresponds to the info
-		HashMap<String, HashMap<String, String>> infos = new HashMap<String, HashMap<String, String>>();
-		for(ODTFile odt : files) {
-			infos.put(odt.getFilename(), odt.parseMetaXML());
-		}
-		
-		return infos;
-	}
 
 	/**
 	 * Sync database with files from the hard drive
 	 */
 	public void sync() {
 		// We delete the extract folder and the arrayList
-		this.deleteFolders();
 		files.clear();
 
 		// We call the function to extract every odt
 		files = getOdtFiles(rootFolder.getAbsolutePath());
-		this.parse();
-	}
-
-	/**
-	 * Extract content from the ODTFiles
-	 */
-	public void parse() {
-		for (ODTFile odt : files) {
-			odt.parseContentXML();
-		}
 	}
 
 	/**
@@ -126,7 +98,7 @@ public class DataBase {
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
 
 		for (ODTFile odt : files) {
-			exam = odt.examination(search);
+			exam = odt.contains(search);
 			//DEBUG
 			/*System.out.println("File = " + odt.getFile().getAbsolutePath()
 					+ " :");*/
@@ -242,15 +214,6 @@ public class DataBase {
 			}
 		}
 		return results;
-	}
-
-	/**
-	 * delete extracted folders
-	 */
-	public void deleteFolders() {
-		for (ODTFile odt : files) {
-			odt.suppExtract(odt.getExtract());
-		}
 	}
 
 	/**
