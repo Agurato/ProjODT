@@ -20,7 +20,9 @@ La barre de menu possède plusieurs onglets :
   * Changer la racine (ctrl+R) : change le répertoire racine des fichiers .odt dans lesquels effectuer la recherche
   * Syncroniser (ctrl+S) : reparcourt tout depuis la racine pour actualiser les fichiers .odt
   * Fermer (ctrl+W) : quitte le programme
-* 
+* Aide :
+  * Manuel d'utilisation : procure une aide plus avancée
+  * A propos : fournit les informations sur le logiciel
 
 L'écran de la fenêtre est composé de 2 parties. Celle du haut correspond à la barre de recherche, celle du bas est l'écran des résultats.
 
