@@ -42,6 +42,11 @@ public class ODTFile implements TextFile {
 	private File results = null;
 	private final String separator = ";";
 	private String path;
+	
+	/**
+	 * 
+	 * @param path
+	 */
 
 	public ODTFile(String path) {
 		if(path.endsWith(".odt")) {
@@ -58,17 +63,37 @@ public class ODTFile implements TextFile {
 		this.path = path;
 	}
 	
+	/**
+	 * 
+	 * @return the odt as a File
+	 */
+	
 	public File getFile() {
 		return odt;
 	}
+	
+	/**
+	 * 
+	 * @return the extract folder as a file
+	 */
 	
 	public File getExtract() {
 		return extract;
 	}
 	
+	/**
+	 * 
+	 * @return the odt as a String (pathname)
+	 */
+	
 	public String getFilename(){
 		return path;
 	}
+	
+	/**
+	 * Delete the extract folder entirely
+	 * @param supp
+	 */
 	
 	public void suppExtract(File supp) {
 		for(File file : supp.listFiles()) {
@@ -81,6 +106,10 @@ public class ODTFile implements TextFile {
 			extract.delete();
 		}
 	}
+	
+	/**
+	 * Extract the odt file in a folder which has the same name (without ".odt" at the end)
+	 */
 
 	public void unzipODT() {
 		extract.mkdir();
@@ -126,6 +155,11 @@ public class ODTFile implements TextFile {
 			ioe.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Parse the content.xml file contained in the extract folder
+	 * Save the titles in "results.txt"
+	 */
 	
 	public void parseContentXML() {
 		String writing = "", lineSeparator = "#";
@@ -182,6 +216,11 @@ public class ODTFile implements TextFile {
 		}
 		System.out.println();
 	}
+	
+	/**
+	 * Parse the meta.xml file
+	 * @return HashMap<nameOfTheInfo, valueOfTheInfo>
+	 */
 	
 	public HashMap<String, String> parseMetaXML() {
 		HashMap<String, String> metaInfos = new HashMap<String, String>();
@@ -250,6 +289,11 @@ public class ODTFile implements TextFile {
 		return metaInfos;
 	}
 	
+	/**
+	 * Used to search a String among the titles of the odt file
+	 * @return a list of Result (~quote) after searching in the file
+	 */
+	
 	public ArrayList<Result> examination(String search) {
 		boolean resultsExists = false;
 		ArrayList<Result> result = new ArrayList<Result>();
@@ -290,6 +334,11 @@ public class ODTFile implements TextFile {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @return the thumbnail image
+	 */
+	
 	public BufferedImage getThumbnail() {
 		BufferedImage image = null;
 		try {
@@ -299,6 +348,10 @@ public class ODTFile implements TextFile {
 		}
 		return image;
 	}
+	
+	/**
+	 * @return a list of titles
+	 */
 	
 	public ArrayList<Result> listTitles(){
 		//TODO: Quick fix, results should be in memory since instanciation
