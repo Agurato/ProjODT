@@ -272,6 +272,8 @@ public class ODTFile implements TextFile , Serializable {
 		ArrayList<Result> contained = new ArrayList<Result>();
 		
 		for(Result title: titles){
+			//correct Previous modifications
+			title.setFrequency(1);
 			if(title.getQuote().toLowerCase().contains(search.toLowerCase())){
 				contained.add(title);
 			}
@@ -300,17 +302,6 @@ public class ODTFile implements TextFile , Serializable {
 	 * @return a list of titles
 	 */
 	public ArrayList<Result> listTitles(){
-		//TODO: Quick fix, results should be in memory since instanciation
-		boolean resultsExists = false;
-		
-		for(File file : extractedRepertory.listFiles()) {
-			if(file.getName().equals("results.txt")) {
-				resultsExists = true;
-			}
-		}
-		if(!resultsExists) {
-			this.parseContentXML();
-		}
-		return null;
+		return titles;
 	}
 }
