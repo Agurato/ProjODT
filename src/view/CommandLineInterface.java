@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import controller.Controller;
 import model.Result;
 
 /**
@@ -15,7 +14,6 @@ import model.Result;
 public class CommandLineInterface implements UserInterface{
 	
 	public CommandLineInterface() {
-		Controller controller = new Controller();
 	}
 
 	/**

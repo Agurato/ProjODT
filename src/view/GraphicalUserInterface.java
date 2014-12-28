@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -36,10 +35,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -485,8 +482,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 */
 	@Override
 	public void listTitles(ArrayList<Result> titles) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -494,8 +489,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 */
 	@Override
 	public void confirmOpening(String filename) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -503,8 +496,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 */
 	@Override
 	public void listFiles(ArrayList<Result> files) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**

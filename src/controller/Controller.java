@@ -157,17 +157,7 @@ public class Controller {
 	}
 
 	public Controller(String path) {
-		// If the given path is a repertory, we call the DataBase constructor
-		// with a path of a directory
-		if (new File(path).isDirectory()) {
 			database = new DataBase(path);
-		}
-		// Else, we call the DataBase constructor without parameters and we add
-		// the file
-		else {
-			database = new DataBase();
-			database.addOdt(path);
-		}
 	}
 
 	/**

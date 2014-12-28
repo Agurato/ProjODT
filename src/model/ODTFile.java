@@ -1,19 +1,13 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
@@ -38,12 +32,15 @@ import org.xml.sax.SAXException;
 
 public class ODTFile implements TextFile , Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private File odt = null;
 	private File repertory = null;
 	private File extractedRepertory = null;
 	private ArrayList<Result> titles = null;
 	private HashMap<String, String> infos;
-	private final String separator = ";";
 	private String path;
 	
 	/**

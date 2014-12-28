@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -41,7 +40,6 @@ public class DataBase {
 									+ "/.projODT"));
 					files = (ArrayList<TextFile>) ois.readObject();
 					ois.close();
-					System.out.println("Loaded .projODT");
 					loaded = true;
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -64,7 +62,6 @@ public class DataBase {
 								+ "/.projODT"));
 				oos.writeObject(files);
 				oos.close();
-				System.out.println("Generated .projODT");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

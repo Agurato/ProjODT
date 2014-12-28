@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import javax.swing.ImageIcon;
@@ -13,6 +12,10 @@ import javax.swing.ImageIcon;
  */
 
 public class Result implements Comparable<Result>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int level;
 	private int frequency;
 	private String filename;
