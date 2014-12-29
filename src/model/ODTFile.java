@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 
 /**
  * 
- * @author vincent
+ * @author Vincent Monot
  *
  */
 
