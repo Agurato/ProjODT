@@ -127,7 +127,7 @@ public class DataBase {
 	 *            The expression to be searched
 	 * @return An ArrayList<Result> of results
 	 */
-	public ArrayList<Result> contains(String search) {
+	private ArrayList<Result> contains(String search) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
 		ArrayList<Result> exam = null; // Stocks what we searched in a file
 
@@ -254,7 +254,7 @@ public class DataBase {
 	 *            The pathname to the directory to be inspected
 	 * @return an ArrayList<TextFile> within that directory
 	 */
-	public ArrayList<TextFile> getTextFiles(String pathname) {
+	private ArrayList<TextFile> getTextFiles(String pathname) {
 		File repertory = new File(pathname);
 
 		if (repertory.isDirectory()) {
