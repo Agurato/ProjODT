@@ -88,11 +88,11 @@
     <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2089.68" y="658.654">0...n</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="1317.95" y="-51.5822" width="658.56" height="326.255"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1317.95" y="-51.5822" width="658.56" height="326.255"/>
-    <rect style="fill: #ffffff" x="1317.95" y="-71.5822" width="81" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1317.95" y="-71.5822" width="81" height="20"/>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1319.95" y="-57.5822">controller</text>
+    <rect style="fill: #ffffff" x="1310.08" y="-51.5822" width="666.439" height="326.255"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1310.08" y="-51.5822" width="666.439" height="326.255"/>
+    <rect style="fill: #ffffff" x="1310.08" y="-71.5822" width="81" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1310.08" y="-71.5822" width="81" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1312.08" y="-57.5822">controller</text>
   </g>
   <g>
     <rect style="fill: #ffffff" x="1357.32" y="-25.1826" width="325.7" height="28"/>
