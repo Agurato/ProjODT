@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -167,8 +168,8 @@ public class Controller {
 	 * Ask database to search an expression
 	 * 
 	 * @param search
-	 *            The expression to search
-	 * @return A list of results
+	 *            The expression to searched
+	 * @return A list of {@link ResultSet}
 	 * @throws NoSuchElementException
 	 *             No results in the database
 	 */
@@ -190,7 +191,7 @@ public class Controller {
 	/**
 	 * List files in the database
 	 * 
-	 * @return An ArrayList<Result> with an Arbitrary Quote
+	 * @return An {@link ArrayList} of {@link Result} with an Arbitrary Quote
 	 */
 	public ArrayList<TextFile> listFiles() {
 		return database.listFiles();
@@ -198,6 +199,7 @@ public class Controller {
 
 	/**
 	 * Sync the dataBase with the HardDrive
+	 * @throws FileNotFoundException If the root folder no longer exist
 	 */
 	public void sync() throws FileNotFoundException {
 		database.sync();
@@ -206,7 +208,7 @@ public class Controller {
 	/**
 	 * Get the Root Path
 	 * 
-	 * @return An String of the absolute root path
+	 * @return An {@link String} of the absolute root path
 	 */
 	public String getRootPath() {
 		return database.getRootPath();
@@ -216,7 +218,7 @@ public class Controller {
 	 * Open a File with the default application
 	 * 
 	 * @param path
-	 *            The path of the file to open
+	 *            The path of the file to opened
 	 * @throws IOException
 	 *             The is no default application
 	 */
@@ -227,8 +229,8 @@ public class Controller {
 	/**
 	 * Open a File with the default application
 	 * 
-	 * @param path
-	 *            The file to open
+	 * @param file
+	 *            The {@link File} to opened
 	 * @throws IOException
 	 *             The is no default application
 	 */

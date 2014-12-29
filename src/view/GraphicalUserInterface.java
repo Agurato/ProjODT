@@ -391,7 +391,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 * Display results of search
 	 * 
 	 * @param results
-	 *            the results to display
+	 *            the {@link Result} to display
 	 */
 	@Override
 	public void displayResults(ArrayList<Result> results) {
@@ -482,7 +482,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	}
 
 	/**
-	 * No need
+	 * List the titles of a file
+	 * 
+	 * @param titles
+	 *            The titles to display
 	 */
 	@Override
 	public void listTitles(ArrayList<Result> titles) {
@@ -530,6 +533,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		}
 	}
 
+	/**
+	 * Inform that the file can't be found
+	 * @param filename The path to the non found file
+	 */
 	@Override
 	public void fileNotFound(String filename) {
 		JOptionPane.showMessageDialog(GraphicalUserInterface.this,
@@ -538,6 +545,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	}
 
+	/**
+	 * Inform that there is no default application to open the file
+	 * @param filename The file which can't be opened
+	 */
 	@Override
 	public void noDefaultApp(String filename) {
 		JOptionPane.showMessageDialog(GraphicalUserInterface.this,

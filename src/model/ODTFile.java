@@ -47,7 +47,7 @@ public class ODTFile implements TextFile, Serializable {
 
 	/**
 	 * 
-	 * @param path
+	 * @param path The path of the {@link ODTFile}
 	 */
 
 	public ODTFile(String path) {
@@ -81,7 +81,7 @@ public class ODTFile implements TextFile, Serializable {
 
 	/**
 	 * 
-	 * @return the odt as a String (pathname)
+	 * @return the odt as a {@link String} (pathname)
 	 */
 
 	public String getFilename() {
@@ -91,7 +91,7 @@ public class ODTFile implements TextFile, Serializable {
 	/**
 	 * Delete the extract folder entirely
 	 * 
-	 * @param supp
+	 * @param supp The {@link File} to be deleted. Can be a folder (Recusive).
 	 */
 
 	private void suppExtract(File supp) {
@@ -205,8 +205,6 @@ public class ODTFile implements TextFile, Serializable {
 
 	/**
 	 * Parse the meta.xml file
-	 * 
-	 * @return HashMap<nameOfTheInfo, valueOfTheInfo>
 	 */
 
 	private void parseMetaXML() {
@@ -281,6 +279,10 @@ public class ODTFile implements TextFile, Serializable {
 
 	}
 
+	/**
+	 * Return Infos about the {@link ODTFile}
+	 * @return An {@link HashMap} of the infos
+	 */
 	public HashMap<String, String> getInfos() {
 		return infos;
 	}
@@ -288,7 +290,7 @@ public class ODTFile implements TextFile, Serializable {
 	/**
 	 * Used to search a String among the titles of the odt file
 	 * 
-	 * @return a list of Result (~quote) after searching in the file
+	 * @return a list of {@link Result} after searching in the file
 	 */
 	public ArrayList<Result> contains(String search) {
 		ArrayList<Result> contained = new ArrayList<Result>();
@@ -310,8 +312,7 @@ public class ODTFile implements TextFile, Serializable {
 	}
 
 	/**
-	 * 
-	 * @return the thumbnail image
+	 * Parse the thumbnail from the {@link ODTFile}
 	 */
 	private void parseThumbnail() {
 		try {
@@ -322,12 +323,16 @@ public class ODTFile implements TextFile, Serializable {
 		}
 	}
 
+	/**
+	 * Return the thumbnail
+	 * @return The thumbnail as an {@link ImageIcon}
+	 */
 	public ImageIcon getThumbnail() {
 		return thumbnail;
 	}
 
 	/**
-	 * @return a list of titles
+	 * @return a list of titles as {@link Result}
 	 */
 	public ArrayList<Result> listTitles() {
 		return titles;

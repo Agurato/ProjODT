@@ -11,9 +11,6 @@ import java.io.Serializable;
  */
 
 public class Result implements Comparable<Result>, Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int level;
 	private int frequency;
@@ -21,14 +18,11 @@ public class Result implements Comparable<Result>, Serializable {
 	private String quote;
 
 	/**
-	 * 
-	 * @param level
-	 * @param frequency
-	 * @param filename
-	 * @param quote
-	 * @param thumbnail
+	 * @param level The level of the title
+	 * @param frequency The frequency of the title
+	 * @param filename The filename of the original TextFile
+	 * @param quote The title itself
 	 */
-
 	public Result(int level, int frequency, String filename, String quote) {
 		this.level = level;
 		this.frequency = frequency;
@@ -37,47 +31,42 @@ public class Result implements Comparable<Result>, Serializable {
 	}
 
 	/**
-	 * 
+	 * Return the level of the title
 	 * @return the level of the title/quote
 	 */
-
 	public int getLevel() {
 		return level;
 	}
 
 	/**
-	 * 
+	 * Return the frequency of the title
 	 * @return the frequency of the quote in the text
 	 */
-
 	public int getFrequency() {
 		return frequency;
 	}
 
 	/**
-	 * 
+	 * Return the name of the original odt
 	 * @return the name of the odt (= path)
 	 */
-
 	public String getFilename() {
 		return filename;
 	}
 
 	/**
-	 * 
+	 * return the title itself
 	 * @return the quote/title
 	 */
-
 	public String getQuote() {
 		return quote;
 	}
 
 	/**
-	 * Used to modify the frequence
+	 * Used to modify the frequency
 	 * 
-	 * @param freq
+	 * @param freq The new Frequency
 	 */
-
 	public void setFrequency(int freq) {
 		this.frequency = freq;
 	}
@@ -85,9 +74,8 @@ public class Result implements Comparable<Result>, Serializable {
 	/**
 	 * Test if the level, the quote and the file are the same
 	 * 
-	 * @param obj
+	 * @param obj The object to be tested
 	 */
-
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Result)) {
 			return false;
@@ -103,18 +91,16 @@ public class Result implements Comparable<Result>, Serializable {
 	}
 
 	/**
-	 * return the String with the main attributes of Result
+	 * return the {@link String} with the main attributes of Result
 	 */
-
 	public String toString() {
 		return "File : " + filename + "\n\tQuote : " + quote + "\n\tLevel : "
 				+ level + "\n\tFrequency : " + frequency;
 	}
 
 	/**
-	 * 
+	 * Compare two {@link Result}
 	 */
-
 	@Override
 	public int compareTo(Result comparedResult) {
 		return comparedResult.getLevel() * comparedResult.getFrequency()

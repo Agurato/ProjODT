@@ -17,7 +17,7 @@ public interface UserInterface {
 	 * Display results of search
 	 * 
 	 * @param results
-	 *            the results to display
+	 *            the {@link Result} to display
 	 */
 	public void displayResults(ArrayList<Result> results);
 
@@ -75,7 +75,7 @@ public interface UserInterface {
 	 * List files
 	 * 
 	 * @param arrayList
-	 *            The files to list
+	 *            The {@link TextFile} to list
 	 */
 	public void listFiles(ArrayList<TextFile> arrayList);
 

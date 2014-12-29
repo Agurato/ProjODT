@@ -125,7 +125,7 @@ public class DataBase {
 	 * 
 	 * @param search
 	 *            The expression to be searched
-	 * @return An ArrayList<Result> of results
+	 * @return An {@link ArrayList} {@link Result} of results
 	 */
 	private ArrayList<Result> contains(String search) {
 		ArrayList<Result> results = new ArrayList<Result>(); // Return
@@ -184,7 +184,7 @@ public class DataBase {
 	 * 
 	 * @param search
 	 *            the expression to be searched
-	 * @return An ArrayList<Result> of results
+	 * @return An {@link ArrayList} of {@link Result} of results
 	 */
 	public ArrayList<Result> search(String search) {
 		ArrayList<Result> results = new ArrayList<Result>();
@@ -252,7 +252,7 @@ public class DataBase {
 	 * 
 	 * @param pathname
 	 *            The pathname to the directory to be inspected
-	 * @return an ArrayList<TextFile> within that directory
+	 * @return an {@link ArrayList} of {@link TextFile} within that directory
 	 */
 	private ArrayList<TextFile> getTextFiles(String pathname) {
 		File repertory = new File(pathname);
@@ -271,7 +271,7 @@ public class DataBase {
 	/**
 	 * list the files from the database
 	 * 
-	 * @return
+	 * @return An {@link ArrayList} of {@link TextFile}
 	 */
 	public ArrayList<TextFile> listFiles() {
 		return files;

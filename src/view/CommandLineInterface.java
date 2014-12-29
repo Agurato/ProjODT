@@ -22,7 +22,7 @@ public class CommandLineInterface implements UserInterface {
 	 * Display results of search
 	 * 
 	 * @param results
-	 *            the results to display
+	 *            the {@link Result} to display
 	 */
 	@Override
 	public void displayResults(ArrayList<Result> results) {
@@ -131,7 +131,7 @@ public class CommandLineInterface implements UserInterface {
 	 * List files
 	 * 
 	 * @param files
-	 *            The files to list
+	 *            The {@link TextFile} to list
 	 */
 	@Override
 	public void listFiles(ArrayList<TextFile> files) {
@@ -189,12 +189,20 @@ public class CommandLineInterface implements UserInterface {
 		}
 	}
 
+	/**
+	 * Inform that the file can't be found
+	 * @param filename the path to the non found file
+	 */
 	@Override
 	public void fileNotFound(String filename) {
 		System.out.println(filename + " non trouvé, impossible de l'ouvrir.");
 
 	}
 
+	/**
+	 * Inform that there is no default application to open the file
+	 * @param filename the file which can't be opened
+	 */
 	@Override
 	public void noDefaultApp(String filename) {
 		System.out.println("Aucune application par defaut pour ouvrir: "
