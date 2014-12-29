@@ -46,3 +46,4 @@ Pour la partie console, il faut rajouter à cette commande certaines actions/opt
   * [__-d__ _repertoireATraiter_], [__--database__ _repertoireATraiter_]  recherche à partir du répertoire passé en paramètre
 * __open__ _termesARechercher_ : ouvre le fichier odt contenant les termes recherchés
   * [__-d__ _repertoireATraiter_], [__--database__ _repertoireATraiter_]  recherche à partir du répertoire passé en paramètre
+* [__-h__], [__--help__] : affiche l'aide du logiciel
