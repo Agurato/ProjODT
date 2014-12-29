@@ -60,7 +60,6 @@ public class CommandLineInterface implements UserInterface {
 	/**
 	 * Display command line help
 	 */
-	// TODO add new commands
 	@Override
 	public void displayHelp() {
 		System.out

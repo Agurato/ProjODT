@@ -37,19 +37,16 @@ public class DataBase {
 				// Load Serialized save
 				try {
 					ObjectInputStream ois = new ObjectInputStream(
-							new FileInputStream(rootFolder.getAbsolutePath()
-									+ "/.projODT"));
+							new FileInputStream(new File(
+									rootFolder.getAbsolutePath(), ".projODT")));
 					files = (ArrayList<TextFile>) ois.readObject();
 					ois.close();
 					loaded = true;
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -59,15 +56,13 @@ public class DataBase {
 			// Serialize files
 			try {
 				ObjectOutputStream oos = new ObjectOutputStream(
-						new FileOutputStream(rootFolder.getAbsolutePath()
-								+ "/.projODT"));
+						new FileOutputStream(new File(
+								rootFolder.getAbsolutePath(), ".projODT")));
 				oos.writeObject(files);
 				oos.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			loaded = true;
@@ -114,16 +109,13 @@ public class DataBase {
 		// Serialize files
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream(rootFolder.getAbsolutePath()
-							+ "/.projODT"));
+					new FileOutputStream(new File(rootFolder.getAbsolutePath(),
+							".projODT")));
 			oos.writeObject(files);
 			oos.close();
-			System.out.println("Generated .projODT");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

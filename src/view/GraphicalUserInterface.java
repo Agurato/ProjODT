@@ -458,7 +458,6 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	 */
 	@Override
 	public void confirmSync() {
-		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(this,
 				"La base de donnée a bien été synchronisée",
 				"Base de données synchronisé", JOptionPane.INFORMATION_MESSAGE);
@@ -473,8 +472,11 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		try {
 			d.browse(new URI("http://akkes.fr/projODT/"));
 		} catch (IOException | URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane
+			.showMessageDialog(
+					GraphicalUserInterface.this,
+					"Aucun navigateur par defaut",
+					"Ouverture impossible", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
