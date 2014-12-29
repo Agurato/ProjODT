@@ -17,6 +17,7 @@ import view.GraphicalUserInterface;
 
 /**
  * Controller for ProjODT
+ * 
  * @author Vincent Monot
  * @author Louis Desportes
  *
@@ -31,7 +32,9 @@ public class Controller {
 
 	/**
 	 * Start of the program
-	 * @param args The arguments passed by the command line
+	 * 
+	 * @param args
+	 *            The arguments passed by the command line
 	 */
 	public static void main(String[] args) {
 		boolean help = false;
@@ -44,7 +47,7 @@ public class Controller {
 			case "-d":
 			case "--database":
 				root = args[i + 1];
-				i+=2;
+				i += 2;
 				break;
 			case "-h":
 			case "--help":
@@ -54,7 +57,7 @@ public class Controller {
 			case "display":
 				action = Action.DISPLAY;
 				param = args[i + 1];
-				i+=2;
+				i += 2;
 
 				break;
 			case "search":
@@ -157,14 +160,17 @@ public class Controller {
 	}
 
 	public Controller(String path) {
-			database = new DataBase(path);
+		database = new DataBase(path);
 	}
 
 	/**
 	 * Ask database to search an expression
-	 * @param search The expression to search
+	 * 
+	 * @param search
+	 *            The expression to search
 	 * @return A list of results
-	 * @throws NoSuchElementException No results in the database
+	 * @throws NoSuchElementException
+	 *             No results in the database
 	 */
 	public ArrayList<Result> search(String search)
 			throws NoSuchElementException {
@@ -173,7 +179,9 @@ public class Controller {
 
 	/**
 	 * Change the root of the database
-	 * @param pathName The path to the new root
+	 * 
+	 * @param pathName
+	 *            The path to the new root
 	 */
 	public void changeRoot(String pathName) {
 		database = new DataBase(pathName);
@@ -181,6 +189,7 @@ public class Controller {
 
 	/**
 	 * List files in the database
+	 * 
 	 * @return An ArrayList<Result> with an Arbitrary Quote
 	 */
 	public ArrayList<TextFile> listFiles() {
@@ -193,19 +202,23 @@ public class Controller {
 	public void sync() throws FileNotFoundException {
 		database.sync();
 	}
-	
+
 	/**
 	 * Get the Root Path
+	 * 
 	 * @return An String of the absolute root path
 	 */
-	public String getRootPath(){
+	public String getRootPath() {
 		return database.getRootPath();
 	}
 
 	/**
 	 * Open a File with the default application
-	 * @param path The path of the file to open
-	 * @throws IOException The is no default application
+	 * 
+	 * @param path
+	 *            The path of the file to open
+	 * @throws IOException
+	 *             The is no default application
 	 */
 	public static void openFile(String path) throws IOException {
 		openFile(new File(path));
@@ -213,10 +226,14 @@ public class Controller {
 
 	/**
 	 * Open a File with the default application
-	 * @param path The file to open
-	 * @throws IOException The is no default application
+	 * 
+	 * @param path
+	 *            The file to open
+	 * @throws IOException
+	 *             The is no default application
 	 */
-	public static void openFile(File file) throws IOException, IllegalArgumentException {
+	public static void openFile(File file) throws IOException,
+			IllegalArgumentException {
 		Desktop.getDesktop().open(file);
 	}
 }

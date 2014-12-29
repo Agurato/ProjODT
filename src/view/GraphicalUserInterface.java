@@ -200,6 +200,7 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	/**
 	 * Render resultsList Jlist Cells
+	 * 
 	 * @author Louis Desportes
 	 *
 	 */
@@ -300,7 +301,8 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			infoPanel.removeAll();
-			if (!resultsList.isSelectionEmpty() && resultsList.getSelectedValue().getLevel() != -1) {
+			if (!resultsList.isSelectionEmpty()
+					&& resultsList.getSelectedValue().getLevel() != -1) {
 				TextFile file = new ODTFile(resultsList.getSelectedValue()
 						.getFilename());
 				ImageIcon thumbnail = file.getThumbnail();
@@ -484,11 +486,10 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 	public void listTitles(ArrayList<Result> titles) {
 		for (Result title : titles) {
 			String indentString = "";
-			if(title.getLevel() == 0) {
+			if (title.getLevel() == 0) {
 				indentString += ">";
-			}
-			else {
-				for(int i=1 ; i<title.getLevel() ; i++) {
+			} else {
+				for (int i = 1; i < title.getLevel(); i++) {
 					indentString += " ";
 				}
 				indentString += "->";
@@ -513,7 +514,9 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	/**
 	 * Display TextFile info
-	 * @param infos The informations to display
+	 * 
+	 * @param infos
+	 *            The informations to display
 	 */
 	@Override
 	public void displayInfos(HashMap<String, String> infos) {
@@ -527,23 +530,17 @@ public class GraphicalUserInterface extends JFrame implements UserInterface {
 
 	@Override
 	public void fileNotFound(String filename) {
-		JOptionPane
-		.showMessageDialog(
-				GraphicalUserInterface.this,
-				"Le fichier n'existe pas.",
-				"Ouverture impossible",
+		JOptionPane.showMessageDialog(GraphicalUserInterface.this,
+				"Le fichier n'existe pas.", "Ouverture impossible",
 				JOptionPane.ERROR_MESSAGE);
-		
+
 	}
 
 	@Override
 	public void noDefaultApp(String filename) {
-		JOptionPane
-		.showMessageDialog(
-				GraphicalUserInterface.this,
-				"Aucune application associé.",
-				"Ouverture impossible",
+		JOptionPane.showMessageDialog(GraphicalUserInterface.this,
+				"Aucune application associé.", "Ouverture impossible",
 				JOptionPane.ERROR_MESSAGE);
-		
+
 	}
 }

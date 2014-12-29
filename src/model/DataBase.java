@@ -54,7 +54,7 @@ public class DataBase {
 				}
 			}
 		}
-		if(!loaded){
+		if (!loaded) {
 			files = getTextFiles(rootFolder.getAbsolutePath());
 			// Serialize files
 			try {
