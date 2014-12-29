@@ -29,7 +29,7 @@ L'écran de la fenêtre est composé de 2 parties. Celle du haut correspond à l
 
 La recherche peut s'effectuer à l'aide d'opérateurs : ET et OU. Le ET est prioritaire et sera traité en premier lors de la recherche. Celle-ci est automatique et lorsque la recherche est effectuée, les résultats sont affichés en-dessous.
 
-Pour ouvrir le fichier résultant de la recherche, il suffit de cliquer dessus.
+Pour ouvrir le fichier résultant de la recherche, il suffit de double-cliquer dessus.
 
 Un clic simple sur la citation trouvée ouvre l'image associée au fichier .odt et affiche les informations importantes correspondante au fichier.
 
