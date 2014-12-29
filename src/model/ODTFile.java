@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
@@ -273,8 +274,12 @@ public class ODTFile implements TextFile , Serializable {
 		
 		for(Result title: titles){
 			//correct Previous modifications
+			
+			String quote = title.getQuote();
+			quote = Normalizer.normalize(quote, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
+			
 			title.setFrequency(1);
-			if(title.getQuote().toLowerCase().contains(search.toLowerCase())){
+			if(quote.toLowerCase().contains(search.toLowerCase())){
 				contained.add(title);
 			}
 		}
