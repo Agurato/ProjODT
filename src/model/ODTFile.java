@@ -72,7 +72,7 @@ public class ODTFile implements TextFile, Serializable {
 
 	/**
 	 * 
-	 * @return the odt as a File
+	 * @return the odt as a {@link File}
 	 */
 
 	public File getFile() {
