@@ -37,8 +37,7 @@ public class DataBase {
 				// Load Serialized save
 				try {
 					ObjectInputStream ois = new ObjectInputStream(
-							new FileInputStream(rootFolder.getAbsolutePath()
-									+ "/.projODT"));
+							new FileInputStream(new File(rootFolder.getAbsolutePath() , ".projODT")));
 					files = (ArrayList<TextFile>) ois.readObject();
 					ois.close();
 					loaded = true;
@@ -56,8 +55,7 @@ public class DataBase {
 			// Serialize files
 			try {
 				ObjectOutputStream oos = new ObjectOutputStream(
-						new FileOutputStream(rootFolder.getAbsolutePath()
-								+ "/.projODT"));
+						new FileOutputStream(new File(rootFolder.getAbsolutePath() , ".projODT")));
 				oos.writeObject(files);
 				oos.close();
 			} catch (FileNotFoundException e) {
@@ -109,11 +107,9 @@ public class DataBase {
 		// Serialize files
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
-					new FileOutputStream(rootFolder.getAbsolutePath()
-							+ "/.projODT"));
+					new FileOutputStream(new File(rootFolder.getAbsolutePath() , ".projODT")));
 			oos.writeObject(files);
 			oos.close();
-			System.out.println("Generated .projODT");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
